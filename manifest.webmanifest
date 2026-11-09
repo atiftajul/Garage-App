@@ -1,6 +1,6 @@
 {
-  "name": "Family Garage Log",
-  "short_name": "Garage Log",
+  "name": "Garage App",
+  "short_name": "Garage App",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

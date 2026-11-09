@@ -7,11 +7,11 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Garage Log">
+<meta name="apple-mobile-web-app-title" content="Garage App">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" href="icon-192.png">
-<title>Family Garage Log</title>
+<title>Garage App</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -162,7 +162,7 @@ tfoot td{font-weight:600}
 <script type="application/json" id="garage-data">{"example":true,"cars":[{"id":"c1","name":"Family Myvi","make":"Perodua","model":"Myvi 1.5 AV","year":"2019","plate":"WVX 4821","odo":78450,"odoDate":"2026-11-02","notes":"Daily runabout. Uses 0W-20 or 10W-40 semi-synthetic."},{"id":"c2","name":"Honda City","make":"Honda","model":"City 1.5 V","year":"2017","plate":"BMK 7302","odo":142300,"odoDate":"2026-11-05","notes":"High mileage. Watch the CVT and front suspension."},{"id":"c3","name":"Proton X70","make":"Proton","model":"X70 1.8 TGDi","year":"2021","plate":"VFN 2190","odo":61200,"odoDate":"2026-11-07","notes":"7-speed wet DCT. Gearbox jobs need a scan tool for relearn."}],"tools":[{"id":"t1","name":"Torque wrench 1/2\" (40-210 Nm)","status":"own","price":180,"notes":""},{"id":"t2","name":"Bi-directional OBD2 scan tool","status":"borrow","price":1450,"notes":"Needed for DCT/CVT relearn. Ask Hafiz."},{"id":"t3","name":"Brake caliper wind-back kit","status":"own","price":65,"notes":""},{"id":"t4","name":"Ball joint / bush press kit","status":"own","price":290,"notes":""},{"id":"t5","name":"Strut spring compressor","status":"buy","price":250,"notes":"Clamp type, for MacPherson struts."},{"id":"t6","name":"Fluid transfer pump","status":"own","price":45,"notes":""}],"jobs":[{"id":"j1","carId":"c2","title":"Front lower arm bushings","dueDate":"2026-11-01","dueKm":null,"priority":"high","estCost":380,"toolIds":["t4","t1"],"notes":"Clunk over bumps at front left.","repeatKm":null,"repeatMonths":null},{"id":"j2","carId":"c3","title":"DCT fluid change + clutch relearn","dueDate":null,"dueKm":60000,"priority":"normal","estCost":650,"toolIds":["t2","t6"],"notes":"","repeatKm":60000,"repeatMonths":null},{"id":"j3","carId":"c1","title":"Engine oil + filter","dueDate":"2026-11-28","dueKm":80120,"priority":"normal","estCost":150,"toolIds":["t1"],"notes":"","repeatKm":10000,"repeatMonths":6},{"id":"j4","carId":"c2","title":"CVT fluid change (HCF-2)","dueDate":"2026-12-15","dueKm":145000,"priority":"normal","estCost":260,"toolIds":["t6"],"notes":"","repeatKm":40000,"repeatMonths":null},{"id":"j5","carId":"c1","title":"Front absorbers (pair)","dueDate":"2027-03-01","dueKm":null,"priority":"normal","estCost":520,"toolIds":["t5","t1"],"notes":"Bouncy over speed bumps. Buy spring compressor first.","repeatKm":null,"repeatMonths":null},{"id":"j6","carId":"c3","title":"Spark plugs","dueDate":null,"dueKm":80000,"priority":"low","estCost":220,"toolIds":["t1"],"notes":"","repeatKm":null,"repeatMonths":null}],"log":[{"id":"l1","carId":"c3","date":"2026-10-20","km":61050,"kind":"Repair","title":"Wiper blades","parts":"Bosch Clear Advantage 24\" + 16\"","cost":85,"by":"Me","toolIds":[],"notes":""},{"id":"l2","carId":"c2","date":"2026-09-14","km":140980,"kind":"Repair","title":"Front brake pads + caliper service","parts":"Bendix pads, slide pin grease","cost":210,"by":"Me","toolIds":["t3","t1"],"notes":"Discs still within spec."},{"id":"l3","carId":"c3","date":"2026-08-02","km":58600,"kind":"Service","title":"60k major service","parts":"","cost":720,"by":"Workshop","toolIds":[],"notes":"Done at Proton 3S under warranty."},{"id":"l4","carId":"c1","date":"2026-05-28","km":70120,"kind":"Service","title":"Engine oil + filter","parts":"Shell HX7 10W-40 4L, Perodua oil filter","cost":138,"by":"Me","toolIds":["t1"],"notes":""},{"id":"l5","carId":"c2","date":"2026-03-08","km":135200,"kind":"Repair","title":"Battery replacement (NS60)","parts":"Amaron NS60","cost":290,"by":"Me","toolIds":[],"notes":""},{"id":"l6","carId":"c1","date":"2025-11-30","km":64300,"kind":"Service","title":"Engine oil + filter","parts":"Shell HX7 10W-40 4L","cost":135,"by":"Me","toolIds":["t1"],"notes":""}]}</script>
 <script id="app-js">
 (function(){
-var HEAD = '<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>Family Garage Log</title>\n<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">\n';
+var HEAD = '<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>Garage App</title>\n<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">\n';
 var BODY = '<div id="app"></div><div id="modal-root"></div>\n';
 var LS_KEY = 'family-garage-log-v1';
 var TABS = [['overview','Overview'],['jobs','Upcoming jobs'],['history','Service history'],['cars','Cars'],['tools','Tools'],['backup','Backup']];
@@ -259,9 +259,10 @@ function statusHtml(){
 
 /* ---------- render ---------- */
 function render(){
+  var oldNav=document.querySelector('nav.tabs'), navX=oldNav?oldNav.scrollLeft:0;
   var overdue=state.jobs.filter(function(j){return jobInfo(j).status==='overdue';}).length;
   var h='<header class="top"><div class="wrap"><div class="top-row">'+
-    '<div class="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.1L3 17.7V21h3.3l6.3-6.3a4 4 0 0 0 5.1-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg>Family Garage Log</div>'+
+    '<div class="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.1L3 17.7V21h3.3l6.3-6.3a4 4 0 0 0 5.1-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg>Garage App</div>'+
     '<span class="spacer"></span>'+statusHtml()+'</div><nav class="tabs" aria-label="Sections">'+
     TABS.map(function(t){ return '<a href="#'+t[0]+'"'+(ui.tab===t[0]?' aria-current="page"':'')+'>'+t[1]+(t[0]==='jobs'&&overdue?'<span class="count">'+overdue+'</span>':'')+'</a>'; }).join('')+
     '</nav></div></header><main class="wrap">';
@@ -270,6 +271,15 @@ function render(){
   h+=({overview:vOverview,jobs:vJobs,history:vHistory,cars:vCars,tools:vTools,backup:vBackup}[ui.tab])();
   h+='</main>';
   document.getElementById('app').innerHTML=h;
+  keepTabs(navX);
+}
+function keepTabs(x){
+  var nav=document.querySelector('nav.tabs'); if(!nav) return;
+  nav.scrollLeft=x;
+  var cur=nav.querySelector('[aria-current]'); if(!cur) return;
+  var cr=cur.getBoundingClientRect(), nr=nav.getBoundingClientRect();
+  if(cr.left<nr.left) nav.scrollLeft+=cr.left-nr.left-8;
+  else if(cr.right>nr.right) nav.scrollLeft+=cr.right-nr.right+8;
 }
 
 function carFilter(){
@@ -514,7 +524,7 @@ document.addEventListener('click',function(e){
     case 'keep-example': state.example=false; commit(); break;
     case 'clear-example': confirmBox('Start with an empty garage?','This removes all the example cars, jobs, history and tools.','Clear everything',function(){ state={example:false,cars:[],jobs:[],log:[],tools:[]}; ui.car='all'; commit(); }); break;
     case 'dl-backup': var blob=new Blob([JSON.stringify(state,null,1)],{type:'application/json'}), a2=document.createElement('a');
-      a2.href=URL.createObjectURL(blob); a2.download='garage-log-backup-'+todayStr()+'.json'; document.body.appendChild(a2); a2.click();
+      a2.href=URL.createObjectURL(blob); a2.download='garage-app-backup-'+todayStr()+'.json'; document.body.appendChild(a2); a2.click();
       setTimeout(function(){ URL.revokeObjectURL(a2.href); a2.remove(); },1000); break;
     case 'copy-backup': var t=document.getElementById('bk-out'), m=document.getElementById('bk-msg');
       try{ navigator.clipboard.writeText(t.value).then(function(){ m.className='msg ok'; m.textContent='Copied.'; },function(){ t.select(); m.className='msg'; m.textContent='Select the text above and copy it.'; }); }
@@ -522,7 +532,7 @@ document.addEventListener('click',function(e){
     case 'restore': var v=document.getElementById('bk-in').value.trim(), rm2=document.getElementById('rs-msg');
       try{ var d=JSON.parse(v); if(!d||!Array.isArray(d.cars)) throw 0; ['jobs','log','tools'].forEach(function(k){ if(!Array.isArray(d[k])) d[k]=[]; });
         confirmBox('Replace everything?','Your current data will be replaced by the backup ('+d.cars.length+' cars, '+d.jobs.length+' jobs, '+d.log.length+' history entries).','Replace',function(){ d.example=false; state=d; ui.car='all'; commit(); });
-      }catch(err){ rm2.className='msg bad'; rm2.textContent='That text is not a Garage Log backup. Paste the whole backup and try again.'; } break;
+      }catch(err){ rm2.className='msg bad'; rm2.textContent='That text is not a Garage App backup. Paste the whole backup and try again.'; } break;
   }
 });
 document.addEventListener('change',function(e){
