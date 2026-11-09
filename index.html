@@ -23,18 +23,19 @@
   --ok:#1d7f47; --ok-soft:#e1f2e8; --warn:#a96300; --warn-soft:#fbefd9; --bad:#c22d2d; --bad-soft:#fbe3e3;
   --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif; --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
   --radius:10px; color-scheme:light;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#101317; --surface:#181c22; --surface-2:#1f242b; --ink:#e8ebee; --muted:#9aa4af; --line:#2e353e;
     --accent:#7d9cf0; --accent-soft:#1f2a45; --accent-ink:#0d1220;
-    --ok:#5cc28a; --ok-soft:#173226; --warn:#e5a54a; --warn-soft:#3a2b14; --bad:#f07373; --bad-soft:#3d1c1d; color-scheme:dark;
+    --ok:#5cc28a; --ok-soft:#173226; --warn:#e5a54a; --warn-soft:#3a2b14; --bad:#f07373; --bad-soft:#3d1c1d; --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#101317; --surface:#181c22; --surface-2:#1f242b; --ink:#e8ebee; --muted:#9aa4af; --line:#2e353e;
   --accent:#7d9cf0; --accent-soft:#1f2a45; --accent-ink:#0d1220;
-  --ok:#5cc28a; --ok-soft:#173226; --warn:#e5a54a; --warn-soft:#3a2b14; --bad:#f07373; --bad-soft:#3d1c1d; color-scheme:dark;
+  --ok:#5cc28a; --ok-soft:#173226; --warn:#e5a54a; --warn-soft:#3a2b14; --bad:#f07373; --bad-soft:#3d1c1d; --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; color-scheme:dark;
 }
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -69,6 +70,7 @@ main{padding:22px 0 60px;display:flex;flex-direction:column;gap:22px}
 .tile.bad{border-top-color:var(--bad)} .tile.bad .n{color:var(--bad)}
 .tile.warn{border-top-color:var(--warn)} .tile.warn .n{color:var(--warn)}
 .tile.acc{border-top-color:var(--accent)}
+a.tile-link{color:inherit;text-decoration:none} a.tile-link:hover{border-color:var(--muted)}
 .list{display:flex;flex-direction:column;gap:8px}
 .row{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--line);border-radius:var(--radius);padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:6px 14px;align-items:start}
 .row.overdue{border-left-color:var(--bad)} .row.soon{border-left-color:var(--warn)} .row.planned{border-left-color:var(--accent)} .row.open{border-left-color:var(--muted)}
@@ -136,6 +138,83 @@ tfoot td{font-weight:600}
 .checks{display:flex;flex-wrap:wrap;gap:6px}
 .checks label{display:flex;gap:6px;align-items:center;border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:13px;color:var(--ink);cursor:pointer;background:var(--surface-2)}
 .checks input{width:auto}
+.hints{background:var(--accent-soft);border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:10px}
+.hints-head{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--accent)}
+.hint-row{display:flex;gap:10px;align-items:center;justify-content:space-between}
+.hint-row b{font-weight:600;font-size:14px}
+.why{font-size:12px;color:var(--muted)}
+.ok-tag{color:var(--ok);font-size:13px;font-weight:600;white-space:nowrap}
+.tool-filters input[type=search]{flex:1;min-width:200px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-size:14px}
+.tool-groups{display:flex;flex-direction:column;gap:20px}
+.count-muted{font-family:var(--mono);font-size:13px;color:var(--muted);font-weight:500}
+.tasks{grid-column:1;display:flex;flex-direction:column;gap:3px;font-size:13px}
+.task{color:var(--muted)} .task b{color:var(--ink);font-weight:600}
+.task.overdue .due{color:var(--bad);font-weight:600} .task.soon .due{color:var(--warn);font-weight:600} .task.open .due{font-style:italic}
+.task-rows{display:flex;flex-direction:column;gap:8px}
+.task-row{display:grid;grid-template-columns:1fr auto auto auto;gap:8px;align-items:center;font-size:13px;color:var(--muted)}
+.task-row label{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.task-row input{border:1px solid var(--line);background:var(--surface-2);border-radius:7px;padding:7px 9px;color:var(--ink)}
+.task-row input.short{width:56px}
+.hist{display:flex;flex-direction:column;gap:6px;font-size:13px;max-height:180px;overflow-y:auto;border:1px solid var(--line);border-radius:7px;padding:8px 10px;background:var(--surface-2)}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.form>*{min-width:0}
+.task-row{background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:8px}
+.task-row input{background:var(--surface)}
+@media (max-width:760px){
+  .task-row{display:flex;flex-wrap:wrap;gap:8px}
+  .task-row input[name=task_title]{flex:1 1 100%;min-width:0}
+  .task-row label{flex:1 1 auto;min-width:0}
+  .task-row input[type=date]{flex:1;min-width:0;width:100%}
+  .task-row .btn{margin-left:auto}
+}
+.sp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card h3{font-size:18px;text-transform:uppercase;color:var(--muted)}
+.bl{display:flex;flex-direction:column;gap:10px}
+.bl-top{display:flex;justify-content:space-between;gap:10px;font-size:14px}
+.bl-top.big{padding-bottom:8px;border-bottom:1px solid var(--line)} .bl-top.big:last-child{border-bottom:0;padding-bottom:0}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.muted{color:var(--muted);font-size:12px}
+.time-sum{border-top:1px solid var(--line);padding-top:10px;margin-top:4px}
+.time-sum .n{font-family:var(--display);font-size:28px}
+.bl-track{height:8px;background:var(--surface-2);border-radius:4px;margin-top:4px;overflow:hidden}
+.bl-fill{height:100%;background:var(--accent);border-radius:0 4px 4px 0}
+.small-empty{padding:14px}
+.legend{display:flex;gap:6px 16px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.legend i,.tip i,.sw{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.chart{position:relative;height:220px;margin:8px 0 4px 44px}
+.grid{position:absolute;inset:0 0 22px 0}
+.gl{position:absolute;left:0;right:0;border-top:1px dashed var(--line)}
+.gl span{position:absolute;right:calc(100% + 6px);top:-8px;font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap}
+.gl:last-child{border-top:1px solid var(--muted)}
+.cols{position:absolute;inset:0;display:flex;gap:2px}
+.col{flex:1;display:flex;flex-direction:column;align-items:center;background:none;border:0;padding:0;cursor:pointer;min-width:0;border-radius:4px}
+.col:hover .stack,.col.on .stack{filter:brightness(1.1)}
+.col.on{background:var(--surface-2)}
+.stack-wrap{flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center}
+.stack{width:min(28px,70%);display:flex;flex-direction:column-reverse;gap:2px;border-radius:4px 4px 0 0;overflow:hidden;min-height:0}
+.stack .seg{flex-basis:0;min-height:2px}
+.xl{height:22px;line-height:22px;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden}
+.chart-card{position:relative}
+.tip{position:absolute;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:13px;box-shadow:0 6px 20px rgba(0,0,0,.15);min-width:170px;pointer-events:none;z-index:2}
+.tip-total{font-family:var(--mono);font-size:16px;margin:2px 0 4px}
+.tip-row{display:flex;justify-content:space-between;gap:12px;color:var(--muted);white-space:nowrap}
+.tip-row span:last-child{font-family:var(--mono);color:var(--ink)}
+@media (max-width:760px){ .sp-grid{grid-template-columns:1fr} .xl{font-size:10px}
+  .sp-table th:nth-child(3),.sp-table td:nth-child(3),.sp-table th:nth-child(4),.sp-table td:nth-child(4){display:none} .sp-table th,.sp-table td{padding:9px 8px} .sp-table td:first-child{white-space:normal!important;width:64px} .sp-cat{display:block!important} }
+.sp-cat{display:none;margin-top:2px}
+@media (max-width:760px){ .tip{position:static;box-shadow:none;width:100%;margin-top:4px} }
+.runbar{display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--ok);border-left:5px solid var(--ok);border-radius:var(--radius);padding:10px 14px}
+.runbar .dot{width:10px;height:10px;border-radius:50%;background:var(--ok);animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.3}}
+.rb-what{flex:1;min-width:200px}
+.rb-act{display:flex;gap:6px}
+.clock{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:600;color:var(--ink)}
+.clock.big{font-size:20px}
+.row.running{border-left-color:var(--ok)}
+.timer-line .clock{color:var(--ok)}
+.cal-card{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:10px 14px;font-size:13px;color:var(--muted)}
+.cal-card p{margin:0;flex:1;min-width:220px}
+.est{font-size:12px;color:var(--muted)}
 .m-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;grid-column:1 / -1;flex-wrap:wrap}
 .m-actions .left{margin-right:auto}
 .backup textarea{width:100%;min-height:140px;font-family:var(--mono);font-size:12px;border:1px solid var(--line);border-radius:7px;background:var(--surface-2);padding:10px}
@@ -159,21 +238,164 @@ tfoot td{font-weight:600}
 </head>
 <body>
 <div id="app"></div><div id="modal-root"></div>
-<script type="application/json" id="garage-data">{"example":true,"cars":[{"id":"c1","name":"Family Myvi","make":"Perodua","model":"Myvi 1.5 AV","year":"2019","plate":"WVX 4821","odo":78450,"odoDate":"2026-11-02","notes":"Daily runabout. Uses 0W-20 or 10W-40 semi-synthetic."},{"id":"c2","name":"Honda City","make":"Honda","model":"City 1.5 V","year":"2017","plate":"BMK 7302","odo":142300,"odoDate":"2026-11-05","notes":"High mileage. Watch the CVT and front suspension."},{"id":"c3","name":"Proton X70","make":"Proton","model":"X70 1.8 TGDi","year":"2021","plate":"VFN 2190","odo":61200,"odoDate":"2026-11-07","notes":"7-speed wet DCT. Gearbox jobs need a scan tool for relearn."}],"tools":[{"id":"t1","name":"Torque wrench 1/2\" (40-210 Nm)","status":"own","price":180,"notes":""},{"id":"t2","name":"Bi-directional OBD2 scan tool","status":"borrow","price":1450,"notes":"Needed for DCT/CVT relearn. Ask Hafiz."},{"id":"t3","name":"Brake caliper wind-back kit","status":"own","price":65,"notes":""},{"id":"t4","name":"Ball joint / bush press kit","status":"own","price":290,"notes":""},{"id":"t5","name":"Strut spring compressor","status":"buy","price":250,"notes":"Clamp type, for MacPherson struts."},{"id":"t6","name":"Fluid transfer pump","status":"own","price":45,"notes":""}],"jobs":[{"id":"j1","carId":"c2","title":"Front lower arm bushings","dueDate":"2026-11-01","dueKm":null,"priority":"high","estCost":380,"toolIds":["t4","t1"],"notes":"Clunk over bumps at front left.","repeatKm":null,"repeatMonths":null},{"id":"j2","carId":"c3","title":"DCT fluid change + clutch relearn","dueDate":null,"dueKm":60000,"priority":"normal","estCost":650,"toolIds":["t2","t6"],"notes":"","repeatKm":60000,"repeatMonths":null},{"id":"j3","carId":"c1","title":"Engine oil + filter","dueDate":"2026-11-28","dueKm":80120,"priority":"normal","estCost":150,"toolIds":["t1"],"notes":"","repeatKm":10000,"repeatMonths":6},{"id":"j4","carId":"c2","title":"CVT fluid change (HCF-2)","dueDate":"2026-12-15","dueKm":145000,"priority":"normal","estCost":260,"toolIds":["t6"],"notes":"","repeatKm":40000,"repeatMonths":null},{"id":"j5","carId":"c1","title":"Front absorbers (pair)","dueDate":"2027-03-01","dueKm":null,"priority":"normal","estCost":520,"toolIds":["t5","t1"],"notes":"Bouncy over speed bumps. Buy spring compressor first.","repeatKm":null,"repeatMonths":null},{"id":"j6","carId":"c3","title":"Spark plugs","dueDate":null,"dueKm":80000,"priority":"low","estCost":220,"toolIds":["t1"],"notes":"","repeatKm":null,"repeatMonths":null}],"log":[{"id":"l1","carId":"c3","date":"2026-10-20","km":61050,"kind":"Repair","title":"Wiper blades","parts":"Bosch Clear Advantage 24\" + 16\"","cost":85,"by":"Me","toolIds":[],"notes":""},{"id":"l2","carId":"c2","date":"2026-09-14","km":140980,"kind":"Repair","title":"Front brake pads + caliper service","parts":"Bendix pads, slide pin grease","cost":210,"by":"Me","toolIds":["t3","t1"],"notes":"Discs still within spec."},{"id":"l3","carId":"c3","date":"2026-08-02","km":58600,"kind":"Service","title":"60k major service","parts":"","cost":720,"by":"Workshop","toolIds":[],"notes":"Done at Proton 3S under warranty."},{"id":"l4","carId":"c1","date":"2026-05-28","km":70120,"kind":"Service","title":"Engine oil + filter","parts":"Shell HX7 10W-40 4L, Perodua oil filter","cost":138,"by":"Me","toolIds":["t1"],"notes":""},{"id":"l5","carId":"c2","date":"2026-03-08","km":135200,"kind":"Repair","title":"Battery replacement (NS60)","parts":"Amaron NS60","cost":290,"by":"Me","toolIds":[],"notes":""},{"id":"l6","carId":"c1","date":"2025-11-30","km":64300,"kind":"Service","title":"Engine oil + filter","parts":"Shell HX7 10W-40 4L","cost":135,"by":"Me","toolIds":["t1"],"notes":""}]}</script>
+<script type="application/json" id="garage-data">{"example":true,"cars":[{"id":"c1","name":"Family Myvi","make":"Perodua","model":"Myvi 1.5 AV","year":"2019","plate":"WVX 4821","odo":78450,"odoDate":"2026-11-02","notes":"Daily runabout. Uses 0W-20 or 10W-40 semi-synthetic."},{"id":"c2","name":"Honda City","make":"Honda","model":"City 1.5 V","year":"2017","plate":"BMK 7302","odo":142300,"odoDate":"2026-11-05","notes":"High mileage. Watch the CVT and front suspension."},{"id":"c3","name":"Proton X70","make":"Proton","model":"X70 1.8 TGDi","year":"2021","plate":"VFN 2190","odo":61200,"odoDate":"2026-11-07","notes":"7-speed wet DCT. Gearbox jobs need a scan tool for relearn."}],"tools":[{"id":"t1","name":"Torque wrench 1/2\" (40-210 Nm)","cat":"Measuring & calibration","status":"own","brand":"Tekiro","location":"Red chest, top drawer","price":180,"qty":1,"bought":"2023-04-10","serial":"","notes":"Wind back to lowest setting after use.","tasks":[{"id":"k1","title":"Calibration check","months":12,"last":"2025-10-15"}],"history":[{"id":"h1","date":"2025-10-15","what":"Calibration check","cost":60,"notes":"Within 3% at 100 Nm"}]},{"id":"t2","name":"Bi-directional OBD2 scan tool","cat":"Diagnostics & electrical","status":"borrow","brand":"","location":"","price":1450,"qty":1,"bought":null,"serial":"","notes":"Needed for DCT/CVT relearn. Ask Hafiz.","tasks":[],"history":[]},{"id":"t3","name":"Brake caliper wind-back kit","cat":"Specialist","status":"own","brand":"","location":"Blue case under bench","price":65,"qty":1,"bought":null,"serial":"","notes":"","tasks":[],"history":[]},{"id":"t4","name":"Ball joint / bush press kit","cat":"Specialist","status":"own","brand":"","location":"Blue case under bench","price":290,"qty":1,"bought":null,"serial":"","notes":"","tasks":[],"history":[]},{"id":"t5","name":"Strut spring compressor","cat":"Specialist","status":"buy","brand":"","location":"","price":250,"qty":1,"bought":null,"serial":"","notes":"Clamp type, for MacPherson struts.","tasks":[],"history":[]},{"id":"t6","name":"Fluid transfer pump","cat":"Workshop equipment","status":"own","brand":"","location":"Shelf by the door","price":45,"qty":1,"bought":null,"serial":"","notes":"","tasks":[],"history":[]},{"id":"t7","name":"3-ton low-profile trolley jack","cat":"Lifting & support","status":"own","brand":"","location":"Garage floor, left wall","price":420,"qty":1,"bought":"2022-08-20","serial":"","notes":"","tasks":[{"id":"k2","title":"Inspect for leaks and check oil level","months":6,"last":"2026-06-01"},{"id":"k3","title":"Bleed air and grease pivots","months":12,"last":"2026-06-01"}],"history":[{"id":"h2","date":"2026-06-01","what":"Inspect for leaks and check oil level, Bleed air and grease pivots","cost":25,"notes":"Topped up with jack oil"}]},{"id":"t8","name":"Jack stands 3-ton (pair)","cat":"Lifting & support","status":"own","brand":"","location":"Garage floor, left wall","price":160,"qty":2,"bought":"2022-08-20","serial":"","notes":"","tasks":[{"id":"k4","title":"Inspect pins, ratchets and welds","months":12,"last":"2025-12-20"}],"history":[]},{"id":"t9","name":"Air compressor 50L","cat":"Air tools & compressor","status":"own","brand":"","location":"Back corner","price":650,"qty":1,"bought":"2024-02-14","serial":"","notes":"","tasks":[{"id":"k5","title":"Drain water from tank","months":1,"last":"2026-10-25"},{"id":"k6","title":"Check and change compressor oil","months":6,"last":"2026-03-30"}],"history":[{"id":"h3","date":"2026-03-30","what":"Check and change compressor oil","cost":35,"notes":""}]},{"id":"t10","name":"Socket set 1/2\" and 3/8\" (94 pc)","cat":"Hand tools","status":"own","brand":"","location":"Red chest, drawers 1-2","price":380,"qty":1,"bought":null,"serial":"","notes":"","tasks":[],"history":[]},{"id":"t11","name":"Digital multimeter","cat":"Diagnostics & electrical","status":"own","brand":"","location":"Red chest, top drawer","price":120,"qty":1,"bought":null,"serial":"","notes":"","tasks":[{"id":"k7","title":"Check battery and test leads","months":12,"last":null}],"history":[]}],"jobs":[{"id":"j1","carId":"c2","title":"Front lower arm bushings","dueDate":"2026-11-01","dueKm":null,"priority":"high","estCost":380,"toolIds":["t4","t1"],"notes":"Clunk over bumps at front left.","repeatKm":null,"repeatMonths":null},{"id":"j2","carId":"c3","title":"DCT fluid change + clutch relearn","dueDate":null,"dueKm":60000,"priority":"normal","estCost":650,"toolIds":["t2","t6"],"notes":"","repeatKm":60000,"repeatMonths":null},{"id":"j3","carId":"c1","title":"Engine oil + filter","dueDate":"2026-11-28","dueKm":80120,"priority":"normal","estCost":150,"toolIds":["t1"],"notes":"","repeatKm":10000,"repeatMonths":6},{"id":"j4","carId":"c2","title":"CVT fluid change (HCF-2)","dueDate":"2026-12-15","dueKm":145000,"priority":"normal","estCost":260,"toolIds":["t6"],"notes":"","repeatKm":40000,"repeatMonths":null},{"id":"j5","carId":"c1","title":"Front absorbers (pair)","dueDate":"2027-03-01","dueKm":null,"priority":"normal","estCost":520,"toolIds":["t5","t1"],"notes":"Bouncy over speed bumps. Buy spring compressor first.","repeatKm":null,"repeatMonths":null},{"id":"j6","carId":"c3","title":"Spark plugs","dueDate":null,"dueKm":80000,"priority":"low","estCost":220,"toolIds":["t1"],"notes":"","repeatKm":null,"repeatMonths":null}],"log":[{"id":"l1","carId":"c3","date":"2026-10-20","km":61050,"kind":"Repair","title":"Wiper blades","parts":"Bosch Clear Advantage 24\" + 16\"","cost":85,"by":"Me","toolIds":[],"notes":"","minutes":10},{"id":"l2","carId":"c2","date":"2026-09-14","km":140980,"kind":"Repair","title":"Front brake pads + caliper service","parts":"Bendix pads, slide pin grease","cost":210,"by":"Me","toolIds":["t3","t1"],"notes":"Discs still within spec.","minutes":150},{"id":"l3","carId":"c3","date":"2026-08-02","km":58600,"kind":"Service","title":"60k major service","parts":"","cost":720,"by":"Workshop","toolIds":[],"notes":"Done at Proton 3S under warranty."},{"id":"l4","carId":"c1","date":"2026-05-28","km":70120,"kind":"Service","title":"Engine oil + filter","parts":"Shell HX7 10W-40 4L, Perodua oil filter","cost":138,"by":"Me","toolIds":["t1"],"notes":"","minutes":45},{"id":"l5","carId":"c2","date":"2026-03-08","km":135200,"kind":"Repair","title":"Battery replacement (NS60)","parts":"Amaron NS60","cost":290,"by":"Me","toolIds":[],"notes":"","minutes":30},{"id":"l6","carId":"c1","date":"2025-11-30","km":64300,"kind":"Service","title":"Engine oil + filter","parts":"Shell HX7 10W-40 4L","cost":135,"by":"Me","toolIds":["t1"],"notes":"","minutes":40}],"expenses":[{"id":"e1","title":"Brake cleaner x6, shop towels","amount":68,"date":"2026-09-02","cat":"Consumables","carId":null,"notes":""},{"id":"e2","title":"LED work light","amount":95,"date":"2026-07-12","cat":"Workshop supplies","carId":null,"notes":""},{"id":"e3","title":"Nitrile gloves (2 boxes)","amount":45,"date":"2026-04-18","cat":"Safety gear","carId":null,"notes":""},{"id":"e4","title":"Spare engine oil 4L for stock","amount":120,"date":"2026-10-05","cat":"Parts for stock","carId":"c1","notes":""}]}</script>
 <script id="app-js">
 (function(){
 var HEAD = '<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>Garage App</title>\n<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">\n';
 var BODY = '<div id="app"></div><div id="modal-root"></div>\n';
 var LS_KEY = 'family-garage-log-v1';
-var TABS = [['overview','Overview'],['jobs','Upcoming jobs'],['history','Service history'],['cars','Cars'],['tools','Tools'],['backup','Backup']];
+var TABS = [['overview','Overview'],['jobs','Upcoming jobs'],['history','Service history'],['spending','Spending'],['cars','Cars'],['tools','Workshop'],['backup','Backup']];
 var KINDS = ['Service','Repair','Inspection','Upgrade'];
 var TOOL_STATUS = {own:'Own it', borrow:'Borrow', buy:'Need to buy'};
+
+/* ---------- tool guide: common specialist tools by job type ---------- */
+var TOOLDEF={
+ torque:{n:'Torque wrench',m:/torque wrench/i,w:'Bolts on this job have set torque values'},
+ lock:{n:'Cam & crank locking kit (engine-specific)',m:/lock(ing)? ?(kit|tool|pins?)|cam.{0,6}crank/i,w:'Holds the engine timing in place while the belt or chain is off'},
+ angle:{n:'Torque angle gauge',m:/angle gauge/i,w:'Head bolts are usually tightened to torque plus an angle'},
+ plug:{n:'Spark plug socket (thin-wall, magnetic)',m:/plug socket/i,w:'Plugs sit deep in narrow wells'},
+ scan:{n:'OBD2 scan tool with service functions',m:/obd|scan ?tool|scanner|diagnostic/i,w:'For reading fault codes, resets and relearns after the job'},
+ transcan:{n:'OBD2 scan tool with transmission functions',m:/obd|scan ?tool|scanner|diagnostic/i,w:'Many CVTs and DCTs need a fluid temperature check or an adaptation reset after a fluid change'},
+ epb:{n:'OBD2 scan tool with EPB service mode',m:/obd|scan ?tool|scanner|epb/i,w:'Only if the car has an electronic parking brake (a button, not a lever): it winds the rear calipers back'},
+ pump:{n:'Fluid transfer pump',m:/pump/i,w:'Gearboxes are usually filled through a side fill or level plug'},
+ spring:{n:'Strut spring compressor',m:/spring compressor/i,w:'The coil spring must be compressed before the strut top nut comes off'},
+ sep:{n:'Ball joint separator',m:/ball ?joint|separator|splitter|tie rod tool/i,w:'Pops tapered joints apart without damaging them'},
+ bush:{n:'Bush press kit',m:/press/i,w:'Presses old bushes out and new ones in'},
+ hub:{n:'Wheel bearing / hub press kit',m:/press|bearing (tool|puller)|hub puller/i,w:'Pressed-in bearings need a press or a draw-bolt kit'},
+ axle:{n:'Axle nut socket (30-36 mm, 1/2" drive)',m:/axle nut|hub nut|3[0-6] ?mm/i,w:'Hub nuts are large and very tight'},
+ windback:{n:'Brake caliper wind-back kit',m:/wind.?back|caliper (rewind|piston)/i,w:'Rear calipers with a built-in handbrake screw back rather than push back'},
+ drum:{n:'Drum brake spring tool',m:/drum|brake spring/i,w:'Makes the return springs and hold-down clips manageable'},
+ bleed:{n:'Brake bleeder kit',m:/bleed/i,w:'Lets you bleed the brakes on your own without air getting in'},
+ clutch:{n:'Clutch alignment tool',m:/clutch align/i,w:'Centres the clutch plate so the gearbox goes back on'},
+ jack:{n:'Transmission jack',m:/transmission jack|gearbox jack/i,w:'Supports the gearbox while it comes out'},
+ acg:{n:'A/C manifold gauge set',m:/manifold|a\/?c gauge/i,w:'Reads system pressures and charges refrigerant'},
+ vac:{n:'A/C vacuum pump',m:/vacuum pump/i,w:'The system must be evacuated after it has been opened'},
+ coolfun:{n:'Spill-free coolant funnel',m:/funnel/i,w:'Bleeds air out of the cooling system as you refill'},
+ coolp:{n:'Cooling system pressure tester',m:/pressure tester/i,w:'Finds leaks before and after the repair'},
+ filter:{n:'Oil filter wrench',m:/filter (wrench|cap|socket)/i,w:'Removes a tight spin-on filter or filter housing cap'},
+ memory:{n:'OBD2 memory saver',m:/memory saver/i,w:'Keeps radio codes and settings while the battery is out'},
+ fuel:{n:'Fuel line disconnect tools',m:/fuel line|disconnect/i,w:'Quick-connect fuel fittings need the right size release tool'},
+ tpms:{n:'TPMS programming tool',m:/tpms/i,w:'New sensors must be programmed or relearned to the car'},
+ belt:{n:'Serpentine belt tensioner tool',m:/serpentine|tensioner tool|belt tool/i,w:'Long thin bar to release the auto tensioner in tight spaces'},
+ o2:{n:'Oxygen sensor socket',m:/o2|oxygen sensor|lambda/i,w:'Slotted socket that clears the sensor wire'},
+ feeler:{n:'Feeler gauge set',m:/feeler/i,w:'For measuring valve clearances'},
+ rack:{n:'Inner tie rod tool',m:/inner tie rod|tie rod tool/i,w:'Undoes the inner joint on the steering rack'}
+};
+var TOOL_GUIDE=[
+ [/timing (belt|chain)|cam ?belt/i,['lock','torque']],
+ [/head gasket|cylinder head/i,['lock','angle','torque']],
+ [/spark ?plug/i,['plug','torque']],
+ [/valve clearance|tappet|valve adjust/i,['feeler','lock']],
+ [/cvt|dct|gearbox (oil|fluid)|transmission (oil|fluid)|\batf\b|auto(matic)? (gearbox|transmission)/i,['pump','transcan']],
+ [/manual gearbox oil|gear oil/i,['pump']],
+ [/absorber|shock|strut|coil spring|suspension spring/i,['spring','torque']],
+ [/ball ?joint|lower arm|control arm|wishbone|tie rod end|rack end/i,['sep','torque']],
+ [/bush/i,['bush','torque']],
+ [/wheel bearing|hub bearing|hub assembly/i,['hub','axle','torque']],
+ [/cv ?joint|drive ?shaft|axle|cv boot/i,['axle','sep','torque']],
+ [/brake (pad|disc|rotor)|caliper|\bpads?\b/i,['windback','torque']],
+ [/rear.*(brake|pad)|(brake|pad).*rear|\bepb\b|electronic (park|hand)/i,['epb']],
+ [/drum|brake shoe/i,['drum']],
+ [/brake fluid|bleed/i,['bleed']],
+ [/clutch(?! relearn)/i,['clutch','jack','torque']],
+ [/air ?con|aircond|\ba\/?c\b|refrigerant|compressor|condenser|evaporator/i,['acg','vac']],
+ [/coolant|radiator|water pump|thermostat/i,['coolfun','coolp']],
+ [/water pump/i,['torque']],
+ [/oil (change|filter)|engine oil/i,['filter','torque']],
+ [/battery/i,['memory']],
+ [/throttle body|idle relearn|check engine|engine light|abs light|airbag|diagnos|fault code/i,['scan']],
+ [/injector|fuel pump|fuel filter/i,['fuel']],
+ [/tpms|tyre pressure sensor|tire pressure sensor/i,['tpms']],
+ [/drive belt|serpentine|aux(iliary)? belt|fan belt|alternator/i,['belt']],
+ [/o2 sensor|oxygen sensor|lambda/i,['o2']],
+ [/steering rack|inner tie rod|power steering/i,['rack','sep']]
+];
+
+/* ---------- workshop inventory ---------- */
+var TOOL_CATS=['Hand tools','Power tools','Air tools & compressor','Lifting & support','Measuring & calibration','Diagnostics & electrical','Specialist','Workshop equipment','Other'];
+function guessCat(n){
+  n=n||'';
+  if(/jack|stand|crane|hoist|lift|ramp/i.test(n)) return 'Lifting & support';
+  if(/torque|gauge|meter|caliper(?!.*wind)|micrometer|feeler|tester|angle/i.test(n)) return 'Measuring & calibration';
+  if(/obd|scan|diagnos|multimeter|memory saver|tpms|battery|charger/i.test(n)) return 'Diagnostics & electrical';
+  if(/compressor|impact|air (ratchet|tool|hose)|pneumatic/i.test(n)) return 'Air tools & compressor';
+  if(/drill|grinder|saw|cordless|polisher|heat gun/i.test(n)) return 'Power tools';
+  if(/locking|press|compressor|separator|wind.?back|puller|alignment|bleeder|socket \(|axle nut|tie rod|drum|tensioner|disconnect|spring tool/i.test(n)) return 'Specialist';
+  if(/socket|spanner|wrench|ratchet|screwdriver|plier|hammer|allen|hex|torx|bar/i.test(n)) return 'Hand tools';
+  if(/bench|vice|vise|creeper|drain|funnel|pump|cabinet|chest|light/i.test(n)) return 'Workshop equipment';
+  return 'Other';
+}
+function normTool(t){ if(!t.cat) t.cat=guessCat(t.name); if(!Array.isArray(t.tasks)) t.tasks=[]; if(!Array.isArray(t.history)) t.history=[]; return t; }
+var MAINT_PRESETS=[
+  [/torque wrench/i,[['Calibration check',12]]],
+  [/(trolley|floor|bottle|hydraulic|scissor) jack|^jack\b/i,[['Inspect for leaks and check oil level',6],['Bleed air and grease pivots',12]]],
+  [/(jack|axle) stand/i,[['Inspect pins, ratchets and welds',12]]],
+  [/compressor(?!.*spring)/i,[['Drain water from tank',1],['Check and change compressor oil',6],['Test safety valve',12]]],
+  [/impact|air ratchet|air tool|pneumatic/i,[['Oil the air motor',1]]],
+  [/multimeter|clamp meter/i,[['Check battery and test leads',12]]],
+  [/obd|scan ?tool|scanner|diagnostic/i,[['Software update',6]]],
+  [/engine (crane|hoist)|hoist|car lift|ramp/i,[['Inspect hydraulics, chain and hooks',12]]],
+  [/charger|jump starter|booster/i,[['Charge and check battery',3]]],
+  [/grinder|drill|saw|polisher/i,[['Check cord, brushes and guard',12]]],
+  [/pressure gauge|tyre gauge|tire gauge|pressure tester/i,[['Check accuracy against a known gauge',12]]],
+  [/spring compressor/i,[['Inspect threads and hooks, grease the screw',12]]]
+];
+function maintPresets(name){ var out=[]; MAINT_PRESETS.forEach(function(p){ if(p[0].test(name||'')) p[1].forEach(function(x){ out.push(x); }); }); return out; }
+function taskInfo(k){
+  if(!k.last) return {status:'open',due:null,days:null,text:'No date recorded yet'};
+  var due=addMonths(k.last,k.months||12), d=daysBetween(todayStr(),due);
+  return {status:d<0?'overdue':d<=30?'soon':'ok',due:due,days:d,text:'Due '+fmtD(due)+' · '+(d<0?Math.abs(d)+' days overdue':d===0?'today':'in '+d+' day'+(d===1?'':'s'))};
+}
+var TRANK={overdue:0,soon:1,open:2,ok:3};
+function toolMaint(t){ var w='ok'; (t.tasks||[]).forEach(function(k){ var s=taskInfo(k).status; if(TRANK[s]<TRANK[w]) w=s; }); return (t.tasks||[]).length?w:null; }
+function dueTasks(){ var out=[]; state.tools.forEach(function(t){ (t.tasks||[]).forEach(function(k){ var i=taskInfo(k); if(i.status==='overdue'||i.status==='soon') out.push({t:t,k:k,i:i}); }); });
+  return out.sort(function(a,b){ return a.i.days-b.i.days; }); }
+function maintRow(x){
+  return '<div class="row '+(x.i.status==='overdue'?'overdue':'soon')+'"><div class="title">'+esc(x.t.name)+' <span class="pill '+x.i.status+'">'+(x.i.status==='overdue'?'Overdue':'Due soon')+'</span><span class="chip">Tool upkeep</span></div>'+
+    '<div class="meta"><span>'+esc(x.k.title)+'</span><span>'+esc(x.i.text)+'</span>'+(x.t.location?'<span>'+esc(x.t.location)+'</span>':'')+'</div>'+
+    '<div class="actions"><button class="btn sm primary" data-act="tool-maint" data-id="'+x.t.id+'" data-task="'+x.k.id+'">Mark done</button></div></div>';
+}
+function suggestTools(text){
+  var out=[]; if(!text) return out;
+  TOOL_GUIDE.forEach(function(r){ if(r[0].test(text)) r[1].forEach(function(k){ if(out.indexOf(k)<0) out.push(k); }); });
+  if(out.indexOf('transcan')>-1 && out.indexOf('scan')>-1) out.splice(out.indexOf('scan'),1);
+  if(out.indexOf('transcan')>-1 && out.indexOf('epb')>-1) out.splice(out.indexOf('epb'),1);
+  return out;
+}
+function ownedFor(k){ var d=TOOLDEF[k]; for(var i=0;i<state.tools.length;i++) if(d.m.test(state.tools[i].name)) return state.tools[i]; return null; }
+function setupHints(f){
+  var title=f.querySelector('[name="title"]'), box=document.getElementById('tool-hints');
+  function checkedIds(){ return Array.prototype.map.call(f.querySelectorAll('input[name="tools"]:checked'),function(x){return x.value;}); }
+  function refreshTools(ids){ var fs=document.getElementById('tools-fs'); if(fs) fs.outerHTML=toolsField(ids); }
+  function update(){
+    var keys=suggestTools(title.value);
+    if(!keys.length){ box.innerHTML = title.value.trim().length>3 ? '<span class="hint">No specialist tools in the guide for this job. Tag any you need below.</span>' : ''; return; }
+    var ids=checkedIds();
+    box.innerHTML='<div class="hints"><div class="hints-head">This job usually needs</div>'+keys.map(function(k){
+      var d=TOOLDEF[k], t=ownedFor(k), act;
+      if(t && ids.indexOf(t.id)>-1) act='<span class="ok-tag">&#10003; Tagged'+(t.status!=='own'?' ('+(t.status==='buy'?'need to buy':'borrow')+')':'')+'</span>';
+      else if(t) act='<button type="button" class="btn sm" data-h="tick" data-id="'+t.id+'">Tag '+(t.status==='own'?'mine':'it')+'</button>';
+      else act='<button type="button" class="btn sm" data-h="add" data-id="'+k+'">Add to my tools</button>';
+      return '<div class="hint-row"><div><b>'+esc(t?t.name:d.n)+'</b><div class="why">'+esc(d.w)+'</div></div>'+act+'</div>';
+    }).join('')+'<div class="why">General guide only. Check the service manual for your exact engine.</div></div>';
+  }
+  box.addEventListener('click',function(e){
+    var b=e.target.closest('[data-h]'); if(!b) return;
+    var ids=checkedIds(), id=b.getAttribute('data-id');
+    if(b.getAttribute('data-h')==='add'){ var d=TOOLDEF[id], nt=normTool({id:uid(),name:d.n,status:'buy',price:null,notes:d.w}); state.tools.push(nt); ids.push(nt.id); save(); }
+    else if(ids.indexOf(id)<0) ids.push(id);
+    refreshTools(ids); update();
+  });
+  title.addEventListener('input',update);
+  f.addEventListener('change',function(e){ if(e.target.name==='tools') update(); });
+  update();
+}
 
 var state = JSON.parse(document.getElementById('garage-data').textContent);
 ['cars','jobs','log','tools'].forEach(function(k){ if(!Array.isArray(state[k])) state[k]=[]; });
 var mode = 'local'; // pending | artifact | local | readonly
 var api = null, saveTimer = null, dirty = false, saveState = 'idle';
-var ui = { tab: tabFromHash(), car: 'all', kind: 'all' };
+var ui = { tab: tabFromHash(), car: 'all', kind: 'all', toolCat: 'all', toolSt: 'all', toolQ: '', spPeriod: 'year', spCar: 'all' };
 
 /* ---------- helpers ---------- */
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
@@ -194,15 +416,37 @@ function toolById(id){ for(var i=0;i<state.tools.length;i++) if(state.tools[i].i
 function plate(c){ return c ? '<span class="plate">'+esc(c.plate||'—')+'</span>' : '<span class="plate">?</span>'; }
 function tabFromHash(){ var h=location.hash.replace('#',''); for(var i=0;i<TABS.length;i++) if(TABS[i][0]===h) return h; return 'overview'; }
 
+function addDays(s,n){ var d=parseD(s); d.setDate(d.getDate()+n); return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
+function kmRate(c){
+  if(!c) return null; var pts=[];
+  state.log.forEach(function(l){ if(l.carId===c.id && l.km!=null && l.date) pts.push([l.date,Number(l.km)]); });
+  (c.readings||[]).forEach(function(r){ pts.push([r.date,Number(r.km)]); });
+  if(c.odo!=null && c.odoDate) pts.push([c.odoDate,Number(c.odo)]);
+  pts.sort(function(a,b){return a[0]<b[0]?-1:a[0]>b[0]?1:a[1]-b[1];});
+  if(pts.length<2) return null;
+  var last=pts[pts.length-1], first=pts[0];
+  for(var i=0;i<pts.length;i++){ if(daysBetween(pts[i][0],last[0])<=400){ first=pts[i]; break; } }
+  var d=daysBetween(first[0],last[0]); if(d<30 || last[1]<=first[1]) return null;
+  return (last[1]-first[1])/d;
+}
+function estOdo(c){
+  if(!c || c.odo==null) return null; var r=kmRate(c); if(!r || !c.odoDate) return {km:c.odo,est:false,rate:r};
+  var d=Math.max(0,daysBetween(c.odoDate,todayStr())); return {km:Math.round(c.odo+r*d),est:d>0,rate:r,days:d};
+}
 function jobInfo(j){
-  var car=carById(j.carId), t=todayStr(), days=null, km=null, parts=[];
+  var car=carById(j.carId), t=todayStr(), days=null, km=null, parts=[], estDate=null;
   if(j.dueDate){ days=daysBetween(t,j.dueDate);
     parts.push(fmtD(j.dueDate)+' · '+(days<0? Math.abs(days)+' days overdue' : days===0?'today': 'in '+days+' day'+(days===1?'':'s'))); }
   if(j.dueKm!=null){
-    if(car && car.odo!=null){ km=j.dueKm-car.odo; parts.push('at '+fmtKm(j.dueKm)+' · '+(km<=0? fmtNum(-km)+' km over' : fmtNum(km)+' km to go')); }
+    var eo=estOdo(car);
+    if(eo){ km=j.dueKm-eo.km;
+      var tx='at '+fmtKm(j.dueKm)+' · '+(eo.est?'about ':'')+(km<=0? fmtNum(-km)+' km over' : fmtNum(km)+' km to go');
+      if(eo.rate && km>0){ estDate=addDays(t,Math.ceil(km/eo.rate)); tx+=' · around '+fmtD(estDate); }
+      parts.push(tx); }
     else parts.push('at '+fmtKm(j.dueKm)); }
   var st = ((days!=null&&days<0)||(km!=null&&km<=0)) ? 'overdue' : ((days!=null&&days<=30)||(km!=null&&km<=1000)) ? 'soon' : (days==null&&km==null) ? 'open' : 'planned';
-  return {status:st, days:days, km:km, text:parts.join('  |  ')||'No due date set'};
+  var remind=j.dueDate&&estDate?(j.dueDate<estDate?j.dueDate:estDate):(j.dueDate||estDate);
+  return {status:st, days:days, km:km, estDate:estDate, remind:remind, text:parts.join('  |  ')||'No due date set'};
 }
 var RANK={overdue:0,soon:1,planned:2,open:3};
 var LABEL={overdue:'Overdue',soon:'Due soon',planned:'Planned',open:'Whenever'};
@@ -259,16 +503,19 @@ function statusHtml(){
 
 /* ---------- render ---------- */
 function render(){
+  state.tools.forEach(normTool); if(!Array.isArray(state.expenses)) state.expenses=[];
   var oldNav=document.querySelector('nav.tabs'), navX=oldNav?oldNav.scrollLeft:0;
   var overdue=state.jobs.filter(function(j){return jobInfo(j).status==='overdue';}).length;
+  var toolDue=dueTasks().filter(function(x){return x.i.status==='overdue';}).length;
   var h='<header class="top"><div class="wrap"><div class="top-row">'+
     '<div class="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.1L3 17.7V21h3.3l6.3-6.3a4 4 0 0 0 5.1-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg>Garage App</div>'+
     '<span class="spacer"></span>'+statusHtml()+'</div><nav class="tabs" aria-label="Sections">'+
-    TABS.map(function(t){ return '<a href="#'+t[0]+'"'+(ui.tab===t[0]?' aria-current="page"':'')+'>'+t[1]+(t[0]==='jobs'&&overdue?'<span class="count">'+overdue+'</span>':'')+'</a>'; }).join('')+
+    TABS.map(function(t){ return '<a href="#'+t[0]+'"'+(ui.tab===t[0]?' aria-current="page"':'')+'>'+t[1]+(t[0]==='jobs'&&overdue?'<span class="count">'+overdue+'</span>':'')+(t[0]==='tools'&&toolDue?'<span class="count">'+toolDue+'</span>':'')+'</a>'; }).join('')+
     '</nav></div></header><main class="wrap">';
   if(state.example) h+='<div class="banner"><p><strong>These are example cars and jobs</strong> so you can see how it works. Clear them when you are ready to add your own.</p>'+
     '<button class="btn" data-act="keep-example">Keep and edit them</button><button class="btn primary" data-act="clear-example">Start with an empty garage</button></div>';
-  h+=({overview:vOverview,jobs:vJobs,history:vHistory,cars:vCars,tools:vTools,backup:vBackup}[ui.tab])();
+  h+=runBar();
+  h+=({overview:vOverview,jobs:vJobs,history:vHistory,spending:vSpending,cars:vCars,tools:vTools,backup:vBackup}[ui.tab])();
   h+='</main>';
   document.getElementById('app').innerHTML=h;
   keepTabs(navX);
@@ -290,28 +537,32 @@ function carFilter(){
 function byCar(list){ return ui.car==='all'?list:list.filter(function(x){return x.carId===ui.car;}); }
 
 function jobRow(x, compact){
-  var j=x.j, i=x.i, c=carById(j.carId);
-  return '<div class="row '+i.status+'"><div class="title">'+plate(c)+' '+esc(j.title)+' <span class="pill '+i.status+'">'+LABEL[i.status]+'</span>'+(j.priority==='high'?'<span class="pill high">Priority</span>':'')+'</div>'+
+  var j=x.j, i=x.i, c=carById(j.carId), run=jobRunning(j), started=(j.sessions||[]).length>0;
+  return '<div class="row '+i.status+(run?' running':'')+'"><div class="title">'+plate(c)+' '+esc(j.title)+' <span class="pill '+i.status+'">'+LABEL[i.status]+'</span>'+(j.priority==='high'?'<span class="pill high">Priority</span>':'')+'</div>'+
     '<div class="meta"><span>'+esc(i.text)+'</span>'+(j.estCost?'<span>Est. '+rm(j.estCost)+'</span>':'')+(j.repeatKm||j.repeatMonths?'<span>Repeats every '+[j.repeatKm?fmtKm(j.repeatKm):'',j.repeatMonths?j.repeatMonths+' months':''].filter(Boolean).join(' or ')+'</span>':'')+'</div>'+
+    (started?'<div class="meta timer-line"><span class="clock" data-timer="'+j.id+'">'+fmtClock(jobElapsed(j))+'</span><span>'+(run?'Timer running':'Paused')+' · started '+fmtD(j.startedOn||todayStr())+'</span></div>':'')+
     (j.toolIds&&j.toolIds.length?'<div class="chips">'+toolChips(j.toolIds)+'</div>':'')+
     (!compact&&j.notes?'<div class="notes">'+esc(j.notes)+'</div>':'')+
-    '<div class="actions"><button class="btn sm primary" data-act="done-job" data-id="'+j.id+'">Mark done</button><button class="btn sm" data-act="edit-job" data-id="'+j.id+'">Edit</button></div></div>';
+    '<div class="actions">'+(run?'<button class="btn sm" data-act="timer-pause" data-id="'+j.id+'">Pause</button><button class="btn sm primary" data-act="timer-finish" data-id="'+j.id+'">Finish</button>'
+      : started?'<button class="btn sm" data-act="timer-start" data-id="'+j.id+'">Resume</button><button class="btn sm primary" data-act="timer-finish" data-id="'+j.id+'">Finish</button>'
+      : '<button class="btn sm" data-act="timer-start" data-id="'+j.id+'">Start</button><button class="btn sm primary" data-act="done-job" data-id="'+j.id+'">Mark done</button>')+
+    '<button class="btn sm" data-act="edit-job" data-id="'+j.id+'">Edit</button>'+(calOk()&&i.remind&&!compact?'<button class="btn sm ghost" data-act="cal-job" data-id="'+j.id+'">Remind me</button>':'')+'</div></div>';
 }
 
 function vOverview(){
   var infos=state.jobs.map(jobInfo);
   var over=infos.filter(function(i){return i.status==='overdue';}).length, soon=infos.filter(function(i){return i.status==='soon';}).length;
   var yr=String(new Date().getFullYear());
-  var spent=state.log.filter(function(l){return (l.date||'').slice(0,4)===yr;}).reduce(function(s,l){return s+(Number(l.cost)||0);},0);
+  var spent=spendItems().filter(function(x){return x.date.slice(0,4)===yr;}).reduce(function(s,x){return s+x.amount;},0);
   var h='<div class="summary"><div class="tile bad"><div class="n">'+over+'</div><div class="l">Overdue jobs</div></div>'+
     '<div class="tile warn"><div class="n">'+soon+'</div><div class="l">Due in 30 days or 1,000 km</div></div>'+
     '<div class="tile acc"><div class="n">'+state.jobs.length+'</div><div class="l">Jobs on the list</div></div>'+
-    '<div class="tile"><div class="n">'+esc(rm(spent)||'RM 0')+'</div><div class="l">Spent in '+yr+'</div></div></div>';
-  var att=sortedJobs(state.jobs).filter(function(x){return x.i.status==='overdue'||x.i.status==='soon';});
+    '<a class="tile tile-link" href="#spending"><div class="n">'+esc(rm(spent)||'RM 0')+'</div><div class="l">Spent in '+yr+' &rsaquo;</div></a></div>';
+  var att=sortedJobs(state.jobs).filter(function(x){return x.i.status==='overdue'||x.i.status==='soon';}), upk=dueTasks();
   var need=[]; state.tools.forEach(function(t){ if(t.status==='own') return;
     var js=state.jobs.filter(function(j){return (j.toolIds||[]).indexOf(t.id)>-1;}); if(js.length) need.push({t:t,js:js}); });
   h+='<div class="two"><div class="panel"><div class="section-head"><h2>Needs attention</h2><span class="spacer"></span><button class="btn primary" data-act="new-job">Add job</button></div>'+
-    (att.length?'<div class="list">'+att.map(function(x){return jobRow(x,true);}).join('')+'</div>':'<div class="empty">Nothing overdue or due soon.</div>')+'</div>'+
+    (att.length||upk.length?'<div class="list">'+att.map(function(x){return jobRow(x,true);}).join('')+upk.map(maintRow).join('')+'</div>':'<div class="empty">Nothing overdue or due soon.</div>')+'</div>'+
     '<div class="panel"><div class="section-head"><h2>Tools to sort out</h2></div>'+
     (need.length?'<div class="list">'+need.map(function(n){ return '<div class="row '+(n.t.status==='buy'?'overdue':'soon')+'"><div class="title">'+esc(n.t.name)+' <span class="chip '+n.t.status+'">'+TOOL_STATUS[n.t.status]+'</span></div><div class="meta">'+
       (n.t.price?'<span>About '+rm(n.t.price)+'</span>':'')+'<span>For: '+n.js.map(function(j){return esc(j.title);}).join(', ')+'</span></div>'+(n.t.notes?'<div class="notes">'+esc(n.t.notes)+'</div>':'')+
@@ -329,6 +580,7 @@ function carCards(){
     var spend=state.log.filter(function(l){return l.carId===c.id;}).reduce(function(s,l){return s+(Number(l.cost)||0);},0);
     return '<div class="car"><div class="car-head"><div><h3>'+esc(c.name||c.model)+'</h3><div class="model">'+esc([c.year,c.make,c.model].filter(Boolean).join(' '))+'</div></div>'+plate(c)+'</div>'+
       '<div class="odo"><span>'+(c.odo!=null?fmtNum(c.odo):'—')+' km</span><small>'+(c.odoDate?'as of '+fmtD(c.odoDate):'')+'</small></div>'+
+      (function(){ var eo=estOdo(c); return eo&&eo.rate?'<div class="est">'+(eo.est&&eo.days>2?'Probably about <b>'+fmtNum(eo.km)+' km</b> today. ':'')+'Averages '+fmtNum(Math.round(eo.rate))+' km a day.</div>':''; })()+
       '<dl class="kv"><dt>Last work</dt><dd>'+(last?esc(last.title)+' · '+fmtD(last.date):'Nothing logged')+'</dd>'+
       '<dt>Next job</dt><dd>'+(next?'<span class="pill '+next.i.status+'">'+LABEL[next.i.status]+'</span> '+esc(next.j.title):'Nothing planned')+'</dd>'+
       '<dt>Total spent</dt><dd>'+(rm(spend)||'RM 0')+'</dd></dl>'+
@@ -341,6 +593,7 @@ function vJobs(){
   var list=sortedJobs(byCar(state.jobs));
   var h='<div class="section-head"><h2>Upcoming jobs</h2><span class="sub">Sorted by what is most urgent, by date or mileage</span><span class="spacer"></span><button class="btn primary" data-act="new-job">Add job</button></div>'+carFilter();
   if(!state.cars.length) return h+'<div class="empty">Add a car first, then plan jobs for it.</div>';
+  if(calOk()) h+='<div class="cal-card"><p>Get reminders in your iPhone Calendar: an alert a week before and on the day each job is due. Mileage jobs use the estimated date.</p><button class="btn sm" data-act="cal-all">Add all due dates</button><button class="btn sm" data-act="cal-km">Monthly mileage reminder</button></div>';
   return h+(list.length?'<div class="list">'+list.map(function(x){return jobRow(x,false);}).join('')+'</div>':'<div class="empty">No upcoming jobs here.</div>');
 }
 
@@ -353,7 +606,7 @@ function vHistory(){
   return h+'<div class="table-wrap"><table><thead><tr><th>Date</th><th>Car</th><th>Work done</th><th class="num">Odometer</th><th>By</th><th class="num">Cost</th></tr></thead><tbody>'+
     list.map(function(l){ var c=carById(l.carId);
       return '<tr data-act="edit-log" data-id="'+l.id+'" tabindex="0"><td style="white-space:nowrap">'+fmtD(l.date)+'</td><td>'+plate(c)+'</td><td><strong>'+esc(l.title)+'</strong> <span class="chip">'+esc(l.kind)+'</span>'+
-        (l.parts?'<div class="small">Parts: '+esc(l.parts)+'</div>':'')+(l.toolIds&&l.toolIds.length?'<div class="small">Tools: '+l.toolIds.map(function(id){var t=toolById(id);return t?esc(t.name):'';}).filter(Boolean).join(', ')+'</div>':'')+
+        (l.minutes?'<div class="small">Time: '+fmtDur(l.minutes)+'</div>':'')+(l.parts?'<div class="small">Parts: '+esc(l.parts)+'</div>':'')+(l.toolIds&&l.toolIds.length?'<div class="small">Tools: '+l.toolIds.map(function(id){var t=toolById(id);return t?esc(t.name):'';}).filter(Boolean).join(', ')+'</div>':'')+
         (l.notes?'<div class="small">'+esc(l.notes)+'</div>':'')+'</td><td class="num">'+(l.km!=null?fmtNum(l.km):'')+'</td><td>'+esc(l.by)+'</td><td class="num">'+rm(l.cost)+'</td></tr>'; }).join('')+
     '</tbody><tfoot><tr><td colspan="5">Total for '+list.length+' entr'+(list.length===1?'y':'ies')+'</td><td class="num">'+(rm(total)||'RM 0')+'</td></tr></tfoot></table></div>';
 }
@@ -363,20 +616,221 @@ function vCars(){
 }
 
 function vTools(){
-  var h='<div class="section-head"><h2>Specialist tools</h2><span class="sub">Tag each job with the tools it needs, so you know what to buy or borrow before you start</span><span class="spacer"></span><button class="btn primary" data-act="new-tool">Add tool</button></div>';
-  if(!state.tools.length) return h+'<div class="empty">No tools listed yet.</div>';
-  var order={buy:0,borrow:1,own:2};
-  return h+'<div class="list">'+state.tools.slice().sort(function(a,b){return order[a.status]-order[b.status]||a.name.localeCompare(b.name);}).map(function(t){
-    var jobs=state.jobs.filter(function(j){return (j.toolIds||[]).indexOf(t.id)>-1;});
-    var used=state.log.filter(function(l){return (l.toolIds||[]).indexOf(t.id)>-1;}).length;
-    return '<div class="row '+(t.status==='buy'?'overdue':t.status==='borrow'?'soon':'planned')+'"><div class="title">'+esc(t.name)+' <span class="chip '+t.status+'">'+TOOL_STATUS[t.status]+'</span></div>'+
-      '<div class="meta">'+(t.price?'<span>'+rm(t.price)+'</span>':'')+'<span>Needed for '+jobs.length+' upcoming job'+(jobs.length===1?'':'s')+'</span><span>Used in '+used+' past job'+(used===1?'':'s')+'</span></div>'+
-      (jobs.length?'<div class="notes">Upcoming: '+jobs.map(function(j){var c=carById(j.carId);return esc(j.title)+(c?' ('+esc(c.plate)+')':'');}).join(', ')+'</div>':'')+
-      (t.notes?'<div class="notes">'+esc(t.notes)+'</div>':'')+
-      '<div class="actions"><button class="btn sm" data-act="edit-tool" data-id="'+t.id+'">Edit</button></div></div>';
-  }).join('')+'</div>';
+  var own=state.tools.filter(function(t){return t.status==='own';});
+  var due=dueTasks(), buy=state.tools.filter(function(t){return t.status==='buy';}).length;
+  var value=own.reduce(function(s,t){return s+(Number(t.price)||0)*(Number(t.qty)||1);},0);
+  var h='<div class="section-head"><h2>My workshop</h2><span class="sub">Every tool and piece of equipment, where it lives, and when it needs looking after</span><span class="spacer"></span><button class="btn primary" data-act="new-tool">Add tool</button></div>'+
+    '<div class="summary"><div class="tile acc"><div class="n">'+own.length+'</div><div class="l">Tools I own</div></div>'+
+    '<div class="tile '+(due.length?'bad':'')+'"><div class="n">'+due.length+'</div><div class="l">Upkeep due in 30 days</div></div>'+
+    '<div class="tile warn"><div class="n">'+buy+'</div><div class="l">On the buy list</div></div>'+
+    '<div class="tile"><div class="n">'+(rm(value)||'RM 0')+'</div><div class="l">Value of my kit</div></div></div>';
+  if(due.length) h+='<div class="panel"><h3>Upkeep due</h3><div class="list">'+due.map(maintRow).join('')+'</div></div>';
+  var cats=TOOL_CATS.filter(function(c){ return state.tools.some(function(t){return t.cat===c;}); });
+  h+='<div class="filters tool-filters"><input id="tool-q" type="search" placeholder="Search tools, brand or location" value="'+esc(ui.toolQ)+'" aria-label="Search tools" autocomplete="off">'+
+    '<select id="tool-st" aria-label="Show"><option value="all">All tools</option>'+[['own','Own it'],['borrow','Borrow'],['buy','Need to buy'],['maint','Has upkeep schedule']].map(function(o){return '<option value="'+o[0]+'"'+(ui.toolSt===o[0]?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select></div>'+
+    (cats.length>1?'<div class="filters"><button class="fchip" data-act="tcat" data-id="all" aria-pressed="'+(ui.toolCat==='all')+'">All</button>'+cats.map(function(c){return '<button class="fchip" data-act="tcat" data-id="'+esc(c)+'" aria-pressed="'+(ui.toolCat===c)+'">'+esc(c)+'</button>';}).join('')+'</div>':'');
+  return h+'<div id="tool-list">'+toolListHtml()+'</div>';
+}
+function toolListHtml(){
+  if(!state.tools.length) return '<div class="empty">Your workshop is empty. <button class="btn primary" data-act="new-tool">Add your first tool</button></div>';
+  var q=(ui.toolQ||'').toLowerCase().trim();
+  var list=state.tools.filter(function(t){
+    if(ui.toolCat!=='all' && t.cat!==ui.toolCat) return false;
+    if(ui.toolSt==='maint'){ if(!(t.tasks||[]).length) return false; } else if(ui.toolSt!=='all' && t.status!==ui.toolSt) return false;
+    if(q && [t.name,t.brand,t.location,t.notes,t.cat].join(' ').toLowerCase().indexOf(q)<0) return false;
+    return true; });
+  if(!list.length) return '<div class="empty">No tools match.</div>';
+  var h='';
+  TOOL_CATS.forEach(function(c){
+    var g=list.filter(function(t){return t.cat===c;}).sort(function(a,b){return a.name.localeCompare(b.name);});
+    if(!g.length) return;
+    h+='<div class="panel"><h3>'+esc(c)+' <span class="count-muted">'+g.length+'</span></h3><div class="list">'+g.map(toolRow).join('')+'</div></div>';
+  });
+  return '<div class="tool-groups">'+h+'</div>';
+}
+function toolRow(t){
+  var jobs=state.jobs.filter(function(j){return (j.toolIds||[]).indexOf(t.id)>-1;}).length;
+  var m=toolMaint(t), cls=m==='overdue'?'overdue':m==='soon'?'soon':t.status==='buy'?'overdue':t.status==='borrow'?'soon':'planned';
+  var last=(t.history||[]).slice().sort(function(a,b){return a.date<b.date?1:-1;})[0];
+  return '<div class="row '+cls+'"><div class="title">'+esc(t.name)+(t.qty>1?' <span class="chip">x'+t.qty+'</span>':'')+' <span class="chip '+t.status+'">'+TOOL_STATUS[t.status]+'</span>'+
+    (m==='overdue'?'<span class="pill overdue">Upkeep overdue</span>':m==='soon'?'<span class="pill soon">Upkeep due soon</span>':'')+'</div>'+
+    '<div class="meta">'+(t.brand?'<span>'+esc(t.brand)+'</span>':'')+(t.location?'<span>Kept in: '+esc(t.location)+'</span>':'')+(t.price?'<span>'+rm(t.price)+'</span>':'')+(t.bought?'<span>Bought '+fmtD(t.bought)+'</span>':'')+
+    (jobs?'<span>Needed for '+jobs+' upcoming job'+(jobs===1?'':'s')+'</span>':'')+'</div>'+
+    ((t.tasks||[]).length?'<div class="tasks">'+t.tasks.map(function(k){ var i=taskInfo(k);
+      return '<div class="task '+i.status+'"><b>'+esc(k.title)+'</b> every '+(k.months||12)+' month'+((k.months||12)==1?'':'s')+' · '+(k.last?'last done '+fmtD(k.last)+' · ':'')+'<span class="due">'+esc(i.text)+'</span></div>'; }).join('')+'</div>':'')+
+    (last?'<div class="notes">Last upkeep: '+fmtD(last.date)+' · '+esc(last.what)+(last.notes?' · '+esc(last.notes):'')+'</div>':'')+
+    (t.notes?'<div class="notes">'+esc(t.notes)+'</div>':'')+
+    '<div class="actions">'+((t.tasks||[]).length?'<button class="btn sm primary" data-act="tool-maint" data-id="'+t.id+'">Upkeep done</button>':'')+'<button class="btn sm" data-act="edit-tool" data-id="'+t.id+'">Edit</button></div></div>';
 }
 
+
+
+/* ---------- job timer ---------- */
+function jobById(id){ for(var i=0;i<state.jobs.length;i++) if(state.jobs[i].id===id) return state.jobs[i]; return null; }
+function jobElapsed(j){ var t=0, now=Date.now(); (j.sessions||[]).forEach(function(s){ t+=(s.e||now)-s.s; }); return Math.max(0,t); }
+function jobRunning(j){ var s=j.sessions||[]; return !!(s.length && !s[s.length-1].e); }
+function fmtClock(ms){ var t=Math.floor(ms/1000), h=Math.floor(t/3600), m=Math.floor(t%3600/60), s=t%60; return h+':'+pad(m)+':'+pad(s); }
+function fmtDur(min){ if(min==null||min==='') return ''; min=Math.round(min); var h=Math.floor(min/60), m=min%60; return h&&m?h+'h '+m+'m':h?h+'h':m+'m'; }
+function parseDur(v){
+  v=String(v||'').trim().toLowerCase(); if(!v) return null;
+  var a=v.match(/^(\d+):(\d{1,2})$/); if(a) return +a[1]*60 + +a[2];
+  var b=v.match(/^(?:(\d+(?:\.\d+)?)\s*h(?:rs?|ours?)?)?\s*(?:(\d+)\s*m(?:in(?:s|utes?)?)?)?$/); if(b && (b[1]||b[2])) return Math.round((+b[1]||0)*60+(+b[2]||0));
+  var n=parseFloat(v); return isNaN(n)?null:Math.round(n*60);
+}
+function timerStart(j){ var now=Date.now(); state.jobs.forEach(function(o){ if(o!==j && jobRunning(o)) o.sessions[o.sessions.length-1].e=now; });
+  if(!j.sessions) j.sessions=[]; if(!jobRunning(j)) j.sessions.push({s:now,e:null}); if(!j.startedOn) j.startedOn=todayStr(); }
+function timerPause(j){ if(jobRunning(j)) j.sessions[j.sessions.length-1].e=Date.now(); }
+function runBar(){
+  var run=state.jobs.filter(jobRunning); if(!run.length) return '';
+  return run.map(function(j){ var c=carById(j.carId);
+    return '<div class="runbar" role="status"><span class="dot"></span><span class="rb-what">Working on '+plate(c)+' <b>'+esc(j.title)+'</b></span><span class="clock big" data-timer="'+j.id+'">'+fmtClock(jobElapsed(j))+'</span>'+
+      '<span class="rb-act"><button class="btn sm" data-act="timer-pause" data-id="'+j.id+'">Pause</button><button class="btn sm primary" data-act="timer-finish" data-id="'+j.id+'">Finish</button></span></div>'; }).join('');
+}
+setInterval(function(){ var els=document.querySelectorAll('[data-timer]'); for(var i=0;i<els.length;i++){ var j=jobById(els[i].getAttribute('data-timer')); if(j && jobRunning(j)) els[i].textContent=fmtClock(jobElapsed(j)); } },1000);
+
+/* ---------- calendar reminders (.ics) ---------- */
+function icsEsc(s){ return String(s||'').replace(/\\/g,'\\\\').replace(/;/g,'\;').replace(/,/g,'\\,').replace(/\n/g,'\\n'); }
+function icsDate(s){ return s.replace(/-/g,''); }
+function icsStamp(){ var d=new Date(); return d.getUTCFullYear()+pad(d.getUTCMonth()+1)+pad(d.getUTCDate())+'T'+pad(d.getUTCHours())+pad(d.getUTCMinutes())+'00Z'; }
+function icsJobEvent(j){
+  var i=jobInfo(j), c=carById(j.carId); if(!i.remind) return null;
+  var est=!(j.dueDate && i.remind===j.dueDate);
+  return ['BEGIN:VEVENT','UID:garage-job-'+j.id+'@garage-app','DTSTAMP:'+icsStamp(),'DTSTART;VALUE=DATE:'+icsDate(i.remind),'DTEND;VALUE=DATE:'+icsDate(addDays(i.remind,1)),
+    'SUMMARY:'+icsEsc((c?c.plate+' ':'')+j.title+(est?' (estimated)':'')),
+    'DESCRIPTION:'+icsEsc((c?(c.name||'')+'\n':'')+i.text+(est?'\nDate estimated from your average daily km. Update the mileage in Garage App to keep it accurate.':'')),
+    'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:'+icsEsc(j.title+' due in a week'),'TRIGGER:-P6DT15H','END:VALARM',
+    'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:'+icsEsc(j.title+' due today'),'TRIGGER:PT9H','END:VALARM','END:VEVENT'].join('\r\n');
+}
+function icsMileage(){
+  var t=todayStr(), first=addMonths(t.slice(0,8)+'01',1);
+  return ['BEGIN:VEVENT','UID:garage-mileage-reminder@garage-app','DTSTAMP:'+icsStamp(),'DTSTART:'+icsDate(first)+'T090000','DTEND:'+icsDate(first)+'T091000','RRULE:FREQ=MONTHLY',
+    'SUMMARY:Update car mileage in Garage App','DESCRIPTION:'+icsEsc('Note each car\'s odometer and tap Update km in Garage App so km-based jobs stay on time.'),
+    'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:Update car mileage','TRIGGER:PT0M','END:VALARM','END:VEVENT'].join('\r\n');
+}
+function downloadIcs(name,events){
+  var body=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Garage App//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH'].concat(events).concat(['END:VCALENDAR']).join('\r\n').split('\r\n').map(function(l){ var o=[]; while(l.length>70){ o.push(l.slice(0,70)); l=' '+l.slice(70); } o.push(l); return o.join('\r\n'); }).join('\r\n');
+  var a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([body],{type:'text/calendar'})); a.download=name+'.ics';
+  document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },1500);
+}
+function calOk(){ return mode==='local'; }
+
+/* ---------- spending ---------- */
+var SP_GROUPS=[['car','Car work','--s1'],['tools','Tool purchases','--s2'],['upkeep','Tool upkeep','--s3'],['other','Workshop costs','--s4']];
+var EXP_CATS=['Consumables','Parts for stock','Workshop supplies','Safety gear','Manuals & subscriptions','Other'];
+var spBuckets=[];
+function spendItems(){
+  var out=[];
+  state.log.forEach(function(l){ if(Number(l.cost)>0) out.push({date:l.date,amount:Number(l.cost),g:'car',cat:l.kind||'Service',carId:l.carId,by:l.by||'Me',title:l.title,type:'log',id:l.id}); });
+  state.tools.forEach(function(t){
+    if(t.status==='own' && Number(t.price)>0 && t.bought) out.push({date:t.bought,amount:Number(t.price)*(Number(t.qty)||1),g:'tools',cat:'Tool purchase',title:t.name,type:'tool',id:t.id});
+    (t.history||[]).forEach(function(x){ if(Number(x.cost)>0) out.push({date:x.date,amount:Number(x.cost),g:'upkeep',cat:'Tool upkeep',title:t.name+': '+x.what,type:'tool',id:t.id}); });
+  });
+  (state.expenses||[]).forEach(function(e){ if(Number(e.amount)>0) out.push({date:e.date,amount:Number(e.amount),g:'other',cat:e.cat||'Other',carId:e.carId||null,title:e.title,type:'exp',id:e.id}); });
+  return out.filter(function(x){return x.date;});
+}
+function spRange(){
+  var t=todayStr(), y=+t.slice(0,4);
+  if(ui.spPeriod==='12m'){ var s=addMonths(t.slice(0,8)+'01',-11); return {from:s,to:t,label:'in the last 12 months',months:12,start:s}; }
+  if(ui.spPeriod==='last') return {from:(y-1)+'-01-01',to:(y-1)+'-12-31',label:'in '+(y-1),months:12,start:(y-1)+'-01-01'};
+  if(ui.spPeriod==='all') return {from:'0000',to:'9999',label:'in total',months:0};
+  return {from:y+'-01-01',to:y+'-12-31',label:'in '+y,months:12,start:y+'-01-01'};
+}
+function niceMax(v){ if(v<=0) return 100; var p=Math.pow(10,Math.floor(Math.log10(v))), m=v/p; return (m<=1?1:m<=2?2:m<=2.5?2.5:m<=5?5:10)*p; }
+function spBucketsFor(items,r){
+  var b=[], idx={};
+  if(r.months){
+    for(var i=0;i<12;i++){ var k=addMonths(r.start,i).slice(0,7), d=parseD(k+'-01'); idx[k]=b.length; b.push({key:k,label:MON[d.getMonth()]+' '+d.getFullYear(),short:MON[d.getMonth()],g:{car:0,tools:0,upkeep:0,other:0},total:0}); }
+    items.forEach(function(x){ var k=x.date.slice(0,7); if(k in idx){ var o=b[idx[k]]; o.g[x.g]+=x.amount; o.total+=x.amount; } });
+  } else {
+    var ys=items.map(function(x){return +x.date.slice(0,4);}); var y0=ys.length?Math.min.apply(null,ys):+todayStr().slice(0,4), y1=+todayStr().slice(0,4);
+    for(var y=y0;y<=y1;y++){ idx[y]=b.length; b.push({key:String(y),label:String(y),short:String(y),g:{car:0,tools:0,upkeep:0,other:0},total:0}); }
+    items.forEach(function(x){ var o=b[idx[+x.date.slice(0,4)]]; if(o){ o.g[x.g]+=x.amount; o.total+=x.amount; } });
+  }
+  return b;
+}
+function barList(rows,total){
+  rows=rows.filter(function(r){return r.v>0;}).sort(function(a,b){return b.v-a.v;});
+  if(!rows.length) return '<div class="empty small-empty">Nothing spent in this period.</div>';
+  var max=rows[0].v;
+  return '<div class="bl">'+rows.map(function(r){ var pct=total?Math.round(r.v/total*100):0;
+    return '<div class="bl-row"><div class="bl-top"><span>'+r.label+'</span><span class="num">'+rm(r.v)+' <span class="muted">'+pct+'%</span></span></div>'+
+      '<div class="bl-track"><div class="bl-fill" style="width:'+Math.max(2,r.v/max*100)+'%"></div></div>'+(r.sub?'<div class="why">'+r.sub+'</div>':'')+'</div>'; }).join('')+'</div>';
+}
+function vSpending(){
+  var r=spRange(), all=spendItems(), carF=ui.spCar;
+  var items=all.filter(function(x){ return x.date>=r.from && x.date<=r.to+'z' && (carF==='all' || x.carId===carF); });
+  var total=items.reduce(function(s,x){return s+x.amount;},0), gsum={car:0,tools:0,upkeep:0,other:0};
+  items.forEach(function(x){ gsum[x.g]+=x.amount; });
+  var nMonths=r.months?Math.max(1,Math.min(12, ui.spPeriod==='year'? new Date().getMonth()+1 : 12)):Math.max(1,(function(){ if(!items.length) return 1; var d0=items.reduce(function(m,x){return x.date<m?x.date:m;},'9999'); return Math.max(1,Math.round(daysBetween(d0,todayStr())/30.44)); })());
+  var h='<div class="section-head"><h2>Spending</h2><span class="sub">Everything spent on the cars and the workshop</span><span class="spacer"></span><button class="btn primary" data-act="new-exp">Add expense</button></div>'+
+    '<div class="filters" role="group" aria-label="Period">'+[['year','This year'],['12m','Last 12 months'],['last','Last year'],['all','All time']].map(function(p){ return '<button class="fchip" data-act="sp-period" data-id="'+p[0]+'" aria-pressed="'+(ui.spPeriod===p[0])+'">'+p[1]+'</button>'; }).join('')+'</div>'+
+    (state.cars.length?'<div class="filters" role="group" aria-label="Car"><button class="fchip" data-act="sp-car" data-id="all" aria-pressed="'+(carF==='all')+'">Everything</button>'+state.cars.map(function(c){ return '<button class="fchip" data-act="sp-car" data-id="'+c.id+'" aria-pressed="'+(carF===c.id)+'">'+esc(c.name||c.plate)+'</button>'; }).join('')+'</div>':'');
+  h+='<div class="summary"><div class="tile acc"><div class="n">'+(rm(total)||'RM 0')+'</div><div class="l">Spent '+esc(r.label)+(carF!=='all'?' on this car':'')+'</div></div>'+
+    '<div class="tile"><div class="n">'+(rm(Math.round(total/nMonths))||'RM 0')+'</div><div class="l">Average a month</div></div>'+
+    '<div class="tile"><div class="n">'+(rm(gsum.car)||'RM 0')+'</div><div class="l">On car work</div></div>'+
+    '<div class="tile"><div class="n">'+(rm(gsum.tools+gsum.upkeep+gsum.other)||'RM 0')+'</div><div class="l">On tools and the workshop</div></div></div>';
+  spBuckets=spBucketsFor(items,r);
+  var mx=niceMax(Math.max.apply(null,spBuckets.map(function(b){return b.total;}).concat([0])));
+  var used=SP_GROUPS.filter(function(g){return gsum[g[0]]>0;});
+  h+='<div class="card chart-card"><h3>'+(r.months?'Spending by month':'Spending by year')+'</h3>'+
+    (used.length>1?'<div class="legend">'+used.map(function(g){ return '<span><i style="background:var('+g[2]+')"></i>'+g[1]+'</span>'; }).join('')+'</div>':'')+
+    '<div class="chart" id="sp-chart"><div class="grid">'+[1,0.5,0].map(function(f){ return '<div class="gl" style="bottom:'+(f*100)+'%"><span>'+(f?fmtShort(mx*f):'0')+'</span></div>'; }).join('')+'</div>'+
+    '<div class="cols">'+spBuckets.map(function(b,i){
+      return '<button type="button" class="col" data-sp="'+i+'" aria-label="'+esc(b.label)+': '+esc(rm(b.total)||'RM 0')+'"><div class="stack-wrap"><div class="stack" style="height:'+(b.total/mx*100)+'%">'+
+        SP_GROUPS.filter(function(g){return b.g[g[0]]>0;}).map(function(g){ return '<div class="seg" style="flex-grow:'+b.g[g[0]]+';background:var('+g[2]+')"></div>'; }).join('')+
+        '</div></div><span class="xl">'+esc(b.short)+'</span></button>'; }).join('')+'</div></div><div id="sp-tip" class="tip" hidden></div></div>';
+  // breakdowns
+  var byCar=state.cars.map(function(c){
+    var its=items.filter(function(x){return x.carId===c.id;}), v=its.reduce(function(s,x){return s+x.amount;},0);
+    var kms=state.log.filter(function(l){return l.carId===c.id && l.km!=null && l.date>=r.from && l.date<=r.to+'z';}).map(function(l){return l.km;});
+    if(c.odo!=null && (!r.months || (c.odoDate||'')>=r.from)) kms.push(c.odo);
+    var span=kms.length>1?Math.max.apply(null,kms)-Math.min.apply(null,kms):0;
+    return {label:'<span class="plate">'+esc(c.plate||'?')+'</span> '+esc(c.name),v:v,sub:span>=500&&v?'About '+rm(Math.round(v/span*1000))+' per 1,000 km over '+fmtNum(span)+' km':''};
+  });
+  if(carF==='all') byCar.push({label:'Not for one car (tools and workshop)',v:gsum.tools+gsum.upkeep+items.filter(function(x){return x.g==='other'&&!x.carId;}).reduce(function(s,x){return s+x.amount;},0)});
+  var cats={}; items.forEach(function(x){ cats[x.cat]=(cats[x.cat]||0)+x.amount; });
+  var who={}; items.filter(function(x){return x.g==='car';}).forEach(function(x){ var k=x.by==='Me'?'Done by me':x.by==='Workshop'?'Done by a workshop':'Done by someone else'; who[k]=(who[k]||0)+x.amount; });
+  h+='<div class="sp-grid">'+
+    '<div class="card"><h3>By car</h3>'+barList(byCar,total)+'</div>'+
+    '<div class="card"><h3>By type</h3>'+barList(Object.keys(cats).map(function(k){return {label:esc(k),v:cats[k]};}),total)+'</div>'+
+    '<div class="card"><h3>Who did the car work</h3>'+barList(Object.keys(who).map(function(k){return {label:k,v:who[k]};}),gsum.car)+'<div class="why">Car work only. Costs for your own jobs are parts and supplies.</div>'+(function(){
+      var ls=state.log.filter(function(l){ return l.minutes && l.date>=r.from && l.date<=r.to+'z' && (carF==='all'||l.carId===carF); }), m=ls.reduce(function(s,l){return s+l.minutes;},0);
+      if(!m) return '<div class="why">Use the job timer, or fill in Time spent, to see your hours here.</div>';
+      var top=ls.slice().sort(function(a,b){return b.minutes-a.minutes;})[0];
+      return '<div class="time-sum"><div class="n">'+fmtDur(m)+'</div><div class="why">on the tools across '+ls.length+' job'+(ls.length===1?'':'s')+' · longest: '+esc(top.title)+' ('+fmtDur(top.minutes)+')</div></div>'; })()+'</div>'+
+    '<div class="card"><h3>Biggest costs</h3>'+(items.length?'<div class="bl">'+items.slice().sort(function(a,b){return b.amount-a.amount;}).slice(0,5).map(function(x){ var c=carById(x.carId);
+      return '<div class="bl-top big"><span>'+esc(x.title)+'<span class="why"> '+fmtD(x.date)+(c?' · '+esc(c.plate):'')+'</span></span><span class="num">'+rm(x.amount)+'</span></div>'; }).join('')+'</div>':'<div class="empty small-empty">Nothing spent in this period.</div>')+'</div></div>';
+  // table
+  var rows=items.slice().sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:0;});
+  h+='<div class="section-head"><h2>Every expense</h2><span class="sub">Tap a row to open it</span></div>'+
+    (rows.length?'<div class="table-wrap"><table class="sp-table"><thead><tr><th>Date</th><th>What</th><th>For</th><th>Type</th><th class="num">Amount</th></tr></thead><tbody>'+
+    rows.map(function(x){ var c=carById(x.carId);
+      return '<tr data-act="sp-open" data-type="'+x.type+'" data-id="'+x.id+'" tabindex="0"><td style="white-space:nowrap">'+fmtD(x.date)+'</td><td>'+esc(x.title)+'<span class="small sp-cat">'+esc(x.cat)+(c?' · '+esc(c.plate):'')+'</span></td><td>'+(c?plate(c):'<span class="small">Workshop</span>')+'</td><td><span class="chip"><i class="sw" style="background:var('+SP_GROUPS.filter(function(g){return g[0]===x.g;})[0][2]+')"></i>'+esc(x.cat)+'</span></td><td class="num">'+rm(x.amount)+'</td></tr>'; }).join('')+
+    '</tbody><tfoot><tr><td colspan="4">Total</td><td class="num">'+(rm(total)||'RM 0')+'</td></tr></tfoot></table></div>':'<div class="empty">No expenses in this period.</div>');
+  h+='<p class="why">Counts the cost of each service history entry, tools you own that have a price and a date bought, tool upkeep costs, and other expenses you add here.</p>';
+  return h;
+}
+function fmtShort(v){ return v>=1000?'RM '+(Math.round(v/100)/10)+'k':'RM '+Math.round(v); }
+function spTip(btn){
+  var tip=document.getElementById('sp-tip'), b=spBuckets[+btn.getAttribute('data-sp')]; if(!tip||!b) return;
+  tip.innerHTML='<b>'+esc(b.label)+'</b><div class="tip-total">'+(rm(b.total)||'RM 0')+'</div>'+SP_GROUPS.filter(function(g){return b.g[g[0]]>0;}).map(function(g){ return '<div class="tip-row"><span><i style="background:var('+g[2]+')"></i>'+g[1]+'</span><span>'+rm(b.g[g[0]])+'</span></div>'; }).join('');
+  tip.hidden=false;
+  var ch=document.getElementById('sp-chart'), card=ch.parentNode, x=ch.offsetLeft+btn.offsetLeft+btn.offsetWidth/2, w=tip.offsetWidth;
+  tip.style.left=Math.max(8,Math.min(card.clientWidth-w-8,x-w/2))+'px'; tip.style.top=(ch.offsetTop-6)+'px';
+  Array.prototype.forEach.call(ch.querySelectorAll('.col'),function(c){ c.classList.toggle('on',c===btn); });
+}
+function expForm(e){
+  var isNew=!e; e=e||{date:todayStr(),cat:'Consumables',carId:''};
+  openModal(isNew?'Add expense':'Edit expense',
+    inp('title','What was it',e.title,'text',true,'placeholder="e.g. Brake cleaner x6, shop towels"')+
+    inp('amount','Amount (RM)',e.amount,'text',false,'inputmode="decimal"')+inp('date','Date',e.date,'date')+
+    sel('cat','Type',EXP_CATS.map(function(c){return [c,c];}),e.cat)+sel('carId','For',[['','The workshop (no one car)']].concat(carOptions()),e.carId||'')+
+    area('notes','Notes',e.notes),
+    function(fd,f){ if(!req(f,'title','Describe the expense')||!req(f,'amount','Enter the amount')) return false;
+      var o=isNew?{id:uid()}:e; o.title=fd.get('title').trim(); o.amount=num(fd.get('amount')); o.date=fd.get('date')||todayStr(); o.cat=fd.get('cat'); o.carId=fd.get('carId')||null; o.notes=fd.get('notes');
+      if(isNew) state.expenses.push(o); commit(); },
+    isNew?{}:{del:'del-exp',id:e.id});
+}
 function vBackup(){
   return '<div class="section-head"><h2>Backup</h2></div>'+
     '<div class="card backup"><h3>Copy your data</h3><p>Your records live only on this device. Save a backup file now and then (to iCloud Drive or Google Drive) so you do not lose them if the phone is lost or reset. The same file moves your records to another phone.</p>'+
@@ -404,8 +858,8 @@ function sel(id,label,options,val,full){ return fld(id,label,'<select id="f-'+id
 function area(id,label,val){ return fld(id,label,'<textarea id="f-'+id+'" name="'+id+'">'+esc(val||'')+'</textarea>',true); }
 function toolsField(selected){
   selected=selected||[];
-  if(!state.tools.length) return '<div class="field full"><span class="lbl">Tools</span><span class="hint">Add specialist tools in the Tools tab to tag them here.</span></div>';
-  return '<fieldset class="field full" style="border:0;padding:0;margin:0"><legend class="lbl" style="font-size:13px;font-weight:500;color:var(--muted);margin-bottom:4px">Specialist tools needed</legend><div class="checks">'+
+  if(!state.tools.length) return '<div class="field full" id="tools-fs"><span class="lbl">Tools</span><span class="hint">Add specialist tools in the Tools tab to tag them here.</span></div>';
+  return '<fieldset id="tools-fs" class="field full" style="border:0;padding:0;margin:0"><legend class="lbl" style="font-size:13px;font-weight:500;color:var(--muted);margin-bottom:4px">Specialist tools needed</legend><div class="checks">'+
     state.tools.map(function(t){ return '<label><input type="checkbox" name="tools" value="'+t.id+'"'+(selected.indexOf(t.id)>-1?' checked':'')+'>'+esc(t.name)+(t.status!=='own'?' ('+(t.status==='buy'?'need to buy':'borrow')+')':'')+'</label>'; }).join('')+'</div></fieldset>';
 }
 function carOptions(){ return state.cars.map(function(c){ return [c.id,(c.name||c.model)+' · '+c.plate]; }); }
@@ -427,7 +881,7 @@ function jobForm(j,carId){
   if(!state.cars.length){ carForm(); return; }
   var isNew=!j; j=j||{carId:carId||(ui.car!=='all'?ui.car:state.cars[0].id),priority:'normal',toolIds:[]};
   openModal(isNew?'Add upcoming job':'Edit job',
-    sel('carId','Car',carOptions(),j.carId,true)+inp('title','Job',j.title,'text',true,'placeholder="e.g. Timing belt + water pump"')+
+    sel('carId','Car',carOptions(),j.carId,true)+inp('title','Job',j.title,'text',true,'placeholder="e.g. Timing belt + water pump" autocomplete="off"')+'<div id="tool-hints" class="field full"></div>'+
     inp('dueDate','Due by date',j.dueDate,'date')+inp('dueKm','or due at (km)',j.dueKm,'text',false,'inputmode="numeric"')+
     sel('priority','Priority',[['high','High'],['normal','Normal'],['low','Low']],j.priority)+inp('estCost','Estimated cost (RM)',j.estCost,'text',false,'inputmode="decimal"')+
     toolsField(j.toolIds)+
@@ -438,6 +892,7 @@ function jobForm(j,carId){
       o.priority=fd.get('priority'); o.estCost=num(fd.get('estCost')); o.toolIds=fd.getAll('tools'); o.repeatKm=num(fd.get('repeatKm')); o.repeatMonths=num(fd.get('repeatMonths')); o.notes=fd.get('notes');
       if(isNew) state.jobs.push(o); commit(); },
     isNew?{}:{del:'del-job',id:j.id});
+  setupHints(document.getElementById('m-form'));
 }
 function logForm(l,carId){
   if(!state.cars.length){ carForm(); return; }
@@ -447,35 +902,87 @@ function logForm(l,carId){
     sel('carId','Car',carOptions(),l.carId,true)+inp('title','Work done',l.title,'text',true,'placeholder="e.g. Engine oil + filter"')+
     inp('date','Date',l.date,'date')+inp('km','Odometer (km)',l.km,'text',false,'inputmode="numeric"')+
     sel('kind','Type',KINDS.map(function(k){return [k,k];}),l.kind)+sel('by','Done by',[['Me','Me'],['Workshop','Workshop'],['Someone else','Someone else']],l.by)+
-    inp('parts','Parts used',l.parts,'text',true,'placeholder="Brand, part number, quantity"')+inp('cost','Total cost (RM)',l.cost,'text',false,'inputmode="decimal"')+'<div></div>'+
+    inp('parts','Parts used',l.parts,'text',true,'placeholder="Brand, part number, quantity"')+inp('cost','Total cost (RM)',l.cost,'text',false,'inputmode="decimal"')+inp('time','Time spent',l.minutes?fmtDur(l.minutes):'','text',false,'placeholder="e.g. 1h 30m or 1.5" autocomplete="off"')+
     toolsField(l.toolIds)+area('notes','Notes',l.notes),
     function(fd,f){ if(!req(f,'title','Describe the work')||!req(f,'date','Pick a date')) return false;
       var o=isNew?{id:uid()}:l; o.carId=fd.get('carId'); o.title=fd.get('title').trim(); o.date=fd.get('date'); o.km=num(fd.get('km')); o.kind=fd.get('kind'); o.by=fd.get('by');
-      o.parts=fd.get('parts').trim(); o.cost=num(fd.get('cost')); o.toolIds=fd.getAll('tools'); o.notes=fd.get('notes');
+      o.parts=fd.get('parts').trim(); o.cost=num(fd.get('cost')); o.minutes=parseDur(fd.get('time')); o.toolIds=fd.getAll('tools'); o.notes=fd.get('notes');
       bumpOdo(o.carId,o.km,o.date); if(isNew) state.log.push(o); commit(); },
     isNew?{}:{del:'del-log',id:l.id});
 }
+function taskRowHtml(k){
+  k=k||{};
+  return '<div class="task-row"><input type="hidden" name="task_id" value="'+esc(k.id||'')+'">'+
+    '<input name="task_title" aria-label="Upkeep task" placeholder="e.g. Calibration check" value="'+esc(k.title||'')+'">'+
+    '<label>every <input name="task_months" class="short" inputmode="numeric" aria-label="Every how many months" value="'+esc(k.months||'')+'"> mths</label>'+
+    '<label>last done <input type="date" name="task_last" aria-label="Last done" value="'+esc(k.last||'')+'"></label>'+
+    '<button type="button" class="btn sm ghost" data-t="rm" aria-label="Remove task">Remove</button></div>';
+}
 function toolForm(t){
-  var isNew=!t; t=t||{status:'own'};
+  var isNew=!t; t=t||{status:'own',cat:'Hand tools',tasks:[],history:[]}; normTool(t);
+  var hist=(t.history||[]).slice().sort(function(a,b){return a.date<b.date?1:-1;});
   openModal(isNew?'Add tool':'Edit tool',
-    inp('name','Tool',t.name,'text',true,'placeholder="e.g. Cam locking kit (VVT)"')+sel('status','Status',[['own','Own it'],['borrow','Borrow it'],['buy','Need to buy']],t.status)+
-    inp('price','Price (RM)',t.price,'text',false,'inputmode="decimal"')+area('notes','Notes (who to borrow from, where to buy, fits which cars)',t.notes),
+    inp('name','Tool or equipment',t.name,'text',true,'placeholder="e.g. 3-ton low-profile trolley jack" autocomplete="off"')+
+    sel('cat','Category',TOOL_CATS.map(function(c){return [c,c];}),t.cat)+sel('status','Status',[['own','Own it'],['borrow','Borrow it'],['buy','Need to buy']],t.status)+
+    inp('brand','Brand / model',t.brand)+inp('location','Kept in',t.location,'text',false,'placeholder="e.g. Red chest, drawer 3"')+
+    inp('price','Price (RM)',t.price,'text',false,'inputmode="decimal"')+inp('qty','Quantity',t.qty||1,'text',false,'inputmode="numeric"')+
+    inp('bought','Date bought',t.bought,'date')+inp('serial','Serial no.',t.serial)+
+    area('notes','Notes (who to borrow from, sizes, what it fits)',t.notes)+
+    '<div class="field full"><span class="lbl">Upkeep schedule</span><span class="hint">Checks, servicing or calibration this tool needs. Leave empty if it needs none.</span>'+
+    '<div id="task-rows" class="task-rows">'+t.tasks.map(taskRowHtml).join('')+'</div><div id="task-presets"></div>'+
+    '<div><button type="button" class="btn sm" data-t="add">Add upkeep task</button></div></div>'+
+    (hist.length?'<div class="field full"><span class="lbl">Upkeep history</span><div class="hist">'+hist.map(function(x){ return '<div><b>'+fmtD(x.date)+'</b> · '+esc(x.what)+(x.cost?' · '+rm(x.cost):'')+(x.notes?'<div class="why">'+esc(x.notes)+'</div>':'')+'</div>'; }).join('')+'</div></div>':''),
     function(fd,f){ if(!req(f,'name','Name the tool')) return false;
-      var o=isNew?{id:uid()}:t; o.name=fd.get('name').trim(); o.status=fd.get('status'); o.price=num(fd.get('price')); o.notes=fd.get('notes');
-      if(isNew) state.tools.push(o); commit(); },
+      var o=isNew?{id:uid(),history:[]}:t; o.name=fd.get('name').trim(); o.cat=fd.get('cat'); o.status=fd.get('status'); o.brand=fd.get('brand').trim(); o.location=fd.get('location').trim();
+      o.price=num(fd.get('price')); o.qty=num(fd.get('qty'))||1; o.bought=fd.get('bought')||null; o.serial=fd.get('serial').trim(); o.notes=fd.get('notes');
+      var ids=fd.getAll('task_id'), ti=fd.getAll('task_title'), mo=fd.getAll('task_months'), la=fd.getAll('task_last'), tasks=[];
+      ti.forEach(function(x,i){ if(x.trim()) tasks.push({id:ids[i]||uid(),title:x.trim(),months:num(mo[i])||12,last:la[i]||null}); });
+      o.tasks=tasks; if(isNew) state.tools.push(o); commit(); },
     isNew?{}:{del:'del-tool',id:t.id});
+  var f=document.getElementById('m-form'), rows=document.getElementById('task-rows'), pre=document.getElementById('task-presets'), nm=f.querySelector('[name="name"]');
+  function presets(){
+    var have=Array.prototype.map.call(rows.querySelectorAll('[name="task_title"]'),function(x){return x.value.trim().toLowerCase();});
+    var p=maintPresets(nm.value).filter(function(x){return have.indexOf(x[0].toLowerCase())<0;});
+    pre.innerHTML=p.length?'<div class="hints"><div class="hints-head">Suggested upkeep for this tool</div>'+p.map(function(x){
+      return '<div class="hint-row"><div><b>'+esc(x[0])+'</b><div class="why">Every '+x[1]+' month'+(x[1]==1?'':'s')+'</div></div><button type="button" class="btn sm" data-t="preset" data-title="'+esc(x[0])+'" data-months="'+x[1]+'">Add</button></div>'; }).join('')+
+      '<div class="why">Typical intervals. Follow the maker\'s manual if it says otherwise.</div></div>':'';
+  }
+  f.addEventListener('click',function(e){
+    var b=e.target.closest('[data-t]'); if(!b) return; var a=b.getAttribute('data-t');
+    if(a==='add'){ rows.insertAdjacentHTML('beforeend',taskRowHtml()); rows.lastElementChild.querySelector('[name="task_title"]').focus(); }
+    if(a==='rm'){ b.closest('.task-row').remove(); }
+    if(a==='preset'){ rows.insertAdjacentHTML('beforeend',taskRowHtml({title:b.getAttribute('data-title'),months:b.getAttribute('data-months')})); }
+    presets();
+  });
+  nm.addEventListener('input',presets); rows.addEventListener('input',presets); presets();
+}
+function toolMaintForm(t,taskId){
+  if(!t.tasks.length){ toolForm(t); return; }
+  openModal('Upkeep done',
+    '<p class="field full" style="margin:0"><strong>'+esc(t.name)+'</strong></p>'+
+    '<fieldset class="field full" style="border:0;padding:0;margin:0"><legend class="lbl" style="font-size:13px;font-weight:500;color:var(--muted);margin-bottom:4px">What did you do?</legend><div class="checks">'+
+    t.tasks.map(function(k){ return '<label><input type="checkbox" name="done" value="'+k.id+'"'+((taskId?taskId===k.id:t.tasks.length===1)?' checked':'')+'>'+esc(k.title)+'</label>'; }).join('')+'</div></fieldset>'+
+    inp('date','Date',todayStr(),'date')+inp('cost','Cost (RM)','','text',false,'inputmode="decimal" placeholder="e.g. calibration fee or oil"')+
+    area('notes','Notes (readings, parts, who calibrated it)',''),
+    function(fd,f){
+      var done=fd.getAll('done'); if(!done.length){ var c=f.querySelector('[name="done"]'); c.setCustomValidity('Tick at least one'); c.reportValidity(); c.addEventListener('change',function(){c.setCustomValidity('');},{once:true}); return false; }
+      var date=fd.get('date')||todayStr(), what=[];
+      t.tasks.forEach(function(k){ if(done.indexOf(k.id)>-1){ k.last=date; what.push(k.title); } });
+      t.history.push({id:uid(),date:date,what:what.join(', '),cost:num(fd.get('cost')),notes:fd.get('notes').trim()});
+      commit(); },{submit:'Save'});
 }
 function doneForm(j){
-  var c=carById(j.carId), rep=j.repeatKm||j.repeatMonths;
+  var c=carById(j.carId), rep=j.repeatKm||j.repeatMonths, ms=jobElapsed(j);
   openModal('Mark job done',
     '<p class="field full" style="margin:0">'+plate(c)+' <strong>'+esc(j.title)+'</strong></p>'+
     inp('date','Date done',todayStr(),'date')+inp('km','Odometer (km)',c&&c.odo,'text',false,'inputmode="numeric"')+
     inp('cost','Actual cost (RM)',j.estCost,'text',false,'inputmode="decimal"')+sel('by','Done by',[['Me','Me'],['Workshop','Workshop'],['Someone else','Someone else']],'Me')+
+    inp('time','Time spent',ms?fmtDur(Math.max(1,ms/60000)):'','text',false,'placeholder="e.g. 1h 30m or 1.5" autocomplete="off"',ms?'From the job timer. You can change it.':'Optional. Hours and minutes on the job.')+'<div></div>'+
     inp('parts','Parts used',' ','text',true,'placeholder="Brand, part number, quantity"').replace('value=" "','value=""')+area('notes','Notes',j.notes)+
     (rep?'<label class="field full" style="flex-direction:row;gap:8px;align-items:center"><input type="checkbox" name="again" checked style="width:auto"> Schedule the next one ('+[j.repeatKm?'+'+fmtKm(j.repeatKm):'',j.repeatMonths?'+'+j.repeatMonths+' months':''].filter(Boolean).join(' or ')+')</label>':''),
     function(fd){
       var date=fd.get('date')||todayStr(), km=num(fd.get('km'));
-      state.log.push({id:uid(),carId:j.carId,date:date,km:km,kind:/oil|service|fluid|plug|filter/i.test(j.title)?'Service':'Repair',title:j.title,parts:fd.get('parts').trim(),cost:num(fd.get('cost')),by:fd.get('by'),toolIds:(j.toolIds||[]).slice(),notes:fd.get('notes')});
+      state.log.push({id:uid(),carId:j.carId,date:date,km:km,kind:/oil|service|fluid|plug|filter/i.test(j.title)?'Service':'Repair',title:j.title,parts:fd.get('parts').trim(),cost:num(fd.get('cost')),by:fd.get('by'),minutes:parseDur(fd.get('time')),toolIds:(j.toolIds||[]).slice(),notes:fd.get('notes')});
       bumpOdo(j.carId,km,date);
       state.jobs=state.jobs.filter(function(x){return x.id!==j.id;});
       if(rep && fd.get('again')){
@@ -488,7 +995,7 @@ function odoForm(c){
   openModal('Update odometer',
     '<p class="field full" style="margin:0">'+plate(c)+' '+esc(c.name)+' was at <strong>'+fmtKm(c.odo)+'</strong>'+(c.odoDate?' on '+fmtD(c.odoDate):'')+'</p>'+
     inp('odo','Current reading (km)',c.odo,'text',false,'inputmode="numeric"')+inp('date','Date',todayStr(),'date'),
-    function(fd,f){ var v=num(fd.get('odo')); if(v==null){ return req(f,'odo','Enter the reading') && false; } c.odo=v; c.odoDate=fd.get('date')||todayStr(); commit(); });
+    function(fd,f){ var v=num(fd.get('odo')); if(v==null){ return req(f,'odo','Enter the reading') && false; } if(c.odo!=null && c.odoDate){ if(!c.readings) c.readings=[]; c.readings.push({date:c.odoDate,km:c.odo}); if(c.readings.length>40) c.readings.shift(); } c.odo=v; c.odoDate=fd.get('date')||todayStr(); commit(); });
   var el=document.getElementById('f-odo'); if(el){ el.select(); }
 }
 function confirmBox(title,text,label,fn){ openModal(title,'<p class="field full" style="margin:0">'+text+'</p>',function(){ fn(); },{submit:label,danger:true}); }
@@ -498,6 +1005,7 @@ function commit(){ render(); save(); }
 /* ---------- events ---------- */
 document.addEventListener('click',function(e){
   if(e.target.classList && e.target.classList.contains('scrim')){ closeModal(); return; }
+  var spc=e.target.closest('[data-sp]'); if(spc){ spTip(spc); return; }
   var b=e.target.closest('[data-act]'); if(!b || b.tagName==='SELECT') return;
   var a=b.getAttribute('data-act'), id=b.getAttribute('data-id');
   if(mode==='readonly' && !/^(fcar|close-modal|copy-backup)$/.test(a)) return;
@@ -513,6 +1021,22 @@ document.addEventListener('click',function(e){
     case 'edit-log': logForm(state.log.filter(function(l){return l.id===id;})[0]); break;
     case 'new-tool': toolForm(); break;
     case 'edit-tool': toolForm(toolById(id)); break;
+    case 'tcat': ui.toolCat=id; render(); break;
+    case 'tool-maint': toolMaintForm(toolById(id), b.getAttribute('data-task')); break;
+    case 'sp-period': ui.spPeriod=id; render(); break;
+    case 'sp-car': ui.spCar=id; render(); break;
+    case 'new-exp': expForm(); break;
+    case 'sp-open': var ty=b.getAttribute('data-type');
+      if(ty==='log') logForm(state.log.filter(function(l){return l.id===id;})[0]);
+      else if(ty==='tool') toolForm(toolById(id));
+      else expForm(state.expenses.filter(function(x){return x.id===id;})[0]); break;
+    case 'del-exp': confirmBox('Delete expense?','This removes it from your spending.','Delete expense',function(){ state.expenses=state.expenses.filter(function(x){return x.id!==id;}); commit(); }); break;
+    case 'timer-start': timerStart(jobById(id)); commit(); break;
+    case 'timer-pause': timerPause(jobById(id)); commit(); break;
+    case 'timer-finish': var jf=jobById(id); timerPause(jf); commit(); doneForm(jf); break;
+    case 'cal-job': var jc=jobById(id), ev=icsJobEvent(jc); if(ev) downloadIcs('garage-'+jc.title.replace(/[^a-z0-9]+/gi,'-').toLowerCase(),[ev]); break;
+    case 'cal-all': var evs=state.jobs.map(icsJobEvent).filter(Boolean); if(evs.length) downloadIcs('garage-due-dates',evs); break;
+    case 'cal-km': downloadIcs('garage-mileage-reminder',[icsMileage()]); break;
     case 'odo': odoForm(carById(id)); break;
     case 'del-job': confirmBox('Delete job?','This removes the job from your upcoming list.','Delete job',function(){ state.jobs=state.jobs.filter(function(j){return j.id!==id;}); commit(); }); break;
     case 'del-log': confirmBox('Delete history entry?','This removes the entry from the service history.','Delete entry',function(){ state.log=state.log.filter(function(l){return l.id!==id;}); commit(); }); break;
@@ -522,7 +1046,7 @@ document.addEventListener('click',function(e){
       confirmBox('Delete '+(c.name||'car')+'?','This also deletes its '+nj+' upcoming job'+(nj===1?'':'s')+' and '+nl+' history entr'+(nl===1?'y':'ies')+'. Copy a backup first if you might want them.','Delete car and its records',function(){
         state.cars=state.cars.filter(function(x){return x.id!==id;}); state.jobs=state.jobs.filter(function(j){return j.carId!==id;}); state.log=state.log.filter(function(l){return l.carId!==id;}); if(ui.car===id) ui.car='all'; commit(); }); break;
     case 'keep-example': state.example=false; commit(); break;
-    case 'clear-example': confirmBox('Start with an empty garage?','This removes all the example cars, jobs, history and tools.','Clear everything',function(){ state={example:false,cars:[],jobs:[],log:[],tools:[]}; ui.car='all'; commit(); }); break;
+    case 'clear-example': confirmBox('Start with an empty garage?','This removes all the example cars, jobs, history and tools.','Clear everything',function(){ state={example:false,cars:[],jobs:[],log:[],tools:[],expenses:[]}; ui.car='all'; commit(); }); break;
     case 'dl-backup': var blob=new Blob([JSON.stringify(state,null,1)],{type:'application/json'}), a2=document.createElement('a');
       a2.href=URL.createObjectURL(blob); a2.download='garage-app-backup-'+todayStr()+'.json'; document.body.appendChild(a2); a2.click();
       setTimeout(function(){ URL.revokeObjectURL(a2.href); a2.remove(); },1000); break;
@@ -530,19 +1054,23 @@ document.addEventListener('click',function(e){
       try{ navigator.clipboard.writeText(t.value).then(function(){ m.className='msg ok'; m.textContent='Copied.'; },function(){ t.select(); m.className='msg'; m.textContent='Select the text above and copy it.'; }); }
       catch(err){ t.select(); m.className='msg'; m.textContent='Select the text above and copy it.'; } break;
     case 'restore': var v=document.getElementById('bk-in').value.trim(), rm2=document.getElementById('rs-msg');
-      try{ var d=JSON.parse(v); if(!d||!Array.isArray(d.cars)) throw 0; ['jobs','log','tools'].forEach(function(k){ if(!Array.isArray(d[k])) d[k]=[]; });
+      try{ var d=JSON.parse(v); if(!d||!Array.isArray(d.cars)) throw 0; ['jobs','log','tools','expenses'].forEach(function(k){ if(!Array.isArray(d[k])) d[k]=[]; });
         confirmBox('Replace everything?','Your current data will be replaced by the backup ('+d.cars.length+' cars, '+d.jobs.length+' jobs, '+d.log.length+' history entries).','Replace',function(){ d.example=false; state=d; ui.car='all'; commit(); });
       }catch(err){ rm2.className='msg bad'; rm2.textContent='That text is not a Garage App backup. Paste the whole backup and try again.'; } break;
   }
 });
 document.addEventListener('change',function(e){
   if(e.target.id==='kind-filter'){ ui.kind=e.target.value; render(); }
+  if(e.target.id==='tool-st'){ ui.toolSt=e.target.value; document.getElementById('tool-list').innerHTML=toolListHtml(); }
   if(e.target.id==='bk-file' && e.target.files[0]){ var r=new FileReader(); r.onload=function(){ document.getElementById('bk-in').value=r.result; document.querySelector('[data-act=restore]').click(); }; r.readAsText(e.target.files[0]); }
 });
 document.addEventListener('keydown',function(e){
   if(e.key==='Escape' && document.querySelector('.scrim')) closeModal();
   if(e.key==='Enter' && e.target.matches && e.target.matches('tr[data-act]')) e.target.click();
 });
+document.addEventListener('input',function(e){ if(e.target.id==='tool-q'){ ui.toolQ=e.target.value; document.getElementById('tool-list').innerHTML=toolListHtml(); } });
+document.addEventListener('mouseover',function(e){ var c=e.target.closest&&e.target.closest('[data-sp]'); if(c) spTip(c); });
+document.addEventListener('focusin',function(e){ var c=e.target.closest&&e.target.closest('[data-sp]'); if(c) spTip(c); });
 window.addEventListener('hashchange',function(){ ui.tab=tabFromHash(); render(); window.scrollTo(0,0); });
 
 try{ var saved=localStorage.getItem(LS_KEY); if(saved){ var d0=JSON.parse(saved); if(d0&&Array.isArray(d0.cars)){ state=d0; ['jobs','log','tools'].forEach(function(k){ if(!Array.isArray(state[k])) state[k]=[]; }); } } }catch(e){}
