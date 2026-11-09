@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2350c4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Garage Log">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-192.png">
+<title>Family Garage Log</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style id="app-css">
+/* Layout idea: workshop job board. Sticky header with tabs, summary strip, then status-striped job rows and car cards. */
+:root{
+  --bg:#e9ecef; --surface:#ffffff; --surface-2:#f4f6f8; --ink:#14181d; --muted:#5a6470; --line:#d3d9df;
+  --accent:#2350c4; --accent-soft:#e3eafb; --accent-ink:#ffffff;
+  --ok:#1d7f47; --ok-soft:#e1f2e8; --warn:#a96300; --warn-soft:#fbefd9; --bad:#c22d2d; --bad-soft:#fbe3e3;
+  --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif; --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+  --radius:10px; color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#101317; --surface:#181c22; --surface-2:#1f242b; --ink:#e8ebee; --muted:#9aa4af; --line:#2e353e;
+    --accent:#7d9cf0; --accent-soft:#1f2a45; --accent-ink:#0d1220;
+    --ok:#5cc28a; --ok-soft:#173226; --warn:#e5a54a; --warn-soft:#3a2b14; --bad:#f07373; --bad-soft:#3d1c1d; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#101317; --surface:#181c22; --surface-2:#1f242b; --ink:#e8ebee; --muted:#9aa4af; --line:#2e353e;
+  --accent:#7d9cf0; --accent-soft:#1f2a45; --accent-ink:#0d1220;
+  --ok:#5cc28a; --ok-soft:#173226; --warn:#e5a54a; --warn-soft:#3a2b14; --bad:#f07373; --bad-soft:#3d1c1d; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.45}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--display);font-weight:700;letter-spacing:.02em;text-wrap:balance;margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header.top{position:sticky;top:0;z-index:5;background:var(--surface);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
+body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);padding-bottom:env(safe-area-inset-bottom)}
+.top-row{display:flex;align-items:center;gap:12px;padding:12px 0 6px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-size:26px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;display:flex;align-items:center;gap:10px}
+.brand svg{width:26px;height:26px;color:var(--accent)}
+.spacer{flex:1}
+.status{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.status i{width:8px;height:8px;border-radius:50%;background:var(--muted);display:inline-block}
+.status.saved i{background:var(--ok)} .status.saving i{background:var(--warn)} .status.error i{background:var(--bad)}
+nav.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+nav.tabs a{padding:10px 14px;text-decoration:none;color:var(--muted);font-weight:500;border-bottom:3px solid transparent;white-space:nowrap}
+nav.tabs a:hover{color:var(--ink)}
+nav.tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+nav.tabs a .count{font-family:var(--mono);font-size:11px;background:var(--bad);color:#fff;border-radius:9px;padding:1px 6px;margin-left:6px}
+main{padding:22px 0 60px;display:flex;flex-direction:column;gap:22px}
+.banner{background:var(--accent-soft);border:1px solid var(--line);border-radius:var(--radius);padding:12px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.banner p{margin:0;flex:1;min-width:220px}
+.section-head{display:flex;align-items:end;gap:12px;flex-wrap:wrap}
+.section-head h2{font-size:24px;text-transform:uppercase}
+.section-head .sub{color:var(--muted);font-size:13px}
+.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;border-top:4px solid var(--line)}
+.tile .n{font-family:var(--display);font-size:38px;line-height:1;font-variant-numeric:tabular-nums}
+.tile .l{color:var(--muted);font-size:13px;margin-top:4px}
+.tile.bad{border-top-color:var(--bad)} .tile.bad .n{color:var(--bad)}
+.tile.warn{border-top-color:var(--warn)} .tile.warn .n{color:var(--warn)}
+.tile.acc{border-top-color:var(--accent)}
+.list{display:flex;flex-direction:column;gap:8px}
+.row{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--line);border-radius:var(--radius);padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:6px 14px;align-items:start}
+.row.overdue{border-left-color:var(--bad)} .row.soon{border-left-color:var(--warn)} .row.planned{border-left-color:var(--accent)} .row.open{border-left-color:var(--muted)}
+.row .title{font-weight:600;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.row .meta{color:var(--muted);font-size:13px;display:flex;gap:6px 14px;flex-wrap:wrap;grid-column:1}
+.row .notes{font-size:13px;color:var(--muted);grid-column:1;white-space:pre-wrap}
+.row .actions{display:flex;gap:6px;grid-row:1 / span 3;grid-column:2;align-self:center;flex-wrap:wrap;justify-content:flex-end}
+.chips{display:flex;gap:6px;flex-wrap:wrap;grid-column:1}
+.chip{font-size:12px;padding:2px 8px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);white-space:nowrap}
+.chip.buy{background:var(--bad-soft);border-color:transparent;color:var(--bad)}
+.chip.borrow{background:var(--warn-soft);border-color:transparent;color:var(--warn)}
+.chip.own{background:var(--ok-soft);border-color:transparent;color:var(--ok)}
+.pill{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;padding:2px 8px;border-radius:4px}
+.pill.overdue{background:var(--bad-soft);color:var(--bad)} .pill.soon{background:var(--warn-soft);color:var(--warn)}
+.pill.planned{background:var(--accent-soft);color:var(--accent)} .pill.open{background:var(--surface-2);color:var(--muted)}
+.pill.high{background:var(--bad);color:#fff}
+.plate{font-family:var(--mono);font-weight:600;font-size:12px;background:#111;color:#f5f5f5;padding:2px 7px;border-radius:3px;letter-spacing:.06em;white-space:nowrap;border:1px solid #444}
+.cars{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.car{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;gap:10px}
+.car-head{display:flex;justify-content:space-between;gap:10px;align-items:start}
+.car h3{font-size:22px}
+.car .model{color:var(--muted);font-size:13px}
+.odo{font-family:var(--mono);font-size:22px;font-variant-numeric:tabular-nums;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:6px 10px;display:flex;justify-content:space-between;align-items:baseline}
+.odo small{font-family:var(--body);font-size:12px;color:var(--muted)}
+.kv{font-size:13px;display:grid;grid-template-columns:auto 1fr;gap:4px 10px}
+.kv dt{color:var(--muted)} .kv dd{margin:0}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:7px;padding:7px 12px;cursor:pointer;font-weight:500;font-size:14px;white-space:nowrap}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.danger{color:var(--bad)}
+.btn.danger.solid{background:var(--bad);color:#fff;border-color:var(--bad)}
+.btn.sm{padding:4px 9px;font-size:13px}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--muted)}
+.btn.ghost:hover{color:var(--ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.filters{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.filters .fchip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;cursor:pointer;font-size:13px}
+.filters .fchip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.filters select{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 10px;font-size:13px}
+.empty{background:var(--surface);border:1px dashed var(--line);border-radius:var(--radius);padding:24px;text-align:center;color:var(--muted)}
+.table-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600;background:var(--surface-2)}
+tbody tr{cursor:pointer} tbody tr:hover{background:var(--surface-2)}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+th.num{text-align:right}
+td .small{color:var(--muted);font-size:12px}
+tfoot td{font-weight:600}
+.two{display:grid;grid-template-columns:1.6fr 1fr;gap:22px;align-items:start}
+.panel{display:flex;flex-direction:column;gap:10px}
+.panel h3{font-size:18px;text-transform:uppercase;color:var(--muted)}
+/* modal */
+.scrim{position:fixed;inset:0;background:rgba(10,12,16,.55);display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto;z-index:20}
+.modal{background:var(--surface);border-radius:12px;width:100%;max-width:560px;padding:20px;border:1px solid var(--line);box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal h2{font-size:24px;text-transform:uppercase;margin-bottom:14px}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field{display:flex;flex-direction:column;gap:4px}
+.field.full{grid-column:1 / -1}
+.field label,.field .lbl{font-size:13px;font-weight:500;color:var(--muted)}
+.field input,.field select,.field textarea{border:1px solid var(--line);background:var(--surface-2);border-radius:7px;padding:8px 10px;width:100%}
+.field textarea{min-height:70px;resize:vertical}
+.field .hint{font-size:12px;color:var(--muted)}
+.checks{display:flex;flex-wrap:wrap;gap:6px}
+.checks label{display:flex;gap:6px;align-items:center;border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:13px;color:var(--ink);cursor:pointer;background:var(--surface-2)}
+.checks input{width:auto}
+.m-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;grid-column:1 / -1;flex-wrap:wrap}
+.m-actions .left{margin-right:auto}
+.backup textarea{width:100%;min-height:140px;font-family:var(--mono);font-size:12px;border:1px solid var(--line);border-radius:7px;background:var(--surface-2);padding:10px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;gap:10px}
+.card p{margin:0;color:var(--muted);max-width:65ch}
+.msg{font-size:13px}
+.msg.ok{color:var(--ok)} .msg.bad{color:var(--bad)}
+@media (max-width:760px){
+  .summary{grid-template-columns:repeat(2,1fr)}
+  .two{grid-template-columns:1fr}
+  .row{grid-template-columns:1fr}
+  .row .actions{grid-row:auto;grid-column:1;justify-content:flex-start}
+  .form{grid-template-columns:1fr}
+  .wrap{padding:0 16px}
+  .brand{font-size:21px}
+  .top-row{padding-top:8px}
+  .tile .n{font-size:30px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div id="app"></div><div id="modal-root"></div>
+<script type="application/json" id="garage-data">{"example":true,"cars":[{"id":"c1","name":"Family Myvi","make":"Perodua","model":"Myvi 1.5 AV","year":"2019","plate":"WVX 4821","odo":78450,"odoDate":"2026-11-02","notes":"Daily runabout. Uses 0W-20 or 10W-40 semi-synthetic."},{"id":"c2","name":"Honda City","make":"Honda","model":"City 1.5 V","year":"2017","plate":"BMK 7302","odo":142300,"odoDate":"2026-11-05","notes":"High mileage. Watch the CVT and front suspension."},{"id":"c3","name":"Proton X70","make":"Proton","model":"X70 1.8 TGDi","year":"2021","plate":"VFN 2190","odo":61200,"odoDate":"2026-11-07","notes":"7-speed wet DCT. Gearbox jobs need a scan tool for relearn."}],"tools":[{"id":"t1","name":"Torque wrench 1/2\" (40-210 Nm)","status":"own","price":180,"notes":""},{"id":"t2","name":"Bi-directional OBD2 scan tool","status":"borrow","price":1450,"notes":"Needed for DCT/CVT relearn. Ask Hafiz."},{"id":"t3","name":"Brake caliper wind-back kit","status":"own","price":65,"notes":""},{"id":"t4","name":"Ball joint / bush press kit","status":"own","price":290,"notes":""},{"id":"t5","name":"Strut spring compressor","status":"buy","price":250,"notes":"Clamp type, for MacPherson struts."},{"id":"t6","name":"Fluid transfer pump","status":"own","price":45,"notes":""}],"jobs":[{"id":"j1","carId":"c2","title":"Front lower arm bushings","dueDate":"2026-11-01","dueKm":null,"priority":"high","estCost":380,"toolIds":["t4","t1"],"notes":"Clunk over bumps at front left.","repeatKm":null,"repeatMonths":null},{"id":"j2","carId":"c3","title":"DCT fluid change + clutch relearn","dueDate":null,"dueKm":60000,"priority":"normal","estCost":650,"toolIds":["t2","t6"],"notes":"","repeatKm":60000,"repeatMonths":null},{"id":"j3","carId":"c1","title":"Engine oil + filter","dueDate":"2026-11-28","dueKm":80120,"priority":"normal","estCost":150,"toolIds":["t1"],"notes":"","repeatKm":10000,"repeatMonths":6},{"id":"j4","carId":"c2","title":"CVT fluid change (HCF-2)","dueDate":"2026-12-15","dueKm":145000,"priority":"normal","estCost":260,"toolIds":["t6"],"notes":"","repeatKm":40000,"repeatMonths":null},{"id":"j5","carId":"c1","title":"Front absorbers (pair)","dueDate":"2027-03-01","dueKm":null,"priority":"normal","estCost":520,"toolIds":["t5","t1"],"notes":"Bouncy over speed bumps. Buy spring compressor first.","repeatKm":null,"repeatMonths":null},{"id":"j6","carId":"c3","title":"Spark plugs","dueDate":null,"dueKm":80000,"priority":"low","estCost":220,"toolIds":["t1"],"notes":"","repeatKm":null,"repeatMonths":null}],"log":[{"id":"l1","carId":"c3","date":"2026-10-20","km":61050,"kind":"Repair","title":"Wiper blades","parts":"Bosch Clear Advantage 24\" + 16\"","cost":85,"by":"Me","toolIds":[],"notes":""},{"id":"l2","carId":"c2","date":"2026-09-14","km":140980,"kind":"Repair","title":"Front brake pads + caliper service","parts":"Bendix pads, slide pin grease","cost":210,"by":"Me","toolIds":["t3","t1"],"notes":"Discs still within spec."},{"id":"l3","carId":"c3","date":"2026-08-02","km":58600,"kind":"Service","title":"60k major service","parts":"","cost":720,"by":"Workshop","toolIds":[],"notes":"Done at Proton 3S under warranty."},{"id":"l4","carId":"c1","date":"2026-05-28","km":70120,"kind":"Service","title":"Engine oil + filter","parts":"Shell HX7 10W-40 4L, Perodua oil filter","cost":138,"by":"Me","toolIds":["t1"],"notes":""},{"id":"l5","carId":"c2","date":"2026-03-08","km":135200,"kind":"Repair","title":"Battery replacement (NS60)","parts":"Amaron NS60","cost":290,"by":"Me","toolIds":[],"notes":""},{"id":"l6","carId":"c1","date":"2025-11-30","km":64300,"kind":"Service","title":"Engine oil + filter","parts":"Shell HX7 10W-40 4L","cost":135,"by":"Me","toolIds":["t1"],"notes":""}]}</script>
+<script id="app-js">
+(function(){
+var HEAD = '<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>Family Garage Log</title>\n<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">\n';
+var BODY = '<div id="app"></div><div id="modal-root"></div>\n';
+var LS_KEY = 'family-garage-log-v1';
+var TABS = [['overview','Overview'],['jobs','Upcoming jobs'],['history','Service history'],['cars','Cars'],['tools','Tools'],['backup','Backup']];
+var KINDS = ['Service','Repair','Inspection','Upgrade'];
+var TOOL_STATUS = {own:'Own it', borrow:'Borrow', buy:'Need to buy'};
+
+var state = JSON.parse(document.getElementById('garage-data').textContent);
+['cars','jobs','log','tools'].forEach(function(k){ if(!Array.isArray(state[k])) state[k]=[]; });
+var mode = 'local'; // pending | artifact | local | readonly
+var api = null, saveTimer = null, dirty = false, saveState = 'idle';
+var ui = { tab: tabFromHash(), car: 'all', kind: 'all' };
+
+/* ---------- helpers ---------- */
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+function uid(){ return Math.random().toString(36).slice(2,9); }
+function todayStr(){ var d=new Date(); return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
+function pad(n){ return (n<10?'0':'')+n; }
+function parseD(s){ var p=s.split('-'); return new Date(+p[0],+p[1]-1,+p[2]); }
+function daysBetween(a,b){ return Math.round((parseD(b)-parseD(a))/86400000); }
+function addMonths(s,m){ var d=parseD(s); d.setMonth(d.getMonth()+m); return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
+var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function fmtD(s){ if(!s) return ''; var d=parseD(s); return d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear(); }
+function fmtKm(n){ return n==null||n===''?'':Number(n).toLocaleString('en-MY')+' km'; }
+function fmtNum(n){ return Number(n).toLocaleString('en-MY'); }
+function rm(n){ if(n==null||n==='') return ''; return 'RM '+Number(n).toLocaleString('en-MY',{minimumFractionDigits:0,maximumFractionDigits:2}); }
+function num(v){ if(v==null) return null; v=String(v).replace(/[^0-9.\-]/g,''); return v===''?null:Number(v); }
+function carById(id){ for(var i=0;i<state.cars.length;i++) if(state.cars[i].id===id) return state.cars[i]; return null; }
+function toolById(id){ for(var i=0;i<state.tools.length;i++) if(state.tools[i].id===id) return state.tools[i]; return null; }
+function plate(c){ return c ? '<span class="plate">'+esc(c.plate||'—')+'</span>' : '<span class="plate">?</span>'; }
+function tabFromHash(){ var h=location.hash.replace('#',''); for(var i=0;i<TABS.length;i++) if(TABS[i][0]===h) return h; return 'overview'; }
+
+function jobInfo(j){
+  var car=carById(j.carId), t=todayStr(), days=null, km=null, parts=[];
+  if(j.dueDate){ days=daysBetween(t,j.dueDate);
+    parts.push(fmtD(j.dueDate)+' · '+(days<0? Math.abs(days)+' days overdue' : days===0?'today': 'in '+days+' day'+(days===1?'':'s'))); }
+  if(j.dueKm!=null){
+    if(car && car.odo!=null){ km=j.dueKm-car.odo; parts.push('at '+fmtKm(j.dueKm)+' · '+(km<=0? fmtNum(-km)+' km over' : fmtNum(km)+' km to go')); }
+    else parts.push('at '+fmtKm(j.dueKm)); }
+  var st = ((days!=null&&days<0)||(km!=null&&km<=0)) ? 'overdue' : ((days!=null&&days<=30)||(km!=null&&km<=1000)) ? 'soon' : (days==null&&km==null) ? 'open' : 'planned';
+  return {status:st, days:days, km:km, text:parts.join('  |  ')||'No due date set'};
+}
+var RANK={overdue:0,soon:1,planned:2,open:3};
+var LABEL={overdue:'Overdue',soon:'Due soon',planned:'Planned',open:'Whenever'};
+function sortedJobs(list){
+  return list.map(function(j){ return {j:j,i:jobInfo(j)}; }).sort(function(a,b){
+    if(RANK[a.i.status]!==RANK[b.i.status]) return RANK[a.i.status]-RANK[b.i.status];
+    if(a.j.priority!==b.j.priority){ var p={high:0,normal:1,low:2}; return (p[a.j.priority]||1)-(p[b.j.priority]||1); }
+    var ad=a.i.days==null?99999:a.i.days, bd=b.i.days==null?99999:b.i.days;
+    var ak=a.i.km==null?99999:a.i.km/40, bk=b.i.km==null?99999:b.i.km/40;
+    return Math.min(ad,ak)-Math.min(bd,bk);
+  });
+}
+function toolChips(ids){
+  if(!ids||!ids.length) return '';
+  return ids.map(function(id){ var t=toolById(id); if(!t) return '';
+    var cls=t.status==='own'?'':t.status;
+    return '<span class="chip '+cls+'">'+esc(t.name)+(t.status!=='own'?' · '+(t.status==='buy'?'need to buy':'borrow'):'')+'</span>'; }).join('');
+}
+
+/* ---------- saving ---------- */
+function buildDoc(){
+  var css=document.getElementById('app-css').textContent;
+  var js=document.getElementById('app-js').textContent;
+  var json=JSON.stringify(state).replace(/</g,'\\u003c');
+  var E='<'+'/';
+  return '<!DOCTYPE html>\n<html lang="en">\n<head>\n'+HEAD+'<style id="app-css">'+css+E+'style>\n</head>\n<body>\n'+BODY+
+    '<script type="application/json" id="garage-data">'+json+E+'script>\n<script id="app-js">'+js+E+'script>\n</body>\n</html>\n';
+}
+function save(){
+  dirty=true; setSave('saving');
+  clearTimeout(saveTimer); saveTimer=setTimeout(flush,250);
+}
+function flush(){
+  if(!dirty || mode==='pending') return;
+  dirty=false;
+  try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }catch(e){ setSave('error'); return; }
+  if(mode==='artifact'){
+    api.publish(buildDoc()).then(function(){ setSave('saved'); }).catch(function(e){
+      var c=String(e&&(e.code||e.name||e.message)||e);
+      if(/not_granted|not_writer/.test(c)){ mode='readonly'; setSave('readonly'); }
+      else if(/conflict/.test(c)){ setSave('saved'); }
+      else setSave('error');
+    });
+  } else setSave('saved');
+}
+function setSave(s){ saveState=s; var el=document.getElementById('save-status'); if(el) el.outerHTML=statusHtml(); }
+function statusHtml(){
+  var m={idle:['saved','Saved on this device'],
+    saved:['saved','Saved on this device'], saving:['saving','Saving…'], device:['saving','Saved in this browser only'],
+    error:['error','Could not save. Phone storage may be full or blocked'], readonly:['','View only']};
+  var v=m[saveState]||m.idle;
+  return '<span id="save-status" class="status '+v[0]+'" role="status"><i></i>'+esc(v[1])+'</span>';
+}
+
+/* ---------- render ---------- */
+function render(){
+  var overdue=state.jobs.filter(function(j){return jobInfo(j).status==='overdue';}).length;
+  var h='<header class="top"><div class="wrap"><div class="top-row">'+
+    '<div class="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.1L3 17.7V21h3.3l6.3-6.3a4 4 0 0 0 5.1-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg>Family Garage Log</div>'+
+    '<span class="spacer"></span>'+statusHtml()+'</div><nav class="tabs" aria-label="Sections">'+
+    TABS.map(function(t){ return '<a href="#'+t[0]+'"'+(ui.tab===t[0]?' aria-current="page"':'')+'>'+t[1]+(t[0]==='jobs'&&overdue?'<span class="count">'+overdue+'</span>':'')+'</a>'; }).join('')+
+    '</nav></div></header><main class="wrap">';
+  if(state.example) h+='<div class="banner"><p><strong>These are example cars and jobs</strong> so you can see how it works. Clear them when you are ready to add your own.</p>'+
+    '<button class="btn" data-act="keep-example">Keep and edit them</button><button class="btn primary" data-act="clear-example">Start with an empty garage</button></div>';
+  h+=({overview:vOverview,jobs:vJobs,history:vHistory,cars:vCars,tools:vTools,backup:vBackup}[ui.tab])();
+  h+='</main>';
+  document.getElementById('app').innerHTML=h;
+}
+
+function carFilter(){
+  if(state.cars.length<2) return '';
+  return '<div class="filters" role="group" aria-label="Filter by car"><button class="fchip" data-act="fcar" data-id="all" aria-pressed="'+(ui.car==='all')+'">All cars</button>'+
+    state.cars.map(function(c){ return '<button class="fchip" data-act="fcar" data-id="'+c.id+'" aria-pressed="'+(ui.car===c.id)+'">'+esc(c.name||c.plate)+'</button>'; }).join('')+'</div>';
+}
+function byCar(list){ return ui.car==='all'?list:list.filter(function(x){return x.carId===ui.car;}); }
+
+function jobRow(x, compact){
+  var j=x.j, i=x.i, c=carById(j.carId);
+  return '<div class="row '+i.status+'"><div class="title">'+plate(c)+' '+esc(j.title)+' <span class="pill '+i.status+'">'+LABEL[i.status]+'</span>'+(j.priority==='high'?'<span class="pill high">Priority</span>':'')+'</div>'+
+    '<div class="meta"><span>'+esc(i.text)+'</span>'+(j.estCost?'<span>Est. '+rm(j.estCost)+'</span>':'')+(j.repeatKm||j.repeatMonths?'<span>Repeats every '+[j.repeatKm?fmtKm(j.repeatKm):'',j.repeatMonths?j.repeatMonths+' months':''].filter(Boolean).join(' or ')+'</span>':'')+'</div>'+
+    (j.toolIds&&j.toolIds.length?'<div class="chips">'+toolChips(j.toolIds)+'</div>':'')+
+    (!compact&&j.notes?'<div class="notes">'+esc(j.notes)+'</div>':'')+
+    '<div class="actions"><button class="btn sm primary" data-act="done-job" data-id="'+j.id+'">Mark done</button><button class="btn sm" data-act="edit-job" data-id="'+j.id+'">Edit</button></div></div>';
+}
+
+function vOverview(){
+  var infos=state.jobs.map(jobInfo);
+  var over=infos.filter(function(i){return i.status==='overdue';}).length, soon=infos.filter(function(i){return i.status==='soon';}).length;
+  var yr=String(new Date().getFullYear());
+  var spent=state.log.filter(function(l){return (l.date||'').slice(0,4)===yr;}).reduce(function(s,l){return s+(Number(l.cost)||0);},0);
+  var h='<div class="summary"><div class="tile bad"><div class="n">'+over+'</div><div class="l">Overdue jobs</div></div>'+
+    '<div class="tile warn"><div class="n">'+soon+'</div><div class="l">Due in 30 days or 1,000 km</div></div>'+
+    '<div class="tile acc"><div class="n">'+state.jobs.length+'</div><div class="l">Jobs on the list</div></div>'+
+    '<div class="tile"><div class="n">'+esc(rm(spent)||'RM 0')+'</div><div class="l">Spent in '+yr+'</div></div></div>';
+  var att=sortedJobs(state.jobs).filter(function(x){return x.i.status==='overdue'||x.i.status==='soon';});
+  var need=[]; state.tools.forEach(function(t){ if(t.status==='own') return;
+    var js=state.jobs.filter(function(j){return (j.toolIds||[]).indexOf(t.id)>-1;}); if(js.length) need.push({t:t,js:js}); });
+  h+='<div class="two"><div class="panel"><div class="section-head"><h2>Needs attention</h2><span class="spacer"></span><button class="btn primary" data-act="new-job">Add job</button></div>'+
+    (att.length?'<div class="list">'+att.map(function(x){return jobRow(x,true);}).join('')+'</div>':'<div class="empty">Nothing overdue or due soon.</div>')+'</div>'+
+    '<div class="panel"><div class="section-head"><h2>Tools to sort out</h2></div>'+
+    (need.length?'<div class="list">'+need.map(function(n){ return '<div class="row '+(n.t.status==='buy'?'overdue':'soon')+'"><div class="title">'+esc(n.t.name)+' <span class="chip '+n.t.status+'">'+TOOL_STATUS[n.t.status]+'</span></div><div class="meta">'+
+      (n.t.price?'<span>About '+rm(n.t.price)+'</span>':'')+'<span>For: '+n.js.map(function(j){return esc(j.title);}).join(', ')+'</span></div>'+(n.t.notes?'<div class="notes">'+esc(n.t.notes)+'</div>':'')+
+      '<div class="actions"><button class="btn sm" data-act="edit-tool" data-id="'+n.t.id+'">Update</button></div></div>'; }).join('')+'</div>'
+      :'<div class="empty">Every job on the list uses tools you already own.</div>')+'</div></div>';
+  h+='<div class="section-head"><h2>The cars</h2><span class="spacer"></span><button class="btn" data-act="new-car">Add car</button></div>'+carCards();
+  return h;
+}
+
+function carCards(){
+  if(!state.cars.length) return '<div class="empty">No cars yet. <button class="btn primary" data-act="new-car">Add your first car</button></div>';
+  return '<div class="cars">'+state.cars.map(function(c){
+    var last=state.log.filter(function(l){return l.carId===c.id;}).sort(function(a,b){return a.date<b.date?1:-1;})[0];
+    var next=sortedJobs(state.jobs.filter(function(j){return j.carId===c.id;}))[0];
+    var spend=state.log.filter(function(l){return l.carId===c.id;}).reduce(function(s,l){return s+(Number(l.cost)||0);},0);
+    return '<div class="car"><div class="car-head"><div><h3>'+esc(c.name||c.model)+'</h3><div class="model">'+esc([c.year,c.make,c.model].filter(Boolean).join(' '))+'</div></div>'+plate(c)+'</div>'+
+      '<div class="odo"><span>'+(c.odo!=null?fmtNum(c.odo):'—')+' km</span><small>'+(c.odoDate?'as of '+fmtD(c.odoDate):'')+'</small></div>'+
+      '<dl class="kv"><dt>Last work</dt><dd>'+(last?esc(last.title)+' · '+fmtD(last.date):'Nothing logged')+'</dd>'+
+      '<dt>Next job</dt><dd>'+(next?'<span class="pill '+next.i.status+'">'+LABEL[next.i.status]+'</span> '+esc(next.j.title):'Nothing planned')+'</dd>'+
+      '<dt>Total spent</dt><dd>'+(rm(spend)||'RM 0')+'</dd></dl>'+
+      (c.notes?'<div class="model">'+esc(c.notes)+'</div>':'')+
+      '<div class="filters"><button class="btn sm primary" data-act="odo" data-id="'+c.id+'">Update km</button><button class="btn sm" data-act="new-log" data-id="'+c.id+'">Log work</button><button class="btn sm" data-act="new-job" data-id="'+c.id+'">Add job</button><button class="btn sm ghost" data-act="edit-car" data-id="'+c.id+'">Edit</button></div></div>';
+  }).join('')+'</div>';
+}
+
+function vJobs(){
+  var list=sortedJobs(byCar(state.jobs));
+  var h='<div class="section-head"><h2>Upcoming jobs</h2><span class="sub">Sorted by what is most urgent, by date or mileage</span><span class="spacer"></span><button class="btn primary" data-act="new-job">Add job</button></div>'+carFilter();
+  if(!state.cars.length) return h+'<div class="empty">Add a car first, then plan jobs for it.</div>';
+  return h+(list.length?'<div class="list">'+list.map(function(x){return jobRow(x,false);}).join('')+'</div>':'<div class="empty">No upcoming jobs here.</div>');
+}
+
+function vHistory(){
+  var list=byCar(state.log).filter(function(l){return ui.kind==='all'||l.kind===ui.kind;}).sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:(b.km||0)-(a.km||0);});
+  var total=list.reduce(function(s,l){return s+(Number(l.cost)||0);},0);
+  var h='<div class="section-head"><h2>Service history</h2><span class="sub">Tap a row to edit it</span><span class="spacer"></span><button class="btn primary" data-act="new-log">Log work</button></div>'+
+    '<div class="filters">'+carFilter()+'<label class="sub" for="kind-filter">Type</label><select id="kind-filter" data-act="fkind"><option value="all">All types</option>'+KINDS.map(function(k){return '<option'+(ui.kind===k?' selected':'')+'>'+k+'</option>';}).join('')+'</select></div>';
+  if(!list.length) return h+'<div class="empty">Nothing logged yet.</div>';
+  return h+'<div class="table-wrap"><table><thead><tr><th>Date</th><th>Car</th><th>Work done</th><th class="num">Odometer</th><th>By</th><th class="num">Cost</th></tr></thead><tbody>'+
+    list.map(function(l){ var c=carById(l.carId);
+      return '<tr data-act="edit-log" data-id="'+l.id+'" tabindex="0"><td style="white-space:nowrap">'+fmtD(l.date)+'</td><td>'+plate(c)+'</td><td><strong>'+esc(l.title)+'</strong> <span class="chip">'+esc(l.kind)+'</span>'+
+        (l.parts?'<div class="small">Parts: '+esc(l.parts)+'</div>':'')+(l.toolIds&&l.toolIds.length?'<div class="small">Tools: '+l.toolIds.map(function(id){var t=toolById(id);return t?esc(t.name):'';}).filter(Boolean).join(', ')+'</div>':'')+
+        (l.notes?'<div class="small">'+esc(l.notes)+'</div>':'')+'</td><td class="num">'+(l.km!=null?fmtNum(l.km):'')+'</td><td>'+esc(l.by)+'</td><td class="num">'+rm(l.cost)+'</td></tr>'; }).join('')+
+    '</tbody><tfoot><tr><td colspan="5">Total for '+list.length+' entr'+(list.length===1?'y':'ies')+'</td><td class="num">'+(rm(total)||'RM 0')+'</td></tr></tfoot></table></div>';
+}
+
+function vCars(){
+  return '<div class="section-head"><h2>Cars</h2><span class="spacer"></span><button class="btn primary" data-act="new-car">Add car</button></div>'+carCards();
+}
+
+function vTools(){
+  var h='<div class="section-head"><h2>Specialist tools</h2><span class="sub">Tag each job with the tools it needs, so you know what to buy or borrow before you start</span><span class="spacer"></span><button class="btn primary" data-act="new-tool">Add tool</button></div>';
+  if(!state.tools.length) return h+'<div class="empty">No tools listed yet.</div>';
+  var order={buy:0,borrow:1,own:2};
+  return h+'<div class="list">'+state.tools.slice().sort(function(a,b){return order[a.status]-order[b.status]||a.name.localeCompare(b.name);}).map(function(t){
+    var jobs=state.jobs.filter(function(j){return (j.toolIds||[]).indexOf(t.id)>-1;});
+    var used=state.log.filter(function(l){return (l.toolIds||[]).indexOf(t.id)>-1;}).length;
+    return '<div class="row '+(t.status==='buy'?'overdue':t.status==='borrow'?'soon':'planned')+'"><div class="title">'+esc(t.name)+' <span class="chip '+t.status+'">'+TOOL_STATUS[t.status]+'</span></div>'+
+      '<div class="meta">'+(t.price?'<span>'+rm(t.price)+'</span>':'')+'<span>Needed for '+jobs.length+' upcoming job'+(jobs.length===1?'':'s')+'</span><span>Used in '+used+' past job'+(used===1?'':'s')+'</span></div>'+
+      (jobs.length?'<div class="notes">Upcoming: '+jobs.map(function(j){var c=carById(j.carId);return esc(j.title)+(c?' ('+esc(c.plate)+')':'');}).join(', ')+'</div>':'')+
+      (t.notes?'<div class="notes">'+esc(t.notes)+'</div>':'')+
+      '<div class="actions"><button class="btn sm" data-act="edit-tool" data-id="'+t.id+'">Edit</button></div></div>';
+  }).join('')+'</div>';
+}
+
+function vBackup(){
+  return '<div class="section-head"><h2>Backup</h2></div>'+
+    '<div class="card backup"><h3>Copy your data</h3><p>Your records live only on this device. Save a backup file now and then (to iCloud Drive or Google Drive) so you do not lose them if the phone is lost or reset. The same file moves your records to another phone.</p>'+
+    '<textarea id="bk-out" readonly>'+esc(JSON.stringify(state))+'</textarea><div class="filters"><button class="btn primary" data-act="dl-backup">Save backup file</button><button class="btn" data-act="copy-backup">Copy to clipboard</button><span id="bk-msg" class="msg"></span></div></div>'+
+    '<div class="card backup"><h3>Restore from a backup</h3><p>Paste a backup here. This replaces all cars, jobs, history and tools on this page.</p>'+
+    '<textarea id="bk-in" placeholder="Paste backup text here"></textarea><div class="filters"><label class="btn" for="bk-file">Choose backup file</label><input type="file" id="bk-file" accept=".json,application/json,text/plain" hidden><button class="btn danger" data-act="restore">Replace everything with this backup</button><span id="rs-msg" class="msg"></span></div></div>';
+}
+
+/* ---------- modal & forms ---------- */
+var modalSubmit=null;
+function openModal(title, body, onSubmit, opts){
+  opts=opts||{};
+  modalSubmit=onSubmit;
+  document.getElementById('modal-root').innerHTML='<div class="scrim"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-title"><h2 id="m-title">'+esc(title)+'</h2>'+
+    '<form id="m-form" class="form" novalidate>'+body+'<div class="m-actions">'+(opts.del?'<button type="button" class="btn danger left" data-act="'+opts.del+'" data-id="'+opts.id+'">Delete</button>':'')+
+    '<button type="button" class="btn ghost" data-act="close-modal">Cancel</button><button type="submit" class="btn '+(opts.danger?'danger solid':'primary')+'">'+esc(opts.submit||'Save')+'</button></div></form></div></div>';
+  var f=document.getElementById('m-form');
+  f.addEventListener('submit',function(e){ e.preventDefault(); if(modalSubmit && modalSubmit(new FormData(f), f)!==false) closeModal(); });
+  var first=f.querySelector('input:not([type=hidden]):not([type=checkbox]),select,textarea'); if(first) first.focus();
+}
+function closeModal(){ document.getElementById('modal-root').innerHTML=''; modalSubmit=null; }
+function fld(id,label,input,full,hint){ return '<div class="field'+(full?' full':'')+'"><label for="f-'+id+'">'+esc(label)+'</label>'+input+(hint?'<span class="hint">'+esc(hint)+'</span>':'')+'</div>'; }
+function inp(id,label,val,type,full,attrs,hint){ return fld(id,label,'<input id="f-'+id+'" name="'+id+'" type="'+(type||'text')+'" value="'+esc(val==null?'':val)+'" '+(attrs||'')+'>',full,hint); }
+function sel(id,label,options,val,full){ return fld(id,label,'<select id="f-'+id+'" name="'+id+'">'+options.map(function(o){ return '<option value="'+esc(o[0])+'"'+(String(o[0])===String(val)?' selected':'')+'>'+esc(o[1])+'</option>'; }).join('')+'</select>',full); }
+function area(id,label,val){ return fld(id,label,'<textarea id="f-'+id+'" name="'+id+'">'+esc(val||'')+'</textarea>',true); }
+function toolsField(selected){
+  selected=selected||[];
+  if(!state.tools.length) return '<div class="field full"><span class="lbl">Tools</span><span class="hint">Add specialist tools in the Tools tab to tag them here.</span></div>';
+  return '<fieldset class="field full" style="border:0;padding:0;margin:0"><legend class="lbl" style="font-size:13px;font-weight:500;color:var(--muted);margin-bottom:4px">Specialist tools needed</legend><div class="checks">'+
+    state.tools.map(function(t){ return '<label><input type="checkbox" name="tools" value="'+t.id+'"'+(selected.indexOf(t.id)>-1?' checked':'')+'>'+esc(t.name)+(t.status!=='own'?' ('+(t.status==='buy'?'need to buy':'borrow')+')':'')+'</label>'; }).join('')+'</div></fieldset>';
+}
+function carOptions(){ return state.cars.map(function(c){ return [c.id,(c.name||c.model)+' · '+c.plate]; }); }
+function req(f,name,msg){ var el=f.querySelector('[name="'+name+'"]'); if(!el.value.trim()){ el.setCustomValidity(msg); el.reportValidity(); el.addEventListener('input',function(){el.setCustomValidity('');},{once:true}); return false; } return true; }
+
+function carForm(c){
+  var isNew=!c; c=c||{};
+  openModal(isNew?'Add car':'Edit car',
+    inp('name','Nickname',c.name,'text',false,'placeholder="e.g. Abah\'s City"')+inp('plate','Number plate',c.plate,'text',false,'placeholder="e.g. WXY 1234" style="text-transform:uppercase"')+
+    inp('make','Make',c.make)+inp('model','Model',c.model)+inp('year','Year',c.year,'text',false,'inputmode="numeric"')+inp('odo','Odometer (km)',c.odo,'text',false,'inputmode="numeric"')+
+    area('notes','Notes (oil spec, quirks, tyre size)',c.notes),
+    function(fd,f){ if(!req(f,'name','Give the car a name')) return false;
+      var o=isNew?{id:uid()}:c; o.name=fd.get('name').trim(); o.plate=fd.get('plate').trim().toUpperCase(); o.make=fd.get('make').trim(); o.model=fd.get('model').trim(); o.year=fd.get('year').trim();
+      var km=num(fd.get('odo')); if(km!==o.odo){ o.odo=km; o.odoDate=todayStr(); } o.notes=fd.get('notes');
+      if(isNew) state.cars.push(o); commit(); },
+    isNew?{}:{del:'del-car',id:c.id});
+}
+function jobForm(j,carId){
+  if(!state.cars.length){ carForm(); return; }
+  var isNew=!j; j=j||{carId:carId||(ui.car!=='all'?ui.car:state.cars[0].id),priority:'normal',toolIds:[]};
+  openModal(isNew?'Add upcoming job':'Edit job',
+    sel('carId','Car',carOptions(),j.carId,true)+inp('title','Job',j.title,'text',true,'placeholder="e.g. Timing belt + water pump"')+
+    inp('dueDate','Due by date',j.dueDate,'date')+inp('dueKm','or due at (km)',j.dueKm,'text',false,'inputmode="numeric"')+
+    sel('priority','Priority',[['high','High'],['normal','Normal'],['low','Low']],j.priority)+inp('estCost','Estimated cost (RM)',j.estCost,'text',false,'inputmode="decimal"')+
+    toolsField(j.toolIds)+
+    inp('repeatKm','Repeat every (km)',j.repeatKm,'text',false,'inputmode="numeric"','Optional. Sets up the next one when you mark it done.')+inp('repeatMonths','or every (months)',j.repeatMonths,'text',false,'inputmode="numeric"')+
+    area('notes','Notes (symptoms, part numbers, torque specs)',j.notes),
+    function(fd,f){ if(!req(f,'title','Describe the job')) return false;
+      var o=isNew?{id:uid()}:j; o.carId=fd.get('carId'); o.title=fd.get('title').trim(); o.dueDate=fd.get('dueDate')||null; o.dueKm=num(fd.get('dueKm'));
+      o.priority=fd.get('priority'); o.estCost=num(fd.get('estCost')); o.toolIds=fd.getAll('tools'); o.repeatKm=num(fd.get('repeatKm')); o.repeatMonths=num(fd.get('repeatMonths')); o.notes=fd.get('notes');
+      if(isNew) state.jobs.push(o); commit(); },
+    isNew?{}:{del:'del-job',id:j.id});
+}
+function logForm(l,carId){
+  if(!state.cars.length){ carForm(); return; }
+  var isNew=!l; var cid=carId||(ui.car!=='all'?ui.car:state.cars[0].id);
+  l=l||{carId:cid,date:todayStr(),km:(carById(cid)||{}).odo,kind:'Service',by:'Me',toolIds:[]};
+  openModal(isNew?'Log work done':'Edit history entry',
+    sel('carId','Car',carOptions(),l.carId,true)+inp('title','Work done',l.title,'text',true,'placeholder="e.g. Engine oil + filter"')+
+    inp('date','Date',l.date,'date')+inp('km','Odometer (km)',l.km,'text',false,'inputmode="numeric"')+
+    sel('kind','Type',KINDS.map(function(k){return [k,k];}),l.kind)+sel('by','Done by',[['Me','Me'],['Workshop','Workshop'],['Someone else','Someone else']],l.by)+
+    inp('parts','Parts used',l.parts,'text',true,'placeholder="Brand, part number, quantity"')+inp('cost','Total cost (RM)',l.cost,'text',false,'inputmode="decimal"')+'<div></div>'+
+    toolsField(l.toolIds)+area('notes','Notes',l.notes),
+    function(fd,f){ if(!req(f,'title','Describe the work')||!req(f,'date','Pick a date')) return false;
+      var o=isNew?{id:uid()}:l; o.carId=fd.get('carId'); o.title=fd.get('title').trim(); o.date=fd.get('date'); o.km=num(fd.get('km')); o.kind=fd.get('kind'); o.by=fd.get('by');
+      o.parts=fd.get('parts').trim(); o.cost=num(fd.get('cost')); o.toolIds=fd.getAll('tools'); o.notes=fd.get('notes');
+      bumpOdo(o.carId,o.km,o.date); if(isNew) state.log.push(o); commit(); },
+    isNew?{}:{del:'del-log',id:l.id});
+}
+function toolForm(t){
+  var isNew=!t; t=t||{status:'own'};
+  openModal(isNew?'Add tool':'Edit tool',
+    inp('name','Tool',t.name,'text',true,'placeholder="e.g. Cam locking kit (VVT)"')+sel('status','Status',[['own','Own it'],['borrow','Borrow it'],['buy','Need to buy']],t.status)+
+    inp('price','Price (RM)',t.price,'text',false,'inputmode="decimal"')+area('notes','Notes (who to borrow from, where to buy, fits which cars)',t.notes),
+    function(fd,f){ if(!req(f,'name','Name the tool')) return false;
+      var o=isNew?{id:uid()}:t; o.name=fd.get('name').trim(); o.status=fd.get('status'); o.price=num(fd.get('price')); o.notes=fd.get('notes');
+      if(isNew) state.tools.push(o); commit(); },
+    isNew?{}:{del:'del-tool',id:t.id});
+}
+function doneForm(j){
+  var c=carById(j.carId), rep=j.repeatKm||j.repeatMonths;
+  openModal('Mark job done',
+    '<p class="field full" style="margin:0">'+plate(c)+' <strong>'+esc(j.title)+'</strong></p>'+
+    inp('date','Date done',todayStr(),'date')+inp('km','Odometer (km)',c&&c.odo,'text',false,'inputmode="numeric"')+
+    inp('cost','Actual cost (RM)',j.estCost,'text',false,'inputmode="decimal"')+sel('by','Done by',[['Me','Me'],['Workshop','Workshop'],['Someone else','Someone else']],'Me')+
+    inp('parts','Parts used',' ','text',true,'placeholder="Brand, part number, quantity"').replace('value=" "','value=""')+area('notes','Notes',j.notes)+
+    (rep?'<label class="field full" style="flex-direction:row;gap:8px;align-items:center"><input type="checkbox" name="again" checked style="width:auto"> Schedule the next one ('+[j.repeatKm?'+'+fmtKm(j.repeatKm):'',j.repeatMonths?'+'+j.repeatMonths+' months':''].filter(Boolean).join(' or ')+')</label>':''),
+    function(fd){
+      var date=fd.get('date')||todayStr(), km=num(fd.get('km'));
+      state.log.push({id:uid(),carId:j.carId,date:date,km:km,kind:/oil|service|fluid|plug|filter/i.test(j.title)?'Service':'Repair',title:j.title,parts:fd.get('parts').trim(),cost:num(fd.get('cost')),by:fd.get('by'),toolIds:(j.toolIds||[]).slice(),notes:fd.get('notes')});
+      bumpOdo(j.carId,km,date);
+      state.jobs=state.jobs.filter(function(x){return x.id!==j.id;});
+      if(rep && fd.get('again')){
+        state.jobs.push({id:uid(),carId:j.carId,title:j.title,dueDate:j.repeatMonths?addMonths(date,j.repeatMonths):null,dueKm:(j.repeatKm&&km!=null)?km+j.repeatKm:null,
+          priority:j.priority==='high'?'normal':j.priority,estCost:j.estCost,toolIds:(j.toolIds||[]).slice(),notes:'',repeatKm:j.repeatKm,repeatMonths:j.repeatMonths});
+      }
+      commit(); },{submit:'Save to history'});
+}
+function odoForm(c){
+  openModal('Update odometer',
+    '<p class="field full" style="margin:0">'+plate(c)+' '+esc(c.name)+' was at <strong>'+fmtKm(c.odo)+'</strong>'+(c.odoDate?' on '+fmtD(c.odoDate):'')+'</p>'+
+    inp('odo','Current reading (km)',c.odo,'text',false,'inputmode="numeric"')+inp('date','Date',todayStr(),'date'),
+    function(fd,f){ var v=num(fd.get('odo')); if(v==null){ return req(f,'odo','Enter the reading') && false; } c.odo=v; c.odoDate=fd.get('date')||todayStr(); commit(); });
+  var el=document.getElementById('f-odo'); if(el){ el.select(); }
+}
+function confirmBox(title,text,label,fn){ openModal(title,'<p class="field full" style="margin:0">'+text+'</p>',function(){ fn(); },{submit:label,danger:true}); }
+function bumpOdo(carId,km,date){ var c=carById(carId); if(c && km!=null && (c.odo==null || km>c.odo)){ c.odo=km; c.odoDate=date; } }
+function commit(){ render(); save(); }
+
+/* ---------- events ---------- */
+document.addEventListener('click',function(e){
+  if(e.target.classList && e.target.classList.contains('scrim')){ closeModal(); return; }
+  var b=e.target.closest('[data-act]'); if(!b || b.tagName==='SELECT') return;
+  var a=b.getAttribute('data-act'), id=b.getAttribute('data-id');
+  if(mode==='readonly' && !/^(fcar|close-modal|copy-backup)$/.test(a)) return;
+  switch(a){
+    case 'close-modal': closeModal(); break;
+    case 'fcar': ui.car=id; render(); break;
+    case 'new-car': carForm(); break;
+    case 'edit-car': carForm(carById(id)); break;
+    case 'new-job': jobForm(null,id); break;
+    case 'edit-job': jobForm(state.jobs.filter(function(j){return j.id===id;})[0]); break;
+    case 'done-job': doneForm(state.jobs.filter(function(j){return j.id===id;})[0]); break;
+    case 'new-log': logForm(null,id); break;
+    case 'edit-log': logForm(state.log.filter(function(l){return l.id===id;})[0]); break;
+    case 'new-tool': toolForm(); break;
+    case 'edit-tool': toolForm(toolById(id)); break;
+    case 'odo': odoForm(carById(id)); break;
+    case 'del-job': confirmBox('Delete job?','This removes the job from your upcoming list.','Delete job',function(){ state.jobs=state.jobs.filter(function(j){return j.id!==id;}); commit(); }); break;
+    case 'del-log': confirmBox('Delete history entry?','This removes the entry from the service history.','Delete entry',function(){ state.log=state.log.filter(function(l){return l.id!==id;}); commit(); }); break;
+    case 'del-tool': confirmBox('Delete tool?','It will also be removed from any jobs and history entries that list it.','Delete tool',function(){
+      state.tools=state.tools.filter(function(t){return t.id!==id;}); state.jobs.concat(state.log).forEach(function(x){ x.toolIds=(x.toolIds||[]).filter(function(t){return t!==id;}); }); commit(); }); break;
+    case 'del-car': var c=carById(id), nj=state.jobs.filter(function(j){return j.carId===id;}).length, nl=state.log.filter(function(l){return l.carId===id;}).length;
+      confirmBox('Delete '+(c.name||'car')+'?','This also deletes its '+nj+' upcoming job'+(nj===1?'':'s')+' and '+nl+' history entr'+(nl===1?'y':'ies')+'. Copy a backup first if you might want them.','Delete car and its records',function(){
+        state.cars=state.cars.filter(function(x){return x.id!==id;}); state.jobs=state.jobs.filter(function(j){return j.carId!==id;}); state.log=state.log.filter(function(l){return l.carId!==id;}); if(ui.car===id) ui.car='all'; commit(); }); break;
+    case 'keep-example': state.example=false; commit(); break;
+    case 'clear-example': confirmBox('Start with an empty garage?','This removes all the example cars, jobs, history and tools.','Clear everything',function(){ state={example:false,cars:[],jobs:[],log:[],tools:[]}; ui.car='all'; commit(); }); break;
+    case 'dl-backup': var blob=new Blob([JSON.stringify(state,null,1)],{type:'application/json'}), a2=document.createElement('a');
+      a2.href=URL.createObjectURL(blob); a2.download='garage-log-backup-'+todayStr()+'.json'; document.body.appendChild(a2); a2.click();
+      setTimeout(function(){ URL.revokeObjectURL(a2.href); a2.remove(); },1000); break;
+    case 'copy-backup': var t=document.getElementById('bk-out'), m=document.getElementById('bk-msg');
+      try{ navigator.clipboard.writeText(t.value).then(function(){ m.className='msg ok'; m.textContent='Copied.'; },function(){ t.select(); m.className='msg'; m.textContent='Select the text above and copy it.'; }); }
+      catch(err){ t.select(); m.className='msg'; m.textContent='Select the text above and copy it.'; } break;
+    case 'restore': var v=document.getElementById('bk-in').value.trim(), rm2=document.getElementById('rs-msg');
+      try{ var d=JSON.parse(v); if(!d||!Array.isArray(d.cars)) throw 0; ['jobs','log','tools'].forEach(function(k){ if(!Array.isArray(d[k])) d[k]=[]; });
+        confirmBox('Replace everything?','Your current data will be replaced by the backup ('+d.cars.length+' cars, '+d.jobs.length+' jobs, '+d.log.length+' history entries).','Replace',function(){ d.example=false; state=d; ui.car='all'; commit(); });
+      }catch(err){ rm2.className='msg bad'; rm2.textContent='That text is not a Garage Log backup. Paste the whole backup and try again.'; } break;
+  }
+});
+document.addEventListener('change',function(e){
+  if(e.target.id==='kind-filter'){ ui.kind=e.target.value; render(); }
+  if(e.target.id==='bk-file' && e.target.files[0]){ var r=new FileReader(); r.onload=function(){ document.getElementById('bk-in').value=r.result; document.querySelector('[data-act=restore]').click(); }; r.readAsText(e.target.files[0]); }
+});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape' && document.querySelector('.scrim')) closeModal();
+  if(e.key==='Enter' && e.target.matches && e.target.matches('tr[data-act]')) e.target.click();
+});
+window.addEventListener('hashchange',function(){ ui.tab=tabFromHash(); render(); window.scrollTo(0,0); });
+
+try{ var saved=localStorage.getItem(LS_KEY); if(saved){ var d0=JSON.parse(saved); if(d0&&Array.isArray(d0.cars)){ state=d0; ['jobs','log','tools'].forEach(function(k){ if(!Array.isArray(state[k])) state[k]=[]; }); } } }catch(e){}
+render();
+try{ if(navigator.storage && navigator.storage.persist) navigator.storage.persist(); }catch(e){}
+if('serviceWorker' in navigator && location.protocol==='https:'){ navigator.serviceWorker.register('sw.js').catch(function(){}); }
+})();
+</script>
+</body>
+</html>
