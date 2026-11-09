@@ -50,6 +50,10 @@ body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-ri
 .brand svg{width:26px;height:26px;color:var(--accent)}
 .spacer{flex:1}
 .status{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.st-s{display:none}
+.status{white-space:nowrap}
+@media (max-width:380px){ .brand{font-size:18px;gap:6px} .brand svg{width:22px;height:22px} }
+@media (max-width:340px){ .brand svg{display:none} .brand{font-size:17px} }
 .status i{width:8px;height:8px;border-radius:50%;background:var(--muted);display:inline-block}
 .status.saved i{background:var(--ok)} .status.saving i{background:var(--warn)} .status.error i{background:var(--bad)}
 nav.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
@@ -215,6 +219,10 @@ tfoot td{font-weight:600}
 .cal-card{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:10px 14px;font-size:13px;color:var(--muted)}
 .cal-card p{margin:0;flex:1;min-width:220px}
 .est{font-size:12px;color:var(--muted)}
+.theme-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface-2);border-radius:999px;padding:4px 10px 4px 8px;font-size:12px;font-weight:500;color:var(--muted);cursor:pointer}
+.theme-btn:hover{color:var(--ink);border-color:var(--muted)}
+.theme-btn svg{width:15px;height:15px}
+@media (max-width:760px){ .theme-btn .tl{display:none} .brand{white-space:nowrap} .st-l{display:none} .st-s{display:inline!important} .theme-btn{padding:6px} .top-row{flex-wrap:nowrap;gap:8px} .status{font-size:11px} }
 .m-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;grid-column:1 / -1;flex-wrap:wrap}
 .m-actions .left{margin-right:auto}
 .backup textarea{width:100%;min-height:140px;font-family:var(--mono);font-size:12px;border:1px solid var(--line);border-radius:7px;background:var(--surface-2);padding:10px}
@@ -498,7 +506,8 @@ function statusHtml(){
     saved:['saved','Saved on this device'], saving:['saving','Saving…'], device:['saving','Saved in this browser only'],
     error:['error','Could not save. Phone storage may be full or blocked'], readonly:['','View only']};
   var v=m[saveState]||m.idle;
-  return '<span id="save-status" class="status '+v[0]+'" role="status"><i></i>'+esc(v[1])+'</span>';
+  var sh={'Saving…':'Saving','View only':'View only'}[v[1]]||(v[0]==='error'?'Not saved':'Saved Locally');
+  return '<span id="save-status" class="status '+v[0]+'" role="status" title="'+esc(v[1])+'"><i></i><span class="st-l">'+esc(v[1])+'</span><span class="st-s">'+esc(sh)+'</span></span>';
 }
 
 /* ---------- render ---------- */
@@ -509,7 +518,7 @@ function render(){
   var toolDue=dueTasks().filter(function(x){return x.i.status==='overdue';}).length;
   var h='<header class="top"><div class="wrap"><div class="top-row">'+
     '<div class="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.1L3 17.7V21h3.3l6.3-6.3a4 4 0 0 0 5.1-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg>Garage App</div>'+
-    '<span class="spacer"></span>'+statusHtml()+'</div><nav class="tabs" aria-label="Sections">'+
+    '<span class="spacer"></span>'+statusHtml()+themeBtn()+'</div><nav class="tabs" aria-label="Sections">'+
     TABS.map(function(t){ return '<a href="#'+t[0]+'"'+(ui.tab===t[0]?' aria-current="page"':'')+'>'+t[1]+(t[0]==='jobs'&&overdue?'<span class="count">'+overdue+'</span>':'')+(t[0]==='tools'&&toolDue?'<span class="count">'+toolDue+'</span>':'')+'</a>'; }).join('')+
     '</nav></div></header><main class="wrap">';
   if(state.example) h+='<div class="banner"><p><strong>These are example cars and jobs</strong> so you can see how it works. Clear them when you are ready to add your own.</p>'+
@@ -664,6 +673,26 @@ function toolRow(t){
 }
 
 
+
+
+/* ---------- theme switch ---------- */
+var THEME_KEY='garage-theme', HOST_THEME=document.documentElement.getAttribute('data-theme');
+var THEMES={auto:['Auto','Match phone'],light:['Light','Always light'],dark:['Dark','Always dark']};
+function getTheme(){ try{ var t=localStorage.getItem(THEME_KEY); return THEMES[t]?t:'auto'; }catch(e){ return 'auto'; } }
+function applyTheme(){
+  var t=getTheme(), r=document.documentElement;
+  if(t==='auto'){ if(HOST_THEME) r.setAttribute('data-theme',HOST_THEME); else r.removeAttribute('data-theme'); } else r.setAttribute('data-theme',t);
+  var dark=t==='dark'||(t==='auto'&&(HOST_THEME?HOST_THEME==='dark':(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)));
+  var m=document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute('content',dark?'#181c22':'#ffffff');
+}
+function themeBtn(){
+  var t=getTheme(), ic={auto:'<circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/>',
+    light:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+    dark:'<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>'}[t];
+  return '<button type="button" class="theme-btn" data-act="theme" aria-label="Theme: '+THEMES[t][1]+'. Tap to change" title="'+THEMES[t][1]+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+ic+'</svg><span class="tl">'+THEMES[t][0]+'</span></button>';
+}
+applyTheme();
+try{ matchMedia('(prefers-color-scheme: dark)').addEventListener('change',applyTheme); }catch(e){}
 
 /* ---------- job timer ---------- */
 function jobById(id){ for(var i=0;i<state.jobs.length;i++) if(state.jobs[i].id===id) return state.jobs[i]; return null; }
@@ -1008,6 +1037,7 @@ document.addEventListener('click',function(e){
   var spc=e.target.closest('[data-sp]'); if(spc){ spTip(spc); return; }
   var b=e.target.closest('[data-act]'); if(!b || b.tagName==='SELECT') return;
   var a=b.getAttribute('data-act'), id=b.getAttribute('data-id');
+  if(a==='theme'){ var order=['auto','light','dark'], nx=order[(order.indexOf(getTheme())+1)%3]; try{ localStorage.setItem(THEME_KEY,nx); }catch(err){} applyTheme(); render(); return; }
   if(mode==='readonly' && !/^(fcar|close-modal|copy-backup)$/.test(a)) return;
   switch(a){
     case 'close-modal': closeModal(); break;
