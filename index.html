@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#2350c4">
+<meta name="theme-color" content="#1B2F6E">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -18,24 +18,24 @@
 <style id="app-css">
 /* Layout idea: workshop job board. Sticky header with tabs, summary strip, then status-striped job rows and car cards. */
 :root{
-  --bg:#e9ecef; --surface:#ffffff; --surface-2:#f4f6f8; --ink:#14181d; --muted:#5a6470; --line:#d3d9df;
-  --accent:#2350c4; --accent-soft:#e3eafb; --accent-ink:#ffffff;
-  --ok:#1d7f47; --ok-soft:#e1f2e8; --warn:#a96300; --warn-soft:#fbefd9; --bad:#c22d2d; --bad-soft:#fbe3e3;
+  --bg:#EFE5D0; --surface:#FBF6EC; --surface-2:#F4EBDA; --ink:#1A1F33; --muted:#5C5647; --line:#DCCFB4;
+  --accent:#1B2F6E; --accent-soft:#E3E5EE; --accent-ink:#ffffff; --gold:#D9A400; --brand-red:#C8202F;
+  --ok:#1C7543; --ok-soft:#E2EEDC; --warn:#8F5600; --warn-soft:#F6E5BE; --bad:#B31B2A; --bad-soft:#F7DEDA;
   --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif; --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
   --radius:10px; color-scheme:light;
   --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#101317; --surface:#181c22; --surface-2:#1f242b; --ink:#e8ebee; --muted:#9aa4af; --line:#2e353e;
-    --accent:#7d9cf0; --accent-soft:#1f2a45; --accent-ink:#0d1220;
-    --ok:#5cc28a; --ok-soft:#173226; --warn:#e5a54a; --warn-soft:#3a2b14; --bad:#f07373; --bad-soft:#3d1c1d; --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; color-scheme:dark;
+    --bg:#0D1324; --surface:#141C32; --surface-2:#1B253F; --ink:#EFE7D6; --muted:#A5ABBE; --line:#29344F;
+    --accent:#AFC0F4; --accent-soft:#212E55; --accent-ink:#0D1324; --gold:#EDBB4C; --brand-red:#E8585F;
+    --ok:#63C690; --ok-soft:#15302A; --warn:#EDBB4C; --warn-soft:#372D14; --bad:#F27C7C; --bad-soft:#3B1D24; --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#101317; --surface:#181c22; --surface-2:#1f242b; --ink:#e8ebee; --muted:#9aa4af; --line:#2e353e;
-  --accent:#7d9cf0; --accent-soft:#1f2a45; --accent-ink:#0d1220;
-  --ok:#5cc28a; --ok-soft:#173226; --warn:#e5a54a; --warn-soft:#3a2b14; --bad:#f07373; --bad-soft:#3d1c1d; --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; color-scheme:dark;
+  --bg:#0D1324; --surface:#141C32; --surface-2:#1B253F; --ink:#EFE7D6; --muted:#A5ABBE; --line:#29344F;
+  --accent:#AFC0F4; --accent-soft:#212E55; --accent-ink:#0D1324; --gold:#EDBB4C; --brand-red:#E8585F;
+  --ok:#63C690; --ok-soft:#15302A; --warn:#EDBB4C; --warn-soft:#372D14; --bad:#F27C7C; --bad-soft:#3B1D24; --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; color-scheme:dark;
 }
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -59,7 +59,7 @@ body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-ri
 nav.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
 nav.tabs a{padding:10px 14px;text-decoration:none;color:var(--muted);font-weight:500;border-bottom:3px solid transparent;white-space:nowrap}
 nav.tabs a:hover{color:var(--ink)}
-nav.tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+nav.tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--gold)}
 nav.tabs a .count{font-family:var(--mono);font-size:11px;background:var(--bad);color:#fff;border-radius:9px;padding:1px 6px;margin-left:6px}
 main{padding:22px 0 60px;display:flex;flex-direction:column;gap:22px}
 .banner{background:var(--accent-soft);border:1px solid var(--line);border-radius:var(--radius);padding:12px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
@@ -259,7 +259,7 @@ tfoot td{font-weight:600}
 .rb-hint{max-width:820px;margin:12px auto 0;padding:0 16px;font-size:13px;color:var(--muted)}
 .report{color-scheme:light;background:#fff;color:#16191d;max-width:820px;margin:12px auto 40px;padding:40px 44px;box-shadow:0 4px 24px rgba(0,0,0,.12);font-family:var(--body);font-size:12.5px;line-height:1.45}
 .report h1{font-family:var(--display);font-size:32px;text-transform:uppercase;letter-spacing:.03em;margin:2px 0}
-.report h2{font-family:var(--display);font-size:16px;text-transform:uppercase;letter-spacing:.06em;color:#2350c4;margin:22px 0 6px;padding-bottom:4px;border-bottom:2px solid #2350c4}
+.report h2{font-family:var(--display);font-size:16px;text-transform:uppercase;letter-spacing:.06em;color:#1B2F6E;margin:22px 0 6px;padding-bottom:4px;border-bottom:2px solid #1B2F6E}
 .rp-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;padding-bottom:14px;border-bottom:1px solid #d3d9df}
 .rp-kicker{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#5a6470}
 .rp-sub{color:#5a6470}
@@ -282,7 +282,7 @@ tfoot td{font-weight:600}
 .rp-kind{font-size:10.5px;color:#5a6470;border:1px solid #d3d9df;border-radius:3px;padding:0 4px;margin-left:4px}
 .rp-note{color:#5a6470;font-size:11.5px}
 .rp-bar{display:inline-block;width:60px;height:7px;background:#e3e7eb;border-radius:4px;overflow:hidden;vertical-align:middle;margin-right:4px}
-.rp-bar i{display:block;height:100%;background:#2350c4}
+.rp-bar i{display:block;height:100%;background:#1B2F6E}
 .rp-foot{margin-top:24px;padding-top:10px;border-top:1px solid #d3d9df;font-size:10.5px;color:#5a6470}
 .report.no-costs .cost{display:none}
 @media (max-width:760px){ .report{padding:22px 18px;margin:8px} .rp-facts{grid-template-columns:1fr 1fr} .report h1{font-size:24px} .iv-grid{grid-template-columns:1fr 70px 70px} .rc-table th:nth-child(2),.rc-table td:nth-child(2),.rc-table th:nth-child(5),.rc-table td:nth-child(5){display:none} }
@@ -314,6 +314,42 @@ tfoot td{font-weight:600}
   .top-row{padding-top:8px}
   .tile .n{font-size:30px}
 }
+
+/* documents and scanning */
+.scan-top{color:var(--accent)} .scan-top svg{width:16px;height:16px}
+.thumbs{display:flex;flex-wrap:wrap;gap:8px}
+.thumb{position:relative;width:64px;height:64px;border-radius:8px;border:1px solid var(--line);background:var(--surface-2);overflow:hidden;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:600}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb .tk{position:absolute;left:0;right:0;bottom:0;font-size:9.5px;line-height:1.5;font-weight:600;text-align:center;background:rgba(13,19,36,.72);color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 3px}
+.thumb.add{flex-direction:column;border-style:dashed;color:var(--accent)} .thumb.add svg{width:22px;height:22px;margin-bottom:12px} .thumb.add .tk{background:transparent;color:var(--accent)}
+.thumb.more{font-size:15px}
+.pdf-ic{display:flex;align-items:center;justify-content:center;width:100%;height:100%;font:600 13px var(--mono);color:var(--bad);background:var(--surface-2)}
+.cnt-s{font-size:12px;color:var(--muted);font-weight:500}
+.scan-btns{flex-direction:row;flex-wrap:wrap;gap:8px} .scan-btns .btn,.btn.ic{display:inline-flex;align-items:center;gap:6px} .scan-btns .btn{padding:10px 14px;font-size:15px} .scan-btns svg,.btn svg{width:18px;height:18px}
+.scan-prog .bar{height:8px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line);overflow:hidden;margin:6px 0 10px} .scan-prog .bar i{display:block;height:100%;width:2%;background:var(--accent);transition:width .3s}
+.scan-head{flex-direction:row;gap:12px;align-items:flex-start} .scan-head>div{display:flex;flex-direction:column;gap:3px;min-width:0}
+.scan-prev{flex:none;width:72px;height:90px;border-radius:8px;border:1px solid var(--line);overflow:hidden;padding:0;background:var(--surface-2);cursor:zoom-in} .scan-prev img{width:100%;height:100%;object-fit:cover}
+.ok-t{color:var(--ok)!important}
+input[data-scan]{border-color:var(--gold)!important;box-shadow:inset 3px 0 0 var(--gold)}
+.seg{display:flex;flex-wrap:wrap;gap:6px} .seg label{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:14px;color:var(--ink);background:var(--surface-2);cursor:pointer} .seg input{width:auto;margin:0}
+.seg label:has(input:checked){border-color:var(--accent);background:var(--accent-soft);font-weight:600}
+.mx{display:contents} .mx[hidden]{display:none}
+.voc-row{gap:3px} .voc-in{display:flex;gap:8px;align-items:center} .voc-in input[type=text],.voc-in input[type=date]{flex:1;min-width:0}
+.voc-in .use{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--ink);white-space:nowrap;cursor:pointer} .voc-in .use input{width:auto;margin:0}
+.ocr-d summary{cursor:pointer;font-size:13px;color:var(--muted)} .ocr-text{white-space:pre-wrap;font:12px/1.45 var(--mono);max-height:220px;overflow:auto;background:var(--surface-2);border:1px solid var(--line);border-radius:7px;padding:8px 10px;margin:6px 0 0}
+.viewer img,.fv-pages canvas{display:block;width:100%;height:auto;border-radius:8px;border:1px solid var(--line);background:#fff}
+.fv-pages{display:flex;flex-direction:column;gap:8px;margin-bottom:8px}
+.fv-meta{flex-direction:row;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px;color:var(--muted)}
+.fv-acts{flex-direction:row;align-items:center;gap:10px}
+.f-list{gap:8px} .f-row{display:flex;gap:10px;align-items:center;text-align:left;background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:6px;cursor:pointer;width:100%;color:var(--ink)}
+.f-row img,.f-row .pdf-ic{width:48px;height:48px;flex:none;border-radius:6px;object-fit:cover} .f-txt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.clip{display:inline-flex;align-items:center;gap:2px;vertical-align:middle;border:1px solid var(--line);background:var(--surface-2);border-radius:999px;padding:1px 6px;margin-left:4px;color:var(--accent);cursor:pointer;font-size:11px;font-weight:600}
+.clip svg{width:13px;height:13px}
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:14px;z-index:60;max-width:calc(100% - 32px);box-shadow:0 8px 30px rgba(0,0,0,.25)}
+.toast[hidden]{display:none}
+.peek{position:fixed;inset:0;z-index:50;background:rgba(10,12,16,.88);display:flex;align-items:center;justify-content:center;padding:16px;cursor:zoom-out} .peek img{max-width:100%;max-height:100%;border-radius:6px;pointer-events:none}
+.form-sec{border-top:1px solid var(--line);padding-top:10px;margin-top:2px}
+@media print{ .thumbs,.clip,.toast{display:none!important} }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -325,7 +361,7 @@ tfoot td{font-weight:600}
 var HEAD = '<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>Supana</title>\n<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">\n';
 var BODY = '<div id="app"></div><div id="modal-root"></div>\n';
 var LS_KEY = 'family-garage-log-v1';
-var TABS = [['overview','Overview'],['jobs','Upcoming jobs'],['history','Service history'],['spending','Spending'],['cars','Vehicles'],['tools','Workshop'],['backup','Backup']];
+var TABS = [['overview','Overview'],['jobs','Upcoming jobs'],['history','Service history'],['spending','Spending'],['cars','Garage'],['tools','Tool Shed'],['backup','Backup']];
 var KINDS = ['Service','Repair','Inspection','Upgrade'];
 var TOOL_STATUS = {own:'Own it', borrow:'Borrow', buy:'Need to buy'};
 
@@ -591,13 +627,13 @@ function statusHtml(){
 
 /* ---------- render ---------- */
 function render(){
-  state.tools.forEach(normTool); if(!Array.isArray(state.expenses)) state.expenses=[]; state.cars.forEach(normCar);
+  state.tools.forEach(normTool); if(!Array.isArray(state.expenses)) state.expenses=[]; if(!Array.isArray(state.files)) state.files=[]; state.cars.forEach(normCar);
   var oldNav=document.querySelector('nav.tabs'), navX=oldNav?oldNav.scrollLeft:0;
   var overdue=state.jobs.filter(function(j){return jobInfo(j).status==='overdue';}).length;
   var toolDue=dueTasks().filter(function(x){return x.i.status==='overdue';}).length;
   var h='<header class="top"><div class="wrap"><div class="top-row">'+
-    '<div class="brand"><svg viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" rx="27" fill="#F3EEE4" stroke="#D8D0C2" stroke-width="3"/><g transform="translate(60 60) scale(0.84) translate(-60 -60)"><polygon points="114,60 87,106.8 33,106.8 6,60 33,13.2 87,13.2" fill="#1B2F6E" stroke="#1B2F6E" stroke-width="5" stroke-linejoin="round"/><polygon points="105,60 82.5,99 37.5,99 15,60 37.5,21 82.5,21" fill="none" stroke="#F2B705" stroke-width="2.2" stroke-linejoin="round"/><circle cx="60" cy="60" r="31" fill="#F3EEE4"/><g transform="translate(60 61) scale(0.55)" fill="#C8202F" stroke="#F3EEE4" stroke-width="2.4" stroke-linejoin="round"><path d="M0 0 C -15 -6 -26 -30 -16 -44 C -9 -54 9 -54 16 -44 C 26 -30 15 -6 0 0 Z" transform="rotate(0)"/><path d="M0 0 C -15 -6 -26 -30 -16 -44 C -9 -54 9 -54 16 -44 C 26 -30 15 -6 0 0 Z" transform="rotate(72)"/><path d="M0 0 C -15 -6 -26 -30 -16 -44 C -9 -54 9 -54 16 -44 C 26 -30 15 -6 0 0 Z" transform="rotate(144)"/><path d="M0 0 C -15 -6 -26 -30 -16 -44 C -9 -54 9 -54 16 -44 C 26 -30 15 -6 0 0 Z" transform="rotate(216)"/><path d="M0 0 C -15 -6 -26 -30 -16 -44 C -9 -54 9 -54 16 -44 C 26 -30 15 -6 0 0 Z" transform="rotate(288)"/></g><circle cx="60" cy="61" r="4.2" fill="#F2B705"/></g></svg>Supana</div>'+
-    '<span class="spacer"></span>'+statusHtml()+themeBtn()+'</div><nav class="tabs" aria-label="Sections">'+
+    '<div class="brand"><svg viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" rx="27" fill="#F3E3C3" stroke="#D9C9A3" stroke-width="3"/><g transform="translate(60 60) scale(0.84) translate(-60 -60)"><polygon points="114,60 87,106.8 33,106.8 6,60 33,13.2 87,13.2" fill="#1B2F6E" stroke="#1B2F6E" stroke-width="5" stroke-linejoin="round"/><polygon points="105,60 82.5,99 37.5,99 15,60 37.5,21 82.5,21" fill="none" stroke="#F2B705" stroke-width="2.2" stroke-linejoin="round"/><circle cx="60" cy="60" r="31" fill="#F3E3C3"/><g transform="translate(60 61) scale(0.55)" fill="#C8202F" stroke="#F3E3C3" stroke-width="2.4" stroke-linejoin="round"><path d="M0 0 C -15 -6 -26 -30 -16 -44 C -9 -54 9 -54 16 -44 C 26 -30 15 -6 0 0 Z" transform="rotate(0)"/><path d="M0 0 C -15 -6 -26 -30 -16 -44 C -9 -54 9 -54 16 -44 C 26 -30 15 -6 0 0 Z" transform="rotate(72)"/><path d="M0 0 C -15 -6 -26 -30 -16 -44 C -9 -54 9 -54 16 -44 C 26 -30 15 -6 0 0 Z" transform="rotate(144)"/><path d="M0 0 C -15 -6 -26 -30 -16 -44 C -9 -54 9 -54 16 -44 C 26 -30 15 -6 0 0 Z" transform="rotate(216)"/><path d="M0 0 C -15 -6 -26 -30 -16 -44 C -9 -54 9 -54 16 -44 C 26 -30 15 -6 0 0 Z" transform="rotate(288)"/></g><circle cx="60" cy="61" r="4.2" fill="#F2B705"/></g></svg>Supana</div>'+
+    '<span class="spacer"></span>'+statusHtml()+(filesOk()?'<button type="button" class="theme-btn scan-top" data-act="scan" aria-label="Scan a receipt or document" title="Scan a receipt or document">'+IC_CAM+'<span class="tl">Scan</span></button>':'')+themeBtn()+'</div><nav class="tabs" aria-label="Sections">'+
     TABS.map(function(t){ return '<a href="#'+t[0]+'"'+(ui.tab===t[0]?' aria-current="page"':'')+'>'+t[1]+(t[0]==='jobs'&&overdue?'<span class="count">'+overdue+'</span>':'')+(t[0]==='tools'&&toolDue?'<span class="count">'+toolDue+'</span>':'')+'</a>'; }).join('')+
     '</nav></div></header><main class="wrap">';
   if(state.example) h+='<div class="banner"><p><strong>These are example vehicles and jobs</strong> so you can see how it works. Clear them when you are ready to add your own.</p>'+
@@ -683,7 +719,7 @@ function vHistory(){
   if(!list.length) return h+'<div class="empty">Nothing logged yet.</div>';
   return h+'<div class="table-wrap"><table><thead><tr><th>Date</th><th>Vehicle</th><th>Work done</th><th class="num">Odometer</th><th>By</th><th class="num">Cost</th></tr></thead><tbody>'+
     list.map(function(l){ var c=carById(l.carId);
-      return '<tr data-act="edit-log" data-id="'+l.id+'" tabindex="0"><td style="white-space:nowrap">'+fmtD(l.date)+'</td><td>'+plate(c)+'</td><td><strong>'+esc(l.title)+'</strong> <span class="chip">'+esc(l.kind)+'</span>'+
+      return '<tr data-act="edit-log" data-id="'+l.id+'" tabindex="0"><td style="white-space:nowrap">'+fmtD(l.date)+'</td><td>'+plate(c)+'</td><td><strong>'+esc(l.title)+'</strong> <span class="chip">'+esc(l.kind)+'</span>'+clip('log',l.id)+
         (l.minutes?'<div class="small">Time: '+fmtDur(l.minutes)+'</div>':'')+(l.parts?'<div class="small">Parts: '+esc(l.parts)+'</div>':'')+(l.toolIds&&l.toolIds.length?'<div class="small">Tools: '+l.toolIds.map(function(id){var t=toolById(id);return t?esc(t.name):'';}).filter(Boolean).join(', ')+'</div>':'')+
         (l.notes?'<div class="small">'+esc(l.notes)+'</div>':'')+'</td><td class="num">'+(l.km!=null?fmtNum(l.km):'')+'</td><td>'+esc(l.by)+'</td><td class="num">'+rm(l.cost)+'</td></tr>'; }).join('')+
     '</tbody><tfoot><tr><td colspan="5">Total for '+list.length+' entr'+(list.length===1?'y':'ies')+'</td><td class="num">'+(rm(total)||'RM 0')+'</td></tr></tfoot></table></div>';
@@ -692,7 +728,7 @@ function vHistory(){
 function vCars(){
   var n={car:0,motorcycle:0}; state.cars.forEach(function(c){ n[vType(c)]++; });
   var list=ui.vt==='all'?state.cars:state.cars.filter(function(c){return vType(c)===ui.vt;});
-  return '<div class="section-head"><h2>Vehicles</h2><span class="spacer"></span><button class="btn primary" data-act="new-car" data-id="'+(ui.vt!=='all'?ui.vt:'')+'">Add '+(ui.vt==='motorcycle'?'motorcycle':ui.vt==='car'?'car':'vehicle')+'</button></div>'+
+  return '<div class="section-head"><h2>Garage</h2><span class="spacer"></span><button class="btn primary" data-act="new-car" data-id="'+(ui.vt!=='all'?ui.vt:'')+'">Add '+(ui.vt==='motorcycle'?'motorcycle':ui.vt==='car'?'car':'vehicle')+'</button></div>'+
     '<div class="filters subtabs" role="tablist" aria-label="Vehicle type">'+[['all','All',state.cars.length],['car','Cars',n.car],['motorcycle','Motorcycles',n.motorcycle]].map(function(t){
       return '<button class="fchip" role="tab" data-act="vt" data-id="'+t[0]+'" aria-pressed="'+(ui.vt===t[0])+'" aria-selected="'+(ui.vt===t[0])+'">'+t[1]+' <span class="cnt">'+t[2]+'</span></button>'; }).join('')+'</div>'+carCards(list);
 }
@@ -701,7 +737,7 @@ function vTools(){
   var own=state.tools.filter(function(t){return t.status==='own';});
   var due=dueTasks(), buy=state.tools.filter(function(t){return t.status==='buy';}).length;
   var value=own.reduce(function(s,t){return s+(Number(t.price)||0)*(Number(t.qty)||1);},0);
-  var h='<div class="section-head"><h2>My workshop</h2><span class="sub">Every tool and piece of equipment, where it lives, and when it needs looking after</span><span class="spacer"></span><button class="btn primary" data-act="new-tool">Add tool</button></div>'+
+  var h='<div class="section-head"><h2>Tool Shed</h2><span class="sub">Every tool and piece of equipment, where it lives, and when it needs looking after</span><span class="spacer"></span><button class="btn primary" data-act="new-tool">Add tool</button></div>'+
     '<div class="summary"><div class="tile acc"><div class="n">'+own.length+'</div><div class="l">Tools I own</div></div>'+
     '<div class="tile '+(due.length?'bad':'')+'"><div class="n">'+due.length+'</div><div class="l">Upkeep due in 30 days</div></div>'+
     '<div class="tile warn"><div class="n">'+buy+'</div><div class="l">On the buy list</div></div>'+
@@ -756,7 +792,7 @@ function applyTheme(){
   var t=getTheme(), r=document.documentElement;
   if(t==='auto'){ if(HOST_THEME) r.setAttribute('data-theme',HOST_THEME); else r.removeAttribute('data-theme'); } else r.setAttribute('data-theme',t);
   var dark=t==='dark'||(t==='auto'&&(HOST_THEME?HOST_THEME==='dark':(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)));
-  var m=document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute('content',dark?'#181c22':'#ffffff');
+  var m=document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute('content',dark?'#141C32':'#FBF6EC');
 }
 function themeBtn(){
   var t=getTheme(), ic={auto:'<circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/>',
@@ -952,7 +988,7 @@ function docForm(c,d){
     sel('type','Type',DOC_TYPES.map(function(t){return [t,t];}),d.type)+inp('label','Provider or name',d.label,'text',false,'placeholder="e.g. Etiqa, or what it is"')+
     inp('issued','Issued or paid on',d.issued,'date')+inp('expires','Expires on',d.expires,'date',false,'','Leave empty to work it out from the interval.')+
     inp('months','Renews every (months)',d.months,'text',false,'inputmode="numeric"')+inp('cost','Cost this period (RM)',d.cost,'text',false,'inputmode="decimal"')+
-    inp('ref','Policy or reference no.',d.ref,'text',true)+area('notes','Notes',d.notes)+
+    inp('ref','Policy or reference no.',d.ref,'text',true)+area('notes','Notes',d.notes)+attachField('doc',isNew?null:c.id+'|'+d.id)+
     (!isNew?'<div class="field full"><button type="button" class="btn sm" data-act="renew-doc" data-id="'+c.id+'" data-doc="'+d.id+'">Mark as renewed…</button></div>':'')+
     (d.history&&d.history.length>1?'<div class="field full"><span class="lbl">Payment history</span><div class="hist">'+d.history.slice().reverse().map(function(h){ return '<div><b>'+fmtD(h.date)+'</b> · '+(h.cost?rm(h.cost):'no cost')+(h.expires?' · valid to '+fmtD(h.expires):'')+'</div>'; }).join('')+'</div></div>':''),
     function(fd){
@@ -960,7 +996,7 @@ function docForm(c,d){
       o.months=num(fd.get('months')); o.cost=num(fd.get('cost')); o.ref=fd.get('ref').trim(); o.notes=fd.get('notes');
       var pay={date:o.issued||todayStr(),cost:o.cost,expires:docExp(o)};
       if(!o.history.length){ if(o.cost||o.issued) o.history.push(pay); } else { var lh=o.history[o.history.length-1]; lh.date=pay.date; lh.cost=pay.cost; lh.expires=pay.expires; }
-      if(isNew) c.docs.push(o); commit(); },
+      if(isNew) c.docs.push(o); attachFlush({t:'doc',id:c.id+'|'+o.id},{carId:c.id,title:docName(o),date:o.issued||todayStr(),kind:o.type==='Insurance'?'insurance':o.type==='Road tax'?'roadtax':'other'}); commit(); },
     isNew?{}:{del:'del-doc',id:c.id+'|'+d.id});
 }
 function renewForm(c,d){
@@ -1026,16 +1062,17 @@ function carCard(c){
     (function(){ var eo=estOdo(c); return eo&&eo.rate?'<div class="est">'+(eo.est&&eo.days>2?'Probably about <b>'+fmtNum(eo.km)+' km</b> today. ':'')+'Averages '+fmtNum(Math.round(eo.rate))+' km a day.</div>':''; })()+
     '<dl class="kv"><dt>Last work</dt><dd>'+(last?esc(last.title)+' · '+fmtD(last.date):'Nothing logged')+'</dd>'+
     '<dt>Next job</dt><dd>'+(next?'<span class="pill '+next.i.status+'">'+LABEL[next.i.status]+'</span> '+esc(next.j.title):'Nothing planned')+'</dd>'+
-    '<dt>Cost to keep</dt><dd><button type="button" class="linkish" data-act="cost" data-id="'+c.id+'">About '+(rm(Math.round(rc.total/10)*10)||'RM 0')+' a year'+(rc.per1000!=null?' · '+rm(Math.round(rc.per1000))+' per 1,000 km':'')+'</button></dd></dl>'+
+    regLine(c)+'<dt>Cost to keep</dt><dd><button type="button" class="linkish" data-act="cost" data-id="'+c.id+'">About '+(rm(Math.round(rc.total/10)*10)||'RM 0')+' a year'+(rc.per1000!=null?' · '+rm(Math.round(rc.per1000))+' per 1,000 km':'')+'</button></dd></dl>'+
     '<div class="sub-block"><div class="sb-head"><span>Parts health</span>'+(nDue?'<span class="pill overdue">'+nDue+' due</span>':'')+(nSoon?'<span class="pill soon">'+nSoon+' soon</span>':'')+'<span class="spacer"></span><button type="button" class="btn sm ghost" data-act="parts" data-id="'+c.id+'">All parts</button></div>'+
       (ph.length?ph.slice(0,3).map(function(h){return healthBar(h,c,false);}).join(''):'<div class="why">Log jobs like oil changes or brake pads to see wear here.</div>')+'</div>'+
     '<div class="sub-block"><div class="sb-head"><span>Paperwork</span><span class="spacer"></span><button type="button" class="btn sm ghost" data-act="new-doc" data-id="'+c.id+'">Add</button></div>'+
-      (c.docs.length?c.docs.map(function(d){return docLine(c,d);}).join(''):'<div class="why">Add road tax and insurance to get renewal warnings.</div>')+'</div>'+
+      (c.docs.length?c.docs.map(function(d){return docLine(c,d);}).join(''):'<div class="why">Add road tax and insurance to get renewal warnings.</div>')+'</div>'+carFilesBlock(c)+
     (c.notes?'<div class="model">'+esc(c.notes)+'</div>':'')+
     '<div class="filters"><button class="btn sm primary" data-act="odo" data-id="'+c.id+'">Update km</button><button class="btn sm" data-act="new-log" data-id="'+c.id+'">Log work</button><button class="btn sm" data-act="new-job" data-id="'+c.id+'">Add job</button>'+
       (calOk()?'<button class="btn sm" data-act="report" data-id="'+c.id+'">Report (PDF)</button>':'')+'<button class="btn sm ghost" data-act="edit-car" data-id="'+c.id+'">Edit</button></div></div>';
 }
 
+function regLine(c){ var b=[c.cc?fmtNum(c.cc)+' cc':'',c.fuel||'',c.colour||'',c.regDate?'registered '+fmtD(c.regDate):''].filter(Boolean); return b.length?'<dt>Registration</dt><dd>'+esc(b.join(' · '))+'</dd>':''; }
 /* PDF service history report (printed to PDF) */
 function reportHtml(c){
   var logs=state.log.filter(function(l){return l.carId===c.id;}).sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:(b.km||0)-(a.km||0);});
@@ -1119,7 +1156,7 @@ function vSpending(){
   var total=items.reduce(function(s,x){return s+x.amount;},0), gsum={car:0,tools:0,upkeep:0,other:0};
   items.forEach(function(x){ gsum[x.g]+=x.amount; });
   var nMonths=r.months?Math.max(1,Math.min(12, ui.spPeriod==='year'? new Date().getMonth()+1 : 12)):Math.max(1,(function(){ if(!items.length) return 1; var d0=items.reduce(function(m,x){return x.date<m?x.date:m;},'9999'); return Math.max(1,Math.round(daysBetween(d0,todayStr())/30.44)); })());
-  var h='<div class="section-head"><h2>Spending</h2><span class="sub">Everything spent on the vehicles and the workshop</span><span class="spacer"></span><button class="btn primary" data-act="new-exp">Add expense</button></div>'+
+  var h='<div class="section-head"><h2>Spending</h2><span class="sub">Everything spent on the vehicles and the workshop</span><span class="spacer"></span>'+(filesOk()?'<button class="btn" data-act="scan">Scan receipt</button>':'')+'<button class="btn primary" data-act="new-exp">Add expense</button></div>'+
     '<div class="filters" role="group" aria-label="Period">'+[['year','This year'],['12m','Last 12 months'],['last','Last year'],['all','All time']].map(function(p){ return '<button class="fchip" data-act="sp-period" data-id="'+p[0]+'" aria-pressed="'+(ui.spPeriod===p[0])+'">'+p[1]+'</button>'; }).join('')+'</div>'+
     (state.cars.length?'<div class="filters" role="group" aria-label="Vehicle"><button class="fchip" data-act="sp-car" data-id="all" aria-pressed="'+(carF==='all')+'">Everything</button>'+state.cars.map(function(c){ return '<button class="fchip" data-act="sp-car" data-id="'+c.id+'" aria-pressed="'+(carF===c.id)+'">'+esc(c.name||c.plate)+'</button>'; }).join('')+'</div>':'');
   h+='<div class="summary"><div class="tile acc"><div class="n">'+(rm(total)||'RM 0')+'</div><div class="l">Spent '+esc(r.label)+(carF!=='all'?' on this vehicle':'')+'</div></div>'+
@@ -1163,7 +1200,7 @@ function vSpending(){
   h+='<div class="section-head"><h2>Every expense</h2><span class="sub">Tap a row to open it</span></div>'+
     (rows.length?'<div class="table-wrap"><table class="sp-table"><thead><tr><th>Date</th><th>What</th><th>For</th><th>Type</th><th class="num">Amount</th></tr></thead><tbody>'+
     rows.map(function(x){ var c=carById(x.carId);
-      return '<tr data-act="sp-open" data-type="'+x.type+'" data-id="'+x.id+'" tabindex="0"><td style="white-space:nowrap">'+fmtD(x.date)+'</td><td>'+esc(x.title)+'<span class="small sp-cat">'+esc(x.cat)+(c?' · '+esc(c.plate):'')+'</span></td><td>'+(c?plate(c):'<span class="small">Workshop</span>')+'</td><td><span class="chip"><i class="sw" style="background:var('+SP_GROUPS.filter(function(g){return g[0]===x.g;})[0][2]+')"></i>'+esc(x.cat)+'</span></td><td class="num">'+rm(x.amount)+'</td></tr>'; }).join('')+
+      return '<tr data-act="sp-open" data-type="'+x.type+'" data-id="'+x.id+'" tabindex="0"><td style="white-space:nowrap">'+fmtD(x.date)+'</td><td>'+esc(x.title)+({log:clip('log',x.id),exp:clip('exp',x.id),doc:clip('doc',x.id)}[x.type]||'')+'<span class="small sp-cat">'+esc(x.cat)+(c?' · '+esc(c.plate):'')+'</span></td><td>'+(c?plate(c):'<span class="small">Workshop</span>')+'</td><td><span class="chip"><i class="sw" style="background:var('+SP_GROUPS.filter(function(g){return g[0]===x.g;})[0][2]+')"></i>'+esc(x.cat)+'</span></td><td class="num">'+rm(x.amount)+'</td></tr>'; }).join('')+
     '</tbody><tfoot><tr><td colspan="4">Total</td><td class="num">'+(rm(total)||'RM 0')+'</td></tr></tfoot></table></div>':'<div class="empty">No expenses in this period.</div>');
   h+='<p class="why">Counts the cost of each service history entry, road tax, insurance and other paperwork, tools you own that have a price and a date bought, tool upkeep costs, and other expenses you add here.</p>';
   return h;
@@ -1183,15 +1220,16 @@ function expForm(e){
     inp('title','What was it',e.title,'text',true,'placeholder="e.g. Brake cleaner x6, shop towels"')+
     inp('amount','Amount (RM)',e.amount,'text',false,'inputmode="decimal"')+inp('date','Date',e.date,'date')+
     sel('cat','Type',EXP_CATS.map(function(c){return [c,c];}),e.cat)+sel('carId','For',[['','The workshop (no one car)']].concat(carOptions()),e.carId||'')+
-    area('notes','Notes',e.notes),
+    area('notes','Notes',e.notes)+attachField('exp',e.id),
     function(fd,f){ if(!req(f,'title','Describe the expense')||!req(f,'amount','Enter the amount')) return false;
       var o=isNew?{id:uid()}:e; o.title=fd.get('title').trim(); o.amount=num(fd.get('amount')); o.date=fd.get('date')||todayStr(); o.cat=fd.get('cat'); o.carId=fd.get('carId')||null; o.notes=fd.get('notes');
-      if(isNew) state.expenses.push(o); commit(); },
+      if(isNew) state.expenses.push(o); filesLinked('exp',o.id).forEach(function(f){ f.carId=o.carId; }); attachFlush({t:'exp',id:o.id},{carId:o.carId,title:o.title,date:o.date}); commit(); },
     isNew?{}:{del:'del-exp',id:e.id});
 }
 function vBackup(){
   return '<div class="section-head"><h2>Backup</h2></div>'+
     '<div class="card backup"><h3>Copy your data</h3><p>Your records live only on this device. Save a backup file now and then (to iCloud Drive or Google Drive) so you do not lose them if the phone is lost or reset. The same file moves your records to another phone.</p>'+
+    (filesOk()&&state.files.length?'<p><b>Scanned documents are only in the saved file</b>, not in the copied text, so use Save backup file to keep them.</p>':'')+
     '<textarea id="bk-out" readonly>'+esc(JSON.stringify(state))+'</textarea><div class="filters"><button class="btn primary" data-act="dl-backup">Save backup file</button><button class="btn" data-act="copy-backup">Copy to clipboard</button><span id="bk-msg" class="msg"></span></div></div>'+
     '<div class="card backup"><h3>Restore from a backup</h3><p>Paste a backup here. This replaces all cars, jobs, history and tools on this page.</p>'+
     '<textarea id="bk-in" placeholder="Paste backup text here"></textarea><div class="filters"><label class="btn" for="bk-file">Choose backup file</label><input type="file" id="bk-file" accept=".json,application/json,text/plain" hidden><button class="btn danger" data-act="restore">Replace everything with this backup</button><span id="rs-msg" class="msg"></span></div></div>';
@@ -1200,16 +1238,16 @@ function vBackup(){
 /* ---------- modal & forms ---------- */
 var modalSubmit=null;
 function openModal(title, body, onSubmit, opts){
-  opts=opts||{};
+  opts=opts||{}; attachQ=[];
   modalSubmit=onSubmit;
   document.getElementById('modal-root').innerHTML='<div class="scrim"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-title"><h2 id="m-title">'+esc(title)+'</h2>'+
     '<form id="m-form" class="form" novalidate>'+body+'<div class="m-actions">'+(opts.del?'<button type="button" class="btn danger left" data-act="'+opts.del+'" data-id="'+opts.id+'">Delete</button>':'')+
-    '<button type="button" class="btn ghost" data-act="close-modal">Cancel</button><button type="submit" class="btn '+(opts.danger?'danger solid':'primary')+'">'+esc(opts.submit||'Save')+'</button></div></form></div></div>';
+    '<button type="button" class="btn ghost" data-act="close-modal">'+esc(opts.cancel||'Cancel')+'</button>'+(opts.noSubmit?'':'<button type="submit" class="btn '+(opts.danger?'danger solid':'primary')+'">'+esc(opts.submit||'Save')+'</button>')+'</div></form></div></div>';
   var f=document.getElementById('m-form');
   f.addEventListener('submit',function(e){ e.preventDefault(); if(modalSubmit && modalSubmit(new FormData(f), f)!==false) closeModal(); });
-  var first=f.querySelector('input:not([type=hidden]):not([type=checkbox]),select,textarea'); if(first) first.focus();
+  var first=opts.noSubmit?null:f.querySelector('input:not([type=hidden]):not([type=checkbox]):not([type=radio]):not([type=file]),select,textarea'); if(first) first.focus();
 }
-function closeModal(){ document.getElementById('modal-root').innerHTML=''; modalSubmit=null; }
+function closeModal(){ document.getElementById('modal-root').innerHTML=''; modalSubmit=null; if(viewUrl){ URL.revokeObjectURL(viewUrl); viewUrl=null; } }
 function fld(id,label,input,full,hint){ return '<div class="field'+(full?' full':'')+'"><label for="f-'+id+'">'+esc(label)+'</label>'+input+(hint?'<span class="hint">'+esc(hint)+'</span>':'')+'</div>'; }
 function inp(id,label,val,type,full,attrs,hint){ return fld(id,label,'<input id="f-'+id+'" name="'+id+'" type="'+(type||'text')+'" value="'+esc(val==null?'':val)+'" '+(attrs||'')+'>',full,hint); }
 function sel(id,label,options,val,full){ return fld(id,label,'<select id="f-'+id+'" name="'+id+'">'+options.map(function(o){ return '<option value="'+esc(o[0])+'"'+(String(o[0])===String(val)?' selected':'')+'>'+esc(o[1])+'</option>'; }).join('')+'</select>',full); }
@@ -1229,10 +1267,11 @@ function carForm(c,vt){
     sel('type','Type',[['car','Car'],['motorcycle','Motorcycle']],vType(c),true)+
     inp('name','Nickname',c.name,'text',false,'placeholder="e.g. Abah\'s City"')+inp('plate','Number plate',c.plate,'text',false,'placeholder="e.g. WXY 1234" style="text-transform:uppercase"')+
     inp('make','Make',c.make)+inp('model','Model',c.model)+inp('year','Year',c.year,'text',false,'inputmode="numeric"')+inp('odo','Odometer (km)',c.odo,'text',false,'inputmode="numeric"')+
-    area('notes','Notes (oil spec, quirks, tyre size)',c.notes),
+    '<div class="field full form-sec"><span class="lbl">Registration details</span><span class="hint">From the VOC (geran). '+(filesOk()?'Scan it to fill these in for you.':'Optional.')+'</span></div>'+inp('vin','Chassis no.',c.vin,'text',false,'style="text-transform:uppercase" autocomplete="off"')+inp('engineNo','Engine no.',c.engineNo,'text',false,'style="text-transform:uppercase" autocomplete="off"')+inp('cc','Engine capacity (cc)',c.cc,'text',false,'inputmode="numeric"')+inp('fuel','Fuel',c.fuel,'text',false,'placeholder="e.g. Petrol"')+inp('colour','Colour',c.colour)+inp('regDate','Registration date',c.regDate,'date')+area('notes','Notes (oil spec, quirks, tyre size)',c.notes),
     function(fd,f){ if(!req(f,'name','Give the vehicle a name')) return false;
       var o=isNew?{id:uid()}:c; o.name=fd.get('name').trim(); o.plate=fd.get('plate').trim().toUpperCase(); o.make=fd.get('make').trim(); o.model=fd.get('model').trim(); o.year=fd.get('year').trim(); o.type=fd.get('type');
       var km=num(fd.get('odo')); if(km!==o.odo){ o.odo=km; o.odoDate=todayStr(); } o.notes=fd.get('notes');
+      o.vin=fd.get('vin').trim().toUpperCase(); o.engineNo=fd.get('engineNo').trim().toUpperCase(); o.cc=num(fd.get('cc')); o.fuel=fd.get('fuel').trim(); o.colour=fd.get('colour').trim(); o.regDate=fd.get('regDate')||null;
       if(isNew){ normCar(o); state.cars.push(o); } commit(); },
     isNew?{}:{del:'del-car',id:c.id});
 }
@@ -1262,11 +1301,11 @@ function logForm(l,carId,pre){
     inp('date','Date',l.date,'date')+inp('km','Odometer (km)',l.km,'text',false,'inputmode="numeric"')+
     sel('kind','Type',KINDS.map(function(k){return [k,k];}),l.kind)+sel('by','Done by',[['Me','Me'],['Workshop','Workshop'],['Someone else','Someone else']],l.by)+
     inp('parts','Parts used',l.parts,'text',true,'placeholder="Brand, part number, quantity"')+inp('cost','Total cost (RM)',l.cost,'text',false,'inputmode="decimal"')+inp('time','Time spent',l.minutes?fmtDur(l.minutes):'','text',false,'placeholder="e.g. 1h 30m or 1.5" autocomplete="off"')+
-    toolsField(l.toolIds)+area('notes','Notes',l.notes),
+    toolsField(l.toolIds)+area('notes','Notes',l.notes)+attachField('log',l.id),
     function(fd,f){ if(!req(f,'title','Describe the work')||!req(f,'date','Pick a date')) return false;
       var o=isNew?{id:uid()}:l; o.carId=fd.get('carId'); o.title=fd.get('title').trim(); o.date=fd.get('date'); o.km=num(fd.get('km')); o.kind=fd.get('kind'); o.by=fd.get('by');
       o.parts=fd.get('parts').trim(); o.cost=num(fd.get('cost')); o.minutes=parseDur(fd.get('time')); o.toolIds=fd.getAll('tools'); o.notes=fd.get('notes'); o.partKeys=fd.getAll('pk');
-      bumpOdo(o.carId,o.km,o.date); if(isNew) state.log.push(o); commit(); },
+      bumpOdo(o.carId,o.km,o.date); if(isNew) state.log.push(o); filesLinked('log',o.id).forEach(function(f){ f.carId=o.carId; }); attachFlush({t:'log',id:o.id},{carId:o.carId,title:o.title,date:o.date}); commit(); },
     isNew?{}:{del:'del-log',id:l.id});
   setupPartTicks(document.getElementById('m-form'),Array.isArray(l.partKeys)?l.partKeys:null);
 }
@@ -1364,6 +1403,420 @@ function confirmBox(title,text,label,fn){ openModal(title,'<p class="field full"
 function bumpOdo(carId,km,date){ var c=carById(carId); if(c && km!=null && (c.odo==null || km>c.odo)){ c.odo=km; c.odoDate=date; } }
 function commit(){ render(); save(); }
 
+/* ---------- scan: read details out of recognised text ---------- */
+var SC_MON={jan:1,januari:1,january:1,feb:2,februari:2,february:2,mac:3,mar:3,march:3,apr:4,april:4,mei:5,may:5,jun:6,june:6,jul:7,julai:7,july:7,ogo:8,ogos:8,aug:8,august:8,sep:9,sept:9,september:9,okt:10,oct:10,oktober:10,october:10,nov:11,november:11,dis:12,dec:12,disember:12,december:12};
+function scIso(y,m,d){ if(y<100) y+=(y>60?1900:2000); if(m<1||m>12||d<1||d>31||y<1950||y>2100) return null;
+  var dt=new Date(y,m-1,d); if(dt.getMonth()!==m-1) return null; return y+'-'+pad(m)+'-'+pad(d); }
+function scDates(t){
+  var out=[], re=/(\d{4})[-\/.](\d{1,2})[-\/.](\d{1,2})|(\d{1,2})\s?[-\/.]\s?(\d{1,2})\s?[-\/.]\s?(\d{4}|\d{2})(?!\d)|(\d{1,2})[\s\-\/.]*([A-Za-z]{3,9})[\s\-\/.,]*(\d{4})(?!\d)/g, m, iso;
+  while((m=re.exec(t))){
+    if(m[1]) iso=scIso(+m[1],+m[2],+m[3]);
+    else if(m[4]) iso=scIso(+m[6],+m[5],+m[4]);
+    else { var mo=SC_MON[m[8].toLowerCase()]; iso=mo?scIso(+m[9],mo,+m[7]):null; }
+    if(iso) out.push({iso:iso,i:m.index});
+  }
+  return out;
+}
+function scLines(t){ return String(t||'').split(/\r?\n/).map(function(s){ return s.replace(/[|]/g,' ').replace(/\s+/g,' ').trim(); }).filter(Boolean); }
+function scClean(t){ return String(t||'').replace(/(\d)[Oo](?=[\d.,])/g,'$10').replace(/(\d)\s?,\s?(\d{3})(?!\d)/g,'$1,$2').replace(/(\d)\s\.\s?(\d{2})(?!\d)/g,'$1.$2'); }
+function scAmounts(s){
+  var out=[], m, re=/(\d{1,3}(?:,\d{3})+|\d+)\.(\d{2})(?![\d])/g;
+  while((m=re.exec(s))) out.push({v:Number(m[1].replace(/,/g,'')+'.'+m[2]),i:m.index});
+  var re2=/(?:RM|MYR)\s*(\d{1,3}(?:,\d{3})+|\d+)(?![\d.,]*\d)/gi;
+  while((m=re2.exec(s))) out.push({v:Number(m[1].replace(/,/g,'')),i:m.index});
+  return out.sort(function(a,b){return a.i-b.i;}).map(function(a){return a.v;});
+}
+// Value after a label: rest of the same line, or the next line if the label stands alone.
+function scAfter(L,labelRe,valRe,skipRe){
+  for(var i=0;i<L.length;i++){ var m=labelRe.exec(L[i]); if(!m || (skipRe&&skipRe.test(L[i]))) continue;
+    var rest=L[i].slice(m.index+m[0].length).replace(/^[\s:;.\-–=]+/,'');
+    var tries=rest?[rest,L[i+1]||'']:[L[i+1]||'',L[i+2]||''];
+    for(var k=0;k<tries.length;k++){ var v=valRe.exec(tries[k]); if(v) return (v[1]||v[0]).trim(); }
+  }
+  return null;
+}
+function scAmountAfter(L,labelRe,skipRe){
+  var best=null;
+  for(var i=0;i<L.length;i++){ var m=labelRe.exec(L[i]); if(!m || (skipRe&&skipRe.test(L[i]))) continue;
+    var a=scAmounts(L[i].slice(m.index)); if(!a.length && L[i+1]) a=scAmounts(L[i+1]);
+    if(a.length){ var v=a[a.length-1]; if(best==null||v>best) best=v; }
+  }
+  return best;
+}
+function scDateAfter(L,labelRe){
+  for(var i=0;i<L.length;i++){ var m=labelRe.exec(L[i]); if(!m) continue;
+    var d=scDates(L[i].slice(m.index)); if(!d.length && L[i+1]) d=scDates(L[i+1]); if(d.length) return d[0].iso; }
+  return null;
+}
+function scPeriod(t,minD,maxD){
+  var ds=scDates(t);
+  for(var i=0;i<ds.length;i++) for(var j=i+1;j<ds.length && j<=i+3;j++){ var n=daysBetween(ds[i].iso,ds[j].iso); if(n>=minD&&n<=maxD) return [ds[i].iso,ds[j].iso]; }
+  return null;
+}
+function scTitle(s){ return String(s||'').toLowerCase().replace(/(^|[\s\-\/(&])([a-z])/g,function(a,b,c){return b+c.toUpperCase();}).replace(/\bSdn\.? Bhd\.?/i,'Sdn Bhd').trim(); }
+function scPlateKey(s){ return String(s||'').toUpperCase().replace(/[^A-Z0-9]/g,''); }
+function scMatchCar(t){
+  var T=scPlateKey(t);
+  for(var i=0;i<state.cars.length;i++){ var p=scPlateKey(state.cars[i].plate); if(p.length>=4 && T.indexOf(p)>-1) return state.cars[i].id; }
+  return null;
+}
+
+function parseReceipt(t){
+  t=scClean(t); var L=scLines(t), r={};
+  var pay=/(cash|tunai|change|baki|tender|kad\b|card|visa|master|rounding|bundar)/i;
+  var skip=/(sub\s*-?\s*total|total\s*(qty|quantity|items?|disc|discount|tax|gst|sst|saving|excl)|jumlah\s*(item|kuantiti|cukai|diskaun)|discount|diskaun)/i;
+  var strong=/(grand\s*total|net\s*total|nett|total\s*(amount\s*)?(payable|due)|amount\s*(payable|due)|jumlah\s*(besar|bersih|perlu\s*dibayar|keseluruhan|bayaran)|total\s*\(?\s*rm\s*\)?|total\s*incl)/i;
+  r.amount=scAmountAfter(L,strong,new RegExp(skip.source+'|'+pay.source,'i'));
+  if(r.amount==null) r.amount=scAmountAfter(L,/\b(total|jumlah)\b/i,new RegExp(skip.source+'|'+pay.source,'i'));
+  if(r.amount==null){ var all=[]; L.forEach(function(l){ if(!pay.test(l)) all=all.concat(scAmounts(l)); }); if(all.length) r.amount=Math.max.apply(null,all); }
+  var today=todayStr();
+  r.date=scDateAfter(L,/(date|tarikh|tkh)/i);
+  if(!r.date){ var ds=scDates(t).filter(function(d){return d.iso<=addDays(today,1);}); if(ds.length) r.date=ds[0].iso; }
+  if(r.date && r.date>addDays(today,1)) r.date=null;
+  var head=L.slice(0,8), biz=/(sdn\.?\s*bhd|\bbhd\b|enterprise|trading|motor|auto|workshop|bengkel|service|garage|tyre|tayar|parts|hardware|petronas|shell|petron|caltex|\bbhp\b|aeon|diy|lotus|99\s*speed|mydin|store|kedai)/i;
+  var junk=/(receipt|resit|invoice|invois|tax|cukai|cash\s*bill|bil|tel|fax|phone|www|@|no\.|gst|sst|reg|address|jalan|^\d)/i;
+  var v=head.filter(function(l){ return biz.test(l) && !/(tel|fax|www|@)/i.test(l); })[0]||
+        head.filter(function(l){ var letters=(l.match(/[A-Za-z]/g)||[]).length, digits=(l.match(/\d/g)||[]).length; return letters>=4 && digits<=letters*0.4 && !junk.test(l); })[0];
+  if(v) r.vendor=scTitle(v.replace(/\(?\s*(co\.?\s*no\.?|company\s*no\.?|ssm)?\s*[:#]?\s*\d{5,}[\-\s]?[A-Z]?\s*\)?/gi,'').replace(/[^\w\s&.,'()\-\/]/g,'').trim());
+  var km=scAfter(L,/(mileage|odometer|\bodo\b|km\s*reading|bacaan\s*(meter|odometer)|jarak)/i,/(\d{1,3}(?:[,.\s]\d{3})+|\d{3,7})/);
+  if(km){ km=Number(km.replace(/[,.\s]/g,'')); if(km>=100&&km<2000000) r.km=km; }
+  r.service=/(servis|service|labou?r|upah|workmanship|oil\s*filter|engine\s*oil|minyak\s*hitam|brake|brek|alignment|balancing|spark\s*plug|coolant|absorber|bush|clutch|\batf\b|\bcvt\b|workshop|bengkel)/i.test(t);
+  r.labour=/(labou?r|upah|workmanship|service\s*charge|caj\s*servis)/i.test(t);
+  var low=t.toLowerCase();
+  r.cat=/(glove|goggle|mask|safety|boots?)/.test(low)?'Safety gear':/(socket|spanner|wrench|tool|light|lamp|rack|cabinet|bench|jack|stand)/.test(low)?'Workshop supplies':/(oil|filter|plug|pad|bulb|wiper|fluid|coolant|battery|bateri|belt)/.test(low)?'Parts for stock':'Consumables';
+  return r;
+}
+
+function parseVoc(t){
+  var L=scLines(t), r={}, up=t.toUpperCase();
+  r.plate=scAfter(L,/(no\.?\s*pendaftaran|registration\s*(no|number)\.?|no\.?\s*daftar)/i,/\b([A-Z]{1,3}\s?\d{1,4}\s?[A-Z]{0,3})\b/);
+  r.vin=scAfter(L,/(no\.?\s*cas[il1]s|chass?is\s*(no|number)\.?|no\.?\s*chass?is|\bvin\b)/i,/\b([A-Z0-9][A-Z0-9\-]{5,19})\b/);
+  if(!r.vin){ var m=/\b(?=[A-HJ-NPR-Z0-9]*\d)(?=[A-HJ-NPR-Z0-9]*[A-Z])[A-HJ-NPR-Z0-9]{17}\b/.exec(up); if(m) r.vin=m[0]; }
+  r.engineNo=scAfter(L,/(no\.?\s*enjin|engine\s*(no|number)\.?)/i,/\b([A-Z0-9][A-Z0-9\-]{4,19})\b/);
+  var mm=scAfter(L,/(buatan\s*\/?\s*nama\s*model|make\s*\/?\s*model|buatan|jenama\s*\/?\s*model|jenama)/i,/([A-Za-z0-9].{1,60})/);
+  if(mm){ var p=mm.split(/\s*\/\s*/); r.make=scTitle(p[0]); if(p.length>1) r.model=p.slice(1).join(' ').trim(); }
+  var cc=scAfter(L,/(keupayaan\s*enjin|engine\s*capacity|kapasiti\s*enjin|sukatan\s*silinder)/i,/(\d{2,5})/)||(/(\d{3,4})\s?cc\b/i.exec(t)||[])[1];
+  if(cc && +cc>=49 && +cc<=9000) r.cc=+cc;
+  var fu=scAfter(L,/(bahan\s*(bakar|api)|jenis\s*bahan|fuel(\s*type)?)/i,/(petrol|diesel|disel|elektrik|electric|hybrid|hibrid|ngv)/i)||(/\b(petrol|diesel|elektrik|hybrid|hibrid)\b/i.exec(t)||[])[1];
+  if(fu) r.fuel=scTitle({disel:'diesel',elektrik:'electric',hibrid:'hybrid'}[fu.toLowerCase()]||fu);
+  var yr=scAfter(L,/(tahun\s*(dibuat|pembuatan|buatan)|year\s*(of\s*)?(manufacture|make|made))/i,/\b((?:19|20)\d{2})\b/); if(yr) r.year=yr;
+  r.regDate=scDateAfter(L,/(tarikh\s*pendaftaran|date\s*of\s*registration|registration\s*date|tarikh\s*daftar)/i);
+  var col=scAfter(L,/(warna|colou?r)/i,/([A-Za-z]{3,15}(?:\s[A-Za-z]{3,12})?)/); if(col) r.colour=scTitle(col);
+  r.moto=/(motosikal|motorcycle|motorsikal)/i.test(t)||(r.cc&&r.cc<=400&&!/(motokar|motor\s*car|kereta)/i.test(t));
+  return r;
+}
+
+var SC_INSURERS=[[/takaful\s*ikhlas/i,'Takaful Ikhlas'],[/etiqa/i,'Etiqa'],[/allianz/i,'Allianz'],[/zurich/i,'Zurich'],[/generali|axa\s*affin/i,'Generali'],[/tokio\s*marine/i,'Tokio Marine'],[/liberty/i,'Liberty'],[/am\s?general|kurnia/i,'AmGeneral'],[/\bmsig\b/i,'MSIG'],[/berjaya\s*sompo/i,'Berjaya Sompo'],[/chubb/i,'Chubb'],[/lonpac/i,'Lonpac'],[/rhb\s*insurance/i,'RHB Insurance'],[/pacific\s*&?\s*orient/i,'Pacific & Orient'],[/\bqbe\b/i,'QBE'],[/tune\s*protect/i,'Tune Protect'],[/syarikat\s*takaful|takaful\s*malaysia/i,'Takaful Malaysia'],[/great\s*eastern/i,'Great Eastern'],[/\baig\b/i,'AIG'],[/progressive\s*insurance/i,'Progressive'],[/sompo/i,'Sompo']];
+function parseInsurance(t){
+  t=scClean(t); var L=scLines(t), r={};
+  for(var i=0;i<SC_INSURERS.length;i++) if(SC_INSURERS[i][0].test(t)){ r.label=SC_INSURERS[i][1]; break; }
+  var ref=scAfter(L,/(policy\s*(no|number)\.?|no\.?\s*polisi|cover\s*note\s*(no|number)\.?|no\.?\s*nota\s*liputan|certificate\s*(no|number)\.?|no\.?\s*sijil)/i,/\b([A-Z0-9][A-Z0-9\/\-]{5,24})\b/);
+  if(ref) r.ref=ref.toUpperCase();
+  var lab=/(period\s*of\s*(insurance|cover|takaful)|tempoh\s*(insurans|perlindungan|takaful)|effective|from\b|dari\b)/i, pr=null;
+  for(var k=0;k<L.length && !pr;k++) if(lab.test(L[k])) pr=scPeriod(L.slice(k,k+4).join(' '),300,400);
+  pr=pr||scPeriod(t,300,400);
+  if(pr){ r.issued=pr[0]; r.expires=pr[1]; }
+  else { r.issued=scDateAfter(L,/(effective\s*date|tarikh\s*(mula|kuatkuasa)|start\s*date|valid\s*from|commencement)/i); r.expires=scDateAfter(L,/(expiry\s*date|tarikh\s*tamat|end\s*date|valid\s*(until|to)|expir)/i); }
+  r.cost=scAmountAfter(L,/(total\s*(amount\s*)?payable|amount\s*payable|jumlah\s*(perlu\s*)?(dibayar|bayaran)|total\s*premium\s*payable|total\s*contribution|jumlah\s*sumbangan|net\s*premium|total\s*premium|jumlah\s*premium)/i,/(sum\s*insured|sum\s*covered|diinsuranskan|market\s*value)/i);
+  if(r.cost==null) r.cost=scAmountAfter(L,/(premium|sumbangan|contribution)/i,/(gross|kasar|sum\s*insured)/i)||scAmountAfter(L,/(premium|sumbangan|contribution)/i);
+  var si=scAmountAfter(L,/(sum\s*insured|sum\s*covered|jumlah\s*(di)?insuranskan|jumlah\s*dilindungi|nilai\s*(pasaran|dilindungi)|market\s*value)/i);
+  var ncd=/(ncd|no\s*claim\s*discount|diskaun\s*tanpa\s*tuntutan)[^\d%]{0,25}(\d{1,2}(?:\.\d+)?)\s*%/i.exec(t);
+  var n=[]; if(si) n.push('Sum insured '+rm(si)); if(ncd) n.push('NCD '+ncd[2]+'%'); if(n.length) r.notes=n.join(' · ');
+  return r;
+}
+
+function parseRoadTax(t){
+  t=scClean(t); var L=scLines(t), r={};
+  var pr=scPeriod(t,150,400);
+  if(pr){ r.issued=pr[0]; r.expires=pr[1]; }
+  else { r.issued=scDateAfter(L,/(tarikh\s*mula|valid\s*from|start|mula)/i); r.expires=scDateAfter(L,/(tarikh\s*tamat|expir|tamat|valid\s*(until|to))/i); }
+  r.cost=scAmountAfter(L,/(kadar|amaun|amount|jumlah|bayaran|fee|harga|cukai\s*jalan|road\s*tax|lkm)/i,/(cc|kapasiti)/i);
+  if(r.cost==null){ var a=scAmounts(t).filter(function(v){return v>0&&v<5000;}); if(a.length) r.cost=Math.max.apply(null,a); }
+  var ref=scAfter(L,/(no\.?\s*(siri|rujukan|resit|transaksi)|reference|receipt\s*no|serial)/i,/\b([A-Z0-9][A-Z0-9\/\-]{4,24})\b/); if(ref) r.ref=ref.toUpperCase();
+  return r;
+}
+function parseOther(t){ var L=scLines(t), d=scDates(t); return {title:L[0]?scTitle(L[0]).slice(0,60):'', date:d.length?d[0].iso:null}; }
+function parseScan(kind,t){ t=t||''; return ({receipt:parseReceipt,voc:parseVoc,insurance:parseInsurance,roadtax:parseRoadTax,other:parseOther}[kind]||parseOther)(t); }
+
+/* ---------- documents: photos and PDFs kept on this phone ---------- */
+var SCAN_KINDS=[['receipt','Receipt or invoice'],['voc','Vehicle ownership certificate (VOC / geran)'],['insurance','Insurance policy or cover note'],['roadtax','Road tax'],['other','Other document']];
+var KIND_SHORT={receipt:'Receipt',voc:'VOC',insurance:'Insurance',roadtax:'Road tax',other:'Document'};
+var TESS_JS='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';
+var PDF_JS='https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js', PDF_WK='https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+var IC_CAM='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>';
+var IC_CLIP='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11.5l-8 8a5 5 0 0 1-7-7l8.5-8.5a3.3 3.3 0 0 1 4.7 4.7L9.7 17.2a1.7 1.7 0 0 1-2.4-2.4L15 7"/></svg>';
+function filesOk(){ return mode==='local' && !!window.indexedDB; }
+function fileById(id){ for(var i=0;i<state.files.length;i++) if(state.files[i].id===id) return state.files[i]; return null; }
+function filesFor(cid){ return state.files.filter(function(f){return f.carId===cid;}).sort(function(a,b){ return (b.date||b.created||'')>(a.date||a.created||'')?1:-1; }); }
+function filesLinked(t,id){ return state.files.filter(function(f){ return f.link && f.link.t===t && f.link.id===id; }); }
+function clip(t,id){ if(!filesOk()) return ''; var fs=filesLinked(t,id); if(!fs.length) return '';
+  return '<button type="button" class="clip" data-act="file-view" data-id="'+fs[0].id+'" aria-label="View attached '+(fs.length>1?fs.length+' files':'file')+'" title="View attachment">'+IC_CLIP+(fs.length>1?'<span>'+fs.length+'</span>':'')+'</button>'; }
+function toast(msg){ var t=document.getElementById('toast'); if(!t){ t=document.createElement('div'); t.id='toast'; t.className='toast'; t.setAttribute('role','status'); document.body.appendChild(t); }
+  t.textContent=msg; t.hidden=false; clearTimeout(t._t); t._t=setTimeout(function(){ t.hidden=true; },4500); }
+
+/* storage: one IndexedDB store, keyed by file id */
+var fdbP=null;
+function fdb(){ if(!fdbP) fdbP=new Promise(function(res,rej){ var r=indexedDB.open('supana-files',1);
+  r.onupgradeneeded=function(){ r.result.createObjectStore('f'); }; r.onsuccess=function(){ res(r.result); }; r.onerror=function(){ fdbP=null; rej(r.error); }; }); return fdbP; }
+function fstore(rw,fn){ return fdb().then(function(db){ return new Promise(function(res,rej){ var tx=db.transaction('f',rw), out, rq=fn(tx.objectStore('f'));
+  if(rq) rq.onsuccess=function(){ out=rq.result; }; tx.oncomplete=function(){ res(out); }; tx.onerror=tx.onabort=function(){ rej(tx.error); }; }); }); }
+function blobBuf(b){ return b.arrayBuffer?b.arrayBuffer():new Promise(function(res,rej){ var r=new FileReader(); r.onload=function(){res(r.result);}; r.onerror=rej; r.readAsArrayBuffer(b); }); }
+function fput(id,blob){ return blobBuf(blob).then(function(buf){ return fstore('readwrite',function(st){ return st.put({type:blob.type,buf:buf},id); }); }); }
+function fget(id){ return fstore('readonly',function(st){ return st.get(id); }).then(function(v){ return v?new Blob([v.buf],{type:v.type}):null; }); }
+function fdel(id){ return fstore('readwrite',function(st){ return st.delete(id); }).catch(function(){}); }
+function fkeys(){ return fstore('readonly',function(st){ return st.getAllKeys(); }); }
+function fprune(){ var keep={}; state.files.forEach(function(f){ keep[f.id]=1; });
+  return fkeys().then(function(ks){ return Promise.all(ks.filter(function(k){return !keep[k];}).map(fdel)); }).catch(function(){}); }
+function dropFiles(list){ var ids={}; list.forEach(function(f){ ids[f.id]=1; fdel(f.id); }); state.files=state.files.filter(function(f){ return !ids[f.id]; }); }
+// Record deleted: a file that also belongs to a vehicle stays in its documents; a workshop-only file goes with it.
+function unlinkFiles(t,id){ var gone=[]; filesLinked(t,id).forEach(function(f){ if(f.carId) f.link=null; else gone.push(f); }); dropFiles(gone); }
+
+/* images, PDFs and reading text */
+var scripts={};
+function loadScript(src){ if(!scripts[src]) scripts[src]=new Promise(function(res,rej){ var s=document.createElement('script'); s.src=src; s.async=true;
+  s.onload=function(){ res(); }; s.onerror=function(){ s.remove(); delete scripts[src]; rej(new Error('offline')); }; document.head.appendChild(s); }); return scripts[src]; }
+function blobImg(b){ return new Promise(function(res,rej){ var u=URL.createObjectURL(b), im=new Image();
+  im.onload=function(){ res(im); setTimeout(function(){ URL.revokeObjectURL(u); },1000); }; im.onerror=function(){ URL.revokeObjectURL(u); rej(new Error('image')); }; im.src=u; }); }
+function drawTo(src,maxW,maxH){ var w=src.naturalWidth||src.width, h=src.naturalHeight||src.height, s=Math.min(1,maxW/w,maxH/h), c=document.createElement('canvas');
+  c.width=Math.max(1,Math.round(w*s)); c.height=Math.max(1,Math.round(h*s)); var x=c.getContext('2d'); x.fillStyle='#fff'; x.fillRect(0,0,c.width,c.height); x.drawImage(src,0,0,c.width,c.height); return c; }
+function canvasBlob(c,q){ return new Promise(function(res,rej){ c.toBlob(function(b){ b?res(b):rej(new Error('encode')); },'image/jpeg',q); }); }
+function thumbOf(src){ return drawTo(src,180,180).toDataURL('image/jpeg',0.62); }
+function ocrPrep(src){ var c=drawTo(src,2000,2000), x=c.getContext('2d'), d=x.getImageData(0,0,c.width,c.height), p=d.data, hist=new Array(256).fill(0), i, g, n=p.length/4;
+  for(i=0;i<p.length;i+=4){ g=(p[i]*0.299+p[i+1]*0.587+p[i+2]*0.114)|0; p[i]=g; hist[g]++; }
+  var lo=0, hi=255, acc=0; for(i=0;i<256;i++){ acc+=hist[i]; if(acc>n*0.01){ lo=i; break; } } acc=0; for(i=255;i>=0;i--){ acc+=hist[i]; if(acc>n*0.01){ hi=i; break; } }
+  var r=Math.max(1,hi-lo); for(i=0;i<p.length;i+=4){ g=Math.max(0,Math.min(255,(p[i]-lo)*255/r)); p[i]=p[i+1]=p[i+2]=g; } x.putImageData(d,0,0); return c; }
+function ocr(canvas,onProg){
+  return loadScript(TESS_JS).then(function(){ return Tesseract.createWorker('eng',1,{logger:function(m){ if(onProg) onProg(m.status==='recognizing text'?m.progress:-1); }}); })
+    .then(function(w){ return w.recognize(canvas).then(function(r){ w.terminate(); return (r.data&&r.data.text)||''; },function(e){ w.terminate(); throw e; }); });
+}
+function pdfLib(){ return loadScript(PDF_JS).then(function(){ var L=window.pdfjsLib; L.GlobalWorkerOptions.workerSrc=PDF_WK; return L; }); }
+function pdfOpen(blob){ return pdfLib().then(function(L){ return blobBuf(blob).then(function(buf){ return L.getDocument({data:new Uint8Array(buf)}).promise; }); }); }
+function pdfPageCanvas(pg,maxW){ var v1=pg.getViewport({scale:1}), s=Math.min(maxW/v1.width,3), vp=pg.getViewport({scale:s}), c=document.createElement('canvas');
+  c.width=Math.round(vp.width); c.height=Math.round(vp.height); var x=c.getContext('2d'); x.fillStyle='#fff'; x.fillRect(0,0,c.width,c.height);
+  return pg.render({canvasContext:x,viewport:vp}).promise.then(function(){ return c; }); }
+function pdfPageText(tc){ var its=tc.items.filter(function(i){ return i.str&&i.str.trim(); }).map(function(i){ return {s:i.str,x:i.transform[4],y:i.transform[5]}; }).sort(function(a,b){ return b.y-a.y; }), rows=[];
+  its.forEach(function(it){ var r=rows[rows.length-1]; if(r && Math.abs(r.y-it.y)<=3) r.items.push(it); else rows.push({y:it.y,items:[it]}); });
+  return rows.map(function(r){ return r.items.sort(function(a,b){ return a.x-b.x; }).map(function(i){ return i.s; }).join(' '); }).join('\n'); }
+function pdfRead(blob){ return pdfOpen(blob).then(function(doc){ var n=Math.min(doc.numPages,4), text='', first=null, chain=Promise.resolve();
+  for(var p=1;p<=n;p++) (function(p){ chain=chain.then(function(){ return doc.getPage(p).then(function(pg){ if(p===1) first=pg; return pg.getTextContent().then(function(tc){ text+=pdfPageText(tc)+'\n'; }); }); }); })(p);
+  return chain.then(function(){ return pdfPageCanvas(first,2000); }).then(function(c){ return {text:text,canvas:c,thumb:thumbOf(c)}; }); }); }
+// Turn a picked file into what gets stored: a compressed JPEG, or the PDF as it is.
+function prepFile(file,wantText){
+  var isPdf=file.type==='application/pdf'||/\.pdf$/i.test(file.name||'');
+  if(isPdf){ var blob=file.type==='application/pdf'?file:new Blob([file],{type:'application/pdf'});
+    return pdfRead(blob).then(function(p){ return {blob:blob,mime:'application/pdf',thumb:p.thumb,text:p.text,canvas:p.canvas,name:file.name}; },
+      function(){ return {blob:blob,mime:'application/pdf',thumb:null,text:'',canvas:null,name:file.name,noPdf:true}; }); }
+  return blobImg(file).then(function(im){ var c=drawTo(im,2200,2200); return canvasBlob(c,0.82).then(function(b){ return {blob:b,mime:'image/jpeg',thumb:thumbOf(c),canvas:wantText?c:null,name:file.name}; }); });
+}
+function keepFile(src,meta){
+  var f=Object.assign({id:uid(),created:todayStr(),mime:src.mime,size:src.blob.size,thumb:src.thumb||null,text:String(src.text||'').trim().slice(0,3000)},meta);
+  state.files.push(f);
+  fput(f.id,src.blob).catch(function(){ f.missing=true; commit(); toast('Could not store the file on this phone. Storage may be full.'); });
+  return f;
+}
+
+/* attaching files to an expense, history entry or paperwork from its form */
+var attachQ=[];
+function attachField(t,id){
+  if(!filesOk()) return '';
+  var have=id?filesLinked(t,id):[];
+  return '<div class="field full"><span class="lbl">Receipts and photos</span><div class="thumbs">'+have.map(thumbBtn).join('')+
+    '<label class="thumb add" for="att-file">'+IC_CAM+'<span class="tk">Add</span></label></div><input type="file" id="att-file" accept="image/*,application/pdf" multiple hidden><span class="hint" id="att-msg">'+(have.length?'Tap one to view it.':'Add a photo or PDF to keep with this record.')+'</span></div>';
+}
+function attachFlush(link,meta){
+  var q=attachQ; attachQ=[]; if(!q.length) return;
+  var chain=Promise.resolve(), n=0;
+  q.forEach(function(file){ chain=chain.then(function(){ return prepFile(file,false).then(function(p){ keepFile(p,Object.assign({kind:'receipt'},meta,{link:link})); n++; },function(){}); }); });
+  chain.then(function(){ commit(); toast(n===q.length?(n===1?'File attached.':n+' files attached.'):'Attached '+n+' of '+q.length+'. Use photos or PDFs.'); });
+}
+
+/* scan flow: pick, read, check, save */
+var scan=null;
+function scanStart(carId,kind){
+  if(!filesOk()) return;
+  scan={kind:kind||'receipt',carId:carId||(ui.car!=='all'?ui.car:'')};
+  openModal('Scan a document',
+    sel('skind','What is it',SCAN_KINDS,scan.kind,true)+sel('scar','Vehicle',[['','Not for one vehicle']].concat(carOptions()),scan.carId,true)+
+    '<div class="field full scan-btns"><label class="btn primary" for="scan-cam">'+IC_CAM+'Take photo</label><input type="file" id="scan-cam" accept="image/*" capture="environment" hidden>'+
+    '<label class="btn" for="scan-file">Choose photo or PDF</label><input type="file" id="scan-file" accept="image/*,application/pdf" hidden></div>'+
+    '<p class="hint field full">Lay the paper flat in good light and fill the frame. Supana reads the text on your phone, then you check the details before anything is saved. The first scan needs internet to fetch the text reader.</p>',
+    null,{noSubmit:true});
+}
+function busyHtml(title,inner){ return '<div class="scrim"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-title" id="scan-busy"><h2 id="m-title">'+esc(title)+'</h2>'+inner+'<div class="m-actions"><button type="button" class="btn ghost" data-act="close-modal">Cancel</button></div></div></div>'; }
+function scanProcess(file){
+  var f=document.getElementById('m-form'); if(!f||!scan) return;
+  scan.kind=f.querySelector('[name=skind]').value; scan.carId=f.querySelector('[name=scar]').value; scan.over=null;
+  var tok=scan.tok=uid(); modalSubmit=null;
+  document.getElementById('modal-root').innerHTML=busyHtml('Reading the '+KIND_SHORT[scan.kind].toLowerCase(),'<div class="scan-prog"><div class="bar"><i id="sp-bar"></i></div><p class="hint" id="sp-msg">Preparing the file…</p></div>');
+  function alive(){ return scan && scan.tok===tok && document.getElementById('scan-busy'); }
+  function say(m,p){ if(!alive()) return; var e=document.getElementById('sp-msg'), b=document.getElementById('sp-bar'); if(m&&e) e.textContent=m; if(b&&p!=null) b.style.width=Math.round(p*100)+'%'; }
+  prepFile(file,true).then(function(p){ if(!alive()) return null; Object.assign(scan,p);
+    if(p.text && p.text.replace(/\s/g,'').length>40){ say('Found the text in the PDF.',1); return p.text; }
+    if(!p.canvas) return '';
+    say('Fetching the text reader…',0.05);
+    return ocr(ocrPrep(p.canvas),function(pr){ if(pr<0) say(null,null); else say('Reading the text… '+Math.round(pr*100)+'%',0.1+pr*0.9); }).catch(function(){ scan.ocrFail=true; return ''; });
+  }).then(function(text){ if(!alive()||text===null) return; scan.text=text||''; scan.canvas=null; scanReview(); })
+  .catch(function(){ if(!alive()) return; document.getElementById('modal-root').innerHTML=busyHtml('Could not open that file','<p class="hint">Use a photo (JPG, PNG or HEIC) or a PDF.</p>'); });
+}
+function sinp(id,label,val,auto,type,full,attrs,hint){
+  var v=scan.over&&scan.over[id]!==undefined?scan.over[id]:val;
+  return inp(id,label,v,type,full,(attrs||'')+(auto&&v!==''&&v!=null&&(!scan.over||scan.over[id]===undefined||String(scan.over[id])===String(val))?' data-scan':''),hint);
+}
+function sval(id,v){ return scan.over&&scan.over[id]!==undefined?scan.over[id]:v; }
+function scanReview(){
+  var k=scan.kind, t=scan.text||'', ex=scan.ex||(scan.ex=parseScan(k,t)), hit=scan.hit!==undefined?scan.hit:(scan.hit=scMatchCar(t));
+  if(hit && !scan.over && !scan.hitApplied){ scan.carId=hit; scan.hitApplied=true; }
+  var hc=hit&&carById(hit), found=Object.keys(ex).filter(function(x){ return ex[x]!=null && ex[x]!=='' && typeof ex[x]!=='boolean'; }).length;
+  var note=!t? (scan.noPdf||scan.ocrFail?'Could not read the text (the text reader needs internet the first time). Fill in the details below. The file is still kept.':'No text found. Fill in the details below. The file is still kept.')
+    : found?'Fields with a gold edge were read from the '+(scan.mime==='application/pdf'?'PDF':'photo')+'. Check them before saving.':'Could not pick out the details. Fill them in below. The file is still kept.';
+  var head='<div class="field full scan-head"><button type="button" class="scan-prev" data-act="scan-preview" aria-label="See the full '+(scan.mime==='application/pdf'?'PDF':'photo')+'">'+(scan.thumb?'<img src="'+scan.thumb+'" alt="">':'<span class="pdf-ic">PDF</span>')+'</button>'+
+    '<div><b>'+esc(SCAN_KINDS.filter(function(x){return x[0]===k;})[0][1])+'</b><span class="hint">'+esc(note)+'</span>'+(hc?'<span class="hint ok-t">Matched number plate '+esc(hc.plate)+' on the document.</span>':'')+'</div></div>';
+  var tail=t?'<details class="field full ocr-d"><summary>Text Supana read</summary><pre class="ocr-text">'+esc(t.trim())+'</pre></details>':'';
+  var body, save, opts={submit:'Save'};
+  if(k==='receipt'){
+    var asLog=sval('saveas',(ex.labour||ex.km||(ex.service&&hit))&&scan.carId?'log':'exp')==='log';
+    var car=carById(sval('carId',scan.carId)), pk=car?guessParts(t,vType(car)):[];
+    var pn=pk.slice(0,3).map(function(x){ return PARTS[vType(car)].filter(function(p){return p.k===x;})[0].n; });
+    var tExp=ex.vendor||'', tLog=pn.length?pn.join(', ')+(ex.vendor?' ('+ex.vendor+')':''):(ex.vendor?'Service at '+ex.vendor:'');
+    body='<div class="field full"><span class="lbl">Save it as</span><div class="seg"><label><input type="radio" name="saveas" value="exp"'+(asLog?'':' checked')+'>An expense</label><label><input type="radio" name="saveas" value="log"'+(asLog?' checked':'')+'>Service history</label></div></div>'+
+      sel('carId','Vehicle',[['','Not for one vehicle (workshop)']].concat(carOptions()),sval('carId',scan.carId),true)+
+      sinp('title',asLog?'Work done':'What was it',asLog?tLog:tExp,true,'text',true,'data-exp="'+esc(tExp)+'" data-log="'+esc(tLog)+'" autocomplete="off"')+
+      sinp('amount','Amount (RM)',ex.amount,true,'text',false,'inputmode="decimal"')+sinp('date','Date',ex.date||todayStr(),!!ex.date,'date')+
+      '<div class="mx mx-exp"'+(asLog?' hidden':'')+'>'+sel('cat','Type',EXP_CATS.map(function(c){return [c,c];}),sval('cat',ex.cat))+'</div>'+
+      '<div class="mx mx-log"'+(asLog?'':' hidden')+'>'+sinp('km','Odometer (km)',ex.km,true,'text',false,'inputmode="numeric"')+sel('kind','Type',KINDS.map(function(x){return [x,x];}),sval('kind','Service'))+
+        sel('by','Done by',[['Me','Me'],['Workshop','Workshop'],['Someone else','Someone else']],sval('by',ex.labour?'Workshop':'Me'))+'</div>'+
+      area('notes','Notes',sval('notes',ex.vendor&&asLog?'Receipt from '+ex.vendor:''));
+    save=function(fd,f){ var as=fd.get('saveas'), cid=fd.get('carId')||null;
+      if(!req(f,'title',as==='log'?'Describe the work':'Describe the expense')||!req(f,'amount','Enter the amount')) return false;
+      if(as==='log' && !cid){ var s=f.querySelector('[name=carId]'); s.setCustomValidity('Pick the vehicle for a service history entry'); s.reportValidity(); s.addEventListener('change',function(){ s.setCustomValidity(''); },{once:true}); return false; }
+      var title=fd.get('title').trim(), date=fd.get('date')||todayStr(), link;
+      if(as==='log'){ var c=carById(cid), o={id:uid(),carId:cid,title:title,date:date,km:num(fd.get('km')),kind:fd.get('kind'),by:fd.get('by'),parts:'',cost:num(fd.get('amount')),minutes:null,toolIds:[],notes:fd.get('notes'),partKeys:guessParts(title+' '+t,vType(c))};
+        bumpOdo(cid,o.km,date); state.log.push(o); link={t:'log',id:o.id}; }
+      else { var e={id:uid(),title:title,amount:num(fd.get('amount')),date:date,cat:fd.get('cat'),carId:cid,notes:fd.get('notes')}; state.expenses.push(e); link={t:'exp',id:e.id}; }
+      scanKeep({carId:cid,title:title,date:date,link:link}); };
+  } else if(k==='voc'){
+    var cid0=sval('carId',scan.carId||(state.cars.length?'':'__new')), cur=carById(cid0)||{};
+    var rows=[['plate','Number plate',ex.plate],['make','Make',ex.make],['model','Model',ex.model],['year','Year made',ex.year],['regDate','Registration date',ex.regDate,'date'],
+      ['vin','Chassis no.',ex.vin],['engineNo','Engine no.',ex.engineNo],['cc','Engine capacity (cc)',ex.cc],['fuel','Fuel',ex.fuel],['colour','Colour',ex.colour]];
+    var soft={plate:1,make:1,model:1,year:1};
+    body=sel('carId','Vehicle',[['__new','Add as a new vehicle']].concat(carOptions()),cid0||'__new',true)+
+      '<p class="hint field full">Tick what to copy into the vehicle profile. Your own naming is kept unless you tick it.</p>'+
+      rows.map(function(r){ var key=r[0], v=sval('v_'+key,r[2]==null?'':r[2]), now=cur[key]==null?'':String(cur[key]);
+        var on=sval('u_'+key,r[2]!=null&&r[2]!==''&&String(r[2])!==now&&(!now||!soft[key]||!cur.id)?'on':'');
+        return '<div class="field full voc-row"><label for="f-v_'+key+'">'+esc(r[1])+'</label><div class="voc-in"><input id="f-v_'+key+'" name="v_'+key+'" type="'+(r[3]||'text')+'" value="'+esc(v)+'"'+(r[2]!=null&&r[2]!==''&&v===String(r[2])?' data-scan':'')+(key==='plate'||key==='vin'||key==='engineNo'?' style="text-transform:uppercase"':'')+' autocomplete="off">'+
+          '<label class="use"><input type="checkbox" name="u_'+key+'"'+(on?' checked':'')+'>Use</label></div>'+(cur.id&&now&&now!==v?'<span class="hint">Now: '+esc(key==='regDate'?fmtD(now):now)+'</span>':'')+'</div>'; }).join('');
+    save=function(fd,f){ var id=fd.get('carId'), c=id==='__new'?{id:uid(),type:ex.moto?'motorcycle':'car'}:carById(id), any=false;
+      rows.forEach(function(r){ var key=r[0]; if(!fd.get('u_'+key)) return; var v=String(fd.get('v_'+key)||'').trim(); if(!v) return; any=true;
+        if(key==='plate'||key==='vin'||key==='engineNo') v=v.toUpperCase(); c[key]=key==='cc'?num(v):v; });
+      if(id==='__new'){ if(!any&&!c.plate){ toast('Tick at least one detail to create the vehicle.'); return false; } c.name=[c.make,c.model].filter(Boolean).join(' ')||c.plate||'New vehicle'; normCar(c); state.cars.push(c); }
+      scanKeep({carId:c.id,title:'Vehicle ownership certificate',date:c.regDate||todayStr(),link:{t:'car',id:c.id}});
+      if(id==='__new') toast('Added '+c.name+'. Check its nickname in Garage.'); };
+    opts.submit='Save to vehicle';
+  } else if(k==='insurance'||k==='roadtax'){
+    var dtype=k==='insurance'?'Insurance':'Road tax', cid1=sval('carId',scan.carId||(state.cars[0]&&state.cars[0].id)||''), c1=carById(cid1);
+    var same=c1?(c1.docs||[]).filter(function(d){return d.type===dtype;}):[];
+    var months=ex.issued&&ex.expires?Math.max(1,Math.min(36,Math.round(daysBetween(ex.issued,ex.expires)/30.44))):12;
+    if(!state.cars.length){ body='<p class="field full">Add a vehicle first, then scan its '+dtype.toLowerCase()+'.</p>'; save=function(){ carForm(); return false; }; opts.submit='Add a vehicle'; }
+    else {
+      body=sel('carId','Vehicle',carOptions(),cid1,true)+
+        (same.length?sel('tgt','Save to',same.map(function(d){ return ['doc:'+d.id,'Renew '+docName(d)]; }).concat([['new','Add as separate paperwork']]),sval('tgt','doc:'+same[0].id),true):'')+
+        sinp('label',k==='insurance'?'Insurer':'Provider or name',ex.label,true)+sinp('ref',k==='insurance'?'Policy or cover note no.':'Reference no.',ex.ref,true,'text',false,'style="text-transform:uppercase" autocomplete="off"')+
+        sinp('issued','Starts or paid on',ex.issued,true,'date')+sinp('expires','Expires on',ex.expires,true,'date')+
+        sinp('cost',k==='insurance'?'Premium paid (RM)':'Amount paid (RM)',ex.cost,true,'text',false,'inputmode="decimal"')+sinp('months','Renews every (months)',months,!!(ex.issued&&ex.expires),'text',false,'inputmode="numeric"')+
+        area('notes','Notes',sval('notes',ex.notes||''));
+      save=function(fd){ var c=carById(fd.get('carId')), tg=fd.get('tgt')||'new', d=tg.indexOf('doc:')===0?docById(c,tg.slice(4)):null;
+        var issued=fd.get('issued')||null, expires=fd.get('expires')||null, cost=num(fd.get('cost')), ref=fd.get('ref').trim().toUpperCase(), label=fd.get('label').trim(), mo=num(fd.get('months')), notes=String(fd.get('notes')||'').trim();
+        if(d){ var entry={date:issued||todayStr(),cost:cost,expires:expires||null}, last=d.history[d.history.length-1];
+          if(last && last.date===entry.date) Object.assign(last,entry); else d.history.push(entry);
+          d.issued=entry.date; d.expires=expires; d.cost=cost; if(ref) d.ref=ref; if(label) d.label=label; if(mo) d.months=mo;
+          if(notes && (d.notes||'').indexOf(notes)<0) d.notes=(d.notes?d.notes+'\n':'')+notes; }
+        else { d={id:uid(),type:dtype,label:label,issued:issued,expires:expires,months:mo||12,cost:cost,ref:ref,notes:notes,history:[]}; if(cost||issued) d.history.push({date:issued||todayStr(),cost:cost,expires:docExp(d)}); c.docs.push(d); }
+        scanKeep({carId:c.id,title:docName(d),date:issued||todayStr(),link:{t:'doc',id:c.id+'|'+d.id}}); };
+    }
+  } else {
+    body=sel('carId','Vehicle',[['','Not for one vehicle']].concat(carOptions()),sval('carId',scan.carId),true)+
+      sinp('title','Name',ex.title,true,'text',true,'autocomplete="off"')+sinp('date','Date',ex.date||todayStr(),!!ex.date,'date')+area('notes','Notes',sval('notes',''));
+    save=function(fd,f){ if(!req(f,'title','Name the document')) return false; scanKeep({carId:fd.get('carId')||null,title:fd.get('title').trim(),date:fd.get('date')||todayStr(),notes:fd.get('notes'),link:null}); };
+  }
+  openModal('Check the details',head+body+tail,save,opts);
+}
+function scanKeep(meta){ var s=scan; scan=null; keepFile(s,Object.assign({kind:s.kind},meta)); commit(); toast('Saved. The '+(s.mime==='application/pdf'?'PDF':'photo')+' is kept with the record.'); }
+// The vehicle changed on the review form: keep what was typed and redraw for that vehicle.
+function scanRedraw(f){ var o={}; Array.prototype.forEach.call(f.elements,function(el){ if(!el.name) return;
+  if(el.type==='checkbox') o[el.name]=el.checked?'on':''; else if(el.type==='radio'){ if(el.checked) o[el.name]=el.value; } else o[el.name]=el.value; });
+  scan.over=o; scan.carId=o.carId; scanReview(); }
+
+/* viewing */
+var viewUrl=null;
+function linkLabel(l){ if(!l) return null;
+  if(l.t==='exp'){ var e=state.expenses.filter(function(x){return x.id===l.id;})[0]; return e?['Expense: '+e.title,'exp']:null; }
+  if(l.t==='log'){ var g=state.log.filter(function(x){return x.id===l.id;})[0]; return g?['Service history: '+g.title,'log']:null; }
+  if(l.t==='doc'){ var p=l.id.split('|'), c=carById(p[0]), d=c&&docById(c,p[1]); return d?['Paperwork: '+docName(d),'doc']:null; }
+  if(l.t==='car'){ var cc=carById(l.id); return cc?['Vehicle: '+(cc.name||cc.plate),'car']:null; }
+  return null; }
+function fileView(id){
+  var f=fileById(id); if(!f) return; var c=carById(f.carId), ll=linkLabel(f.link);
+  openModal(f.title||KIND_SHORT[f.kind]||'Document',
+    '<div class="field full viewer" id="fv-body"><p class="hint">Opening…</p></div>'+
+    '<div class="field full fv-meta"><span class="chip">'+esc(KIND_SHORT[f.kind]||'File')+'</span>'+(f.date?'<span>'+fmtD(f.date)+'</span>':'')+(c?plate(c):'<span>Workshop</span>')+'<span>'+(f.size>=1048576?(f.size/1048576).toFixed(1)+' MB':Math.max(1,Math.round(f.size/1024))+' KB')+'</span></div>'+
+    (ll?'<div class="field full"><button type="button" class="btn sm" data-act="file-link" data-id="'+f.id+'">Open '+esc(ll[0])+'</button></div>':'')+
+    (f.text?'<details class="field full ocr-d"><summary>Text Supana read</summary><pre class="ocr-text">'+esc(f.text)+'</pre></details>':'')+
+    '<div class="field full fv-acts"><button type="button" class="btn sm" data-act="file-share" data-id="'+f.id+'">Share or save a copy</button><span id="fv-msg" class="msg"></span></div>',
+    null,{noSubmit:true,del:'file-del',id:f.id,cancel:'Close'});
+  fget(f.id).then(function(b){ var box=document.getElementById('fv-body'); if(!box) return;
+    if(!b){ box.innerHTML='<p class="why">This file is not on this phone. It may have come from a backup copied as text, which leaves out photos.</p>'; return; }
+    if(viewUrl) URL.revokeObjectURL(viewUrl); viewUrl=URL.createObjectURL(b);
+    if(b.type.indexOf('image/')===0){ box.innerHTML='<img src="'+viewUrl+'" alt="'+esc(f.title||'Document')+'">'; return; }
+    box.innerHTML='<div id="fv-pages" class="fv-pages"><p class="hint">Loading pages…</p></div><a class="btn sm" href="'+viewUrl+'" target="_blank" rel="noopener">Open the PDF</a>';
+    pdfOpen(b).then(function(doc){ var n=Math.min(doc.numPages,6), host=document.getElementById('fv-pages'); if(!host) return; host.innerHTML='';
+      var chain=Promise.resolve(); for(var p=1;p<=n;p++) (function(p){ chain=chain.then(function(){ return doc.getPage(p).then(function(pg){ return pdfPageCanvas(pg,1400); }).then(function(cv){ var h=document.getElementById('fv-pages'); if(h) h.appendChild(cv); }); }); })(p);
+      if(doc.numPages>n) chain.then(function(){ var h=document.getElementById('fv-pages'); if(h) h.insertAdjacentHTML('beforeend','<p class="hint">Showing '+n+' of '+doc.numPages+' pages. Open the PDF to see the rest.</p>'); });
+    }).catch(function(){ var h=document.getElementById('fv-pages'); if(h) h.innerHTML='<p class="hint">Connect to the internet once to preview PDFs here, or open it below.</p>'; });
+  });
+}
+function fileShare(id){ var f=fileById(id), m=document.getElementById('fv-msg');
+  fget(id).then(function(b){ if(!b) return; var ext=b.type==='application/pdf'?'.pdf':'.jpg', name=((f.title||KIND_SHORT[f.kind]||'document')+' '+(f.date||'')).trim().replace(/[^\w\- ]+/g,'').replace(/\s+/g,'-')+ext;
+    var file=null; try{ file=new File([b],name,{type:b.type}); }catch(e){}
+    if(file && navigator.canShare && navigator.canShare({files:[file]})){ navigator.share({files:[file],title:f.title||name}).catch(function(){}); return; }
+    var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=name; document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },1500);
+    if(m){ m.className='msg ok'; m.textContent='Downloaded.'; } }); }
+function fileOpenLink(id){ var f=fileById(id), l=f&&f.link; if(!l) return;
+  if(l.t==='exp') expForm(state.expenses.filter(function(x){return x.id===l.id;})[0]);
+  else if(l.t==='log') logForm(state.log.filter(function(x){return x.id===l.id;})[0]);
+  else if(l.t==='doc'){ var p=l.id.split('|'), c=carById(p[0]); docForm(c,docById(c,p[1])); }
+  else if(l.t==='car') carForm(carById(l.id)); }
+function thumbBtn(f){ return '<button type="button" class="thumb" data-act="file-view" data-id="'+f.id+'" title="'+esc((f.title||KIND_SHORT[f.kind])+(f.date?' · '+fmtD(f.date):''))+'">'+(f.thumb?'<img src="'+f.thumb+'" alt="">':'<span class="pdf-ic">PDF</span>')+'<span class="tk">'+esc(KIND_SHORT[f.kind]||'File')+'</span></button>'; }
+function carFilesBlock(c){ if(!filesOk()) return ''; var fs=filesFor(c.id);
+  return '<div class="sub-block"><div class="sb-head"><span>Documents</span>'+(fs.length?'<span class="cnt-s">'+fs.length+'</span>':'')+'<span class="spacer"></span>'+(fs.length?'<button type="button" class="btn sm ghost" data-act="files" data-id="'+c.id+'">All</button>':'')+'<button type="button" class="btn sm ghost" data-act="scan" data-id="'+c.id+'">Scan</button></div>'+
+    (fs.length?'<div class="thumbs">'+fs.slice(0,5).map(thumbBtn).join('')+(fs.length>5?'<button type="button" class="thumb more" data-act="files" data-id="'+c.id+'">+'+(fs.length-5)+'</button>':'')+'</div>':'<div class="why">Scan the VOC, insurance and receipts to keep them here and fill in the details for you.</div>')+'</div>'; }
+function filesModal(cid){ var c=carById(cid), fs=filesFor(cid);
+  var reg=[c.vin?'Chassis '+c.vin:'',c.engineNo?'Engine '+c.engineNo:''].filter(Boolean).join(' · ');
+  openModal('Documents · '+(c.name||c.plate),(reg?'<p class="field full hint">'+esc(reg)+'</p>':'')+
+    (fs.length?'<div class="field full f-list">'+fs.map(function(f){ var ll=linkLabel(f.link);
+      return '<button type="button" class="f-row" data-act="file-view" data-id="'+f.id+'">'+(f.thumb?'<img src="'+f.thumb+'" alt="">':'<span class="pdf-ic">PDF</span>')+'<span class="f-txt"><b>'+esc(f.title||KIND_SHORT[f.kind])+'</b><span class="hint">'+esc(KIND_SHORT[f.kind]||'File')+(f.date?' · '+fmtD(f.date):'')+(ll?' · '+esc(ll[0]):'')+'</span></span></button>'; }).join('')+'</div>'
+      :'<p class="field full hint">Nothing kept for this vehicle yet.</p>')+
+    '<div class="field full"><button type="button" class="btn primary ic" data-act="scan" data-id="'+cid+'">'+IC_CAM+'Scan a document</button></div>',null,{noSubmit:true,cancel:'Close'}); }
+
+/* backups: photos go into the saved backup file */
+function backupWithFiles(){
+  var out=JSON.parse(JSON.stringify(state)), m=document.getElementById('bk-msg');
+  if(!filesOk()||!state.files.length) return Promise.resolve(out);
+  if(m){ m.className='msg'; m.textContent='Adding '+state.files.length+' document'+(state.files.length===1?'':'s')+'…'; }
+  out.fileData={};
+  return state.files.reduce(function(p,f){ return p.then(function(){ return fget(f.id).then(function(b){ if(!b) return; return new Promise(function(res){ var r=new FileReader(); r.onload=function(){ out.fileData[f.id]=r.result; res(); }; r.onerror=function(){ res(); }; r.readAsDataURL(b); }); }).catch(function(){}); }); },Promise.resolve())
+    .then(function(){ if(m){ m.className='msg ok'; m.textContent='Backup includes '+Object.keys(out.fileData).length+' document'+(Object.keys(out.fileData).length===1?'':'s')+'.'; } return out; });
+}
+function dataUrlBlob(u){ var i=u.indexOf(','), meta=u.slice(5,i), bin=atob(u.slice(i+1)), a=new Uint8Array(bin.length); for(var k=0;k<bin.length;k++) a[k]=bin.charCodeAt(k); return new Blob([a],{type:meta.split(';')[0]}); }
+function restoreFiles(fd){ if(!fd||!window.indexedDB) return Promise.resolve(); var ids=Object.keys(fd);
+  return ids.reduce(function(p,id){ return p.then(function(){ try{ return fput(id,dataUrlBlob(fd[id])); }catch(e){} }); },Promise.resolve()).catch(function(){}); }
+
+function doRestore(v){ var rm2=document.getElementById('rs-msg');
+  try{ var d=JSON.parse(v); if(!d||!Array.isArray(d.cars)) throw 0; ['jobs','log','tools','expenses','files'].forEach(function(k){ if(!Array.isArray(d[k])) d[k]=[]; });
+    var fdat=d.fileData; delete d.fileData; var nf=fdat?Object.keys(fdat).length:0;
+    confirmBox('Replace everything?','Your current data will be replaced by the backup ('+d.cars.length+' vehicles, '+d.jobs.length+' jobs, '+d.log.length+' history entries'+(nf?', '+nf+' documents':'')+').','Replace',function(){
+      d.example=false; state=d; ui.car='all'; commit(); if(filesOk()) restoreFiles(fdat).then(fprune).then(function(){ render(); if(nf) toast('Restored '+nf+' document'+(nf===1?'':'s')+'.'); }); });
+  }catch(err){ if(rm2){ rm2.className='msg bad'; rm2.textContent='That is not a Supana backup. Use the whole backup and try again.'; } } }
+
 /* ---------- events ---------- */
 document.addEventListener('click',function(e){
   if(e.target.classList && e.target.classList.contains('scrim')){ closeModal(); return; }
@@ -1374,6 +1827,16 @@ document.addEventListener('click',function(e){
   if(mode==='readonly' && !/^(fcar|close-modal|copy-backup)$/.test(a)) return;
   switch(a){
     case 'close-modal': closeModal(); break;
+    case 'scan': scanStart(id||null); break;
+    case 'scan-preview': if(scan&&scan.blob){ var pu=URL.createObjectURL(scan.blob);
+      if(scan.mime==='application/pdf'){ window.open(pu,'_blank'); setTimeout(function(){ URL.revokeObjectURL(pu); },60000); }
+      else { var pk2=document.createElement('div'); pk2.className='peek'; pk2.setAttribute('data-act','peek-close'); pk2.innerHTML='<img src="'+pu+'" alt="Scanned document">'; pk2._u=pu; document.body.appendChild(pk2); } } break;
+    case 'peek-close': if(b._u) URL.revokeObjectURL(b._u); b.remove(); break;
+    case 'files': filesModal(id); break;
+    case 'file-view': fileView(id); break;
+    case 'file-share': fileShare(id); break;
+    case 'file-link': fileOpenLink(id); break;
+    case 'file-del': confirmBox('Delete this document?','The photo or PDF is removed from this phone. Any record it was attached to stays.','Delete document',function(){ var fx=fileById(id); if(fx) dropFiles([fx]); commit(); }); break;
     case 'fcar': ui.car=id; render(); break;
     case 'new-car': carForm(null,id||null); break;
     case 'vt': ui.vt=id; render(); break;
@@ -1395,7 +1858,7 @@ document.addEventListener('click',function(e){
       else if(ty==='tool') toolForm(toolById(id));
       else if(ty==='doc'){ var pp=id.split('|'), cc=carById(pp[0]); docForm(cc,docById(cc,pp[1])); }
       else expForm(state.expenses.filter(function(x){return x.id===id;})[0]); break;
-    case 'del-exp': confirmBox('Delete expense?','This removes it from your spending.','Delete expense',function(){ state.expenses=state.expenses.filter(function(x){return x.id!==id;}); commit(); }); break;
+    case 'del-exp': confirmBox('Delete expense?','This removes it from your spending.','Delete expense',function(){ state.expenses=state.expenses.filter(function(x){return x.id!==id;}); unlinkFiles('exp',id); commit(); }); break;
     case 'timer-start': timerStart(jobById(id)); commit(); break;
     case 'timer-pause': timerPause(jobById(id)); commit(); break;
     case 'timer-finish': var jf=jobById(id); timerPause(jf); commit(); doneForm(jf); break;
@@ -1412,38 +1875,41 @@ document.addEventListener('click',function(e){
     case 'edit-doc': var ce=carById(id); docForm(ce,docById(ce,b.getAttribute('data-doc'))); break;
     case 'renew-doc': var cr=carById(id); renewForm(cr,docById(cr,b.getAttribute('data-doc'))); break;
     case 'cal-doc': var cd=carById(id), dd2=docById(cd,b.getAttribute('data-doc')), evd=icsDocEvent(cd,dd2); if(evd) downloadIcs('garage-'+docName(dd2).replace(/[^a-z0-9]+/gi,'-').toLowerCase(),[evd]); break;
-    case 'del-doc': var pr=id.split('|'), cx=carById(pr[0]); confirmBox('Delete paperwork?','This removes it and its payments from your spending.','Delete',function(){ cx.docs=cx.docs.filter(function(d){return d.id!==pr[1];}); commit(); }); break;
+    case 'del-doc': var pr=id.split('|'), cx=carById(pr[0]); confirmBox('Delete paperwork?','This removes it and its payments from your spending.','Delete',function(){ cx.docs=cx.docs.filter(function(d){return d.id!==pr[1];}); unlinkFiles('doc',id); commit(); }); break;
     case 'cost': costModal(carById(id)); break;
     case 'report': showReport(carById(id)); break;
     case 'report-close': closeReport(); break;
     case 'report-print': try{ window.print(); }catch(err){} break;
     case 'odo': odoForm(carById(id)); break;
     case 'del-job': confirmBox('Delete job?','This removes the job from your upcoming list.','Delete job',function(){ state.jobs=state.jobs.filter(function(j){return j.id!==id;}); commit(); }); break;
-    case 'del-log': confirmBox('Delete history entry?','This removes the entry from the service history.','Delete entry',function(){ state.log=state.log.filter(function(l){return l.id!==id;}); commit(); }); break;
+    case 'del-log': confirmBox('Delete history entry?','This removes the entry from the service history.','Delete entry',function(){ state.log=state.log.filter(function(l){return l.id!==id;}); unlinkFiles('log',id); commit(); }); break;
     case 'del-tool': confirmBox('Delete tool?','It will also be removed from any jobs and history entries that list it.','Delete tool',function(){
       state.tools=state.tools.filter(function(t){return t.id!==id;}); state.jobs.concat(state.log).forEach(function(x){ x.toolIds=(x.toolIds||[]).filter(function(t){return t!==id;}); }); commit(); }); break;
-    case 'del-car': var c=carById(id), nj=state.jobs.filter(function(j){return j.carId===id;}).length, nl=state.log.filter(function(l){return l.carId===id;}).length;
-      confirmBox('Delete '+(c.name||'vehicle')+'?','This also deletes its '+nj+' upcoming job'+(nj===1?'':'s')+' and '+nl+' history entr'+(nl===1?'y':'ies')+'. Copy a backup first if you might want them.','Delete vehicle and its records',function(){
-        state.cars=state.cars.filter(function(x){return x.id!==id;}); state.jobs=state.jobs.filter(function(j){return j.carId!==id;}); state.log=state.log.filter(function(l){return l.carId!==id;}); if(ui.car===id) ui.car='all'; commit(); }); break;
+    case 'del-car': var c=carById(id), nj=state.jobs.filter(function(j){return j.carId===id;}).length, nl=state.log.filter(function(l){return l.carId===id;}).length, nf=filesFor(id).length;
+      confirmBox('Delete '+(c.name||'vehicle')+'?','This also deletes its '+nj+' upcoming job'+(nj===1?'':'s')+', '+nl+' history entr'+(nl===1?'y':'ies')+(nf?' and '+nf+' document'+(nf===1?'':'s'):'')+'. Save a backup first if you might want them.','Delete vehicle and its records',function(){
+        state.cars=state.cars.filter(function(x){return x.id!==id;}); state.jobs=state.jobs.filter(function(j){return j.carId!==id;}); state.log=state.log.filter(function(l){return l.carId!==id;}); dropFiles(filesFor(id)); if(ui.car===id) ui.car='all'; commit(); }); break;
     case 'keep-example': state.example=false; commit(); break;
-    case 'clear-example': confirmBox('Start with an empty garage?','This removes all the example vehicles, jobs, history and tools.','Clear everything',function(){ state={example:false,cars:[],jobs:[],log:[],tools:[],expenses:[]}; ui.car='all'; commit(); }); break;
-    case 'dl-backup': var blob=new Blob([JSON.stringify(state,null,1)],{type:'application/json'}), a2=document.createElement('a');
+    case 'clear-example': confirmBox('Start with an empty garage?','This removes all the example vehicles, jobs, history and tools.','Clear everything',function(){ state={example:false,cars:[],jobs:[],log:[],tools:[],expenses:[],files:[]}; ui.car='all'; commit(); if(filesOk()) fprune(); }); break;
+    case 'dl-backup': backupWithFiles().then(function(bk){ var blob=new Blob([JSON.stringify(bk)],{type:'application/json'}), a2=document.createElement('a');
       a2.href=URL.createObjectURL(blob); a2.download='supana-backup-'+todayStr()+'.json'; document.body.appendChild(a2); a2.click();
-      setTimeout(function(){ URL.revokeObjectURL(a2.href); a2.remove(); },1000); break;
+      setTimeout(function(){ URL.revokeObjectURL(a2.href); a2.remove(); },1500); }); break;
     case 'copy-backup': var t=document.getElementById('bk-out'), m=document.getElementById('bk-msg');
       try{ navigator.clipboard.writeText(t.value).then(function(){ m.className='msg ok'; m.textContent='Copied.'; },function(){ t.select(); m.className='msg'; m.textContent='Select the text above and copy it.'; }); }
       catch(err){ t.select(); m.className='msg'; m.textContent='Select the text above and copy it.'; } break;
-    case 'restore': var v=document.getElementById('bk-in').value.trim(), rm2=document.getElementById('rs-msg');
-      try{ var d=JSON.parse(v); if(!d||!Array.isArray(d.cars)) throw 0; ['jobs','log','tools','expenses'].forEach(function(k){ if(!Array.isArray(d[k])) d[k]=[]; });
-        confirmBox('Replace everything?','Your current data will be replaced by the backup ('+d.cars.length+' cars, '+d.jobs.length+' jobs, '+d.log.length+' history entries).','Replace',function(){ d.example=false; state=d; ui.car='all'; commit(); });
-      }catch(err){ rm2.className='msg bad'; rm2.textContent='That text is not a Supana backup. Paste the whole backup and try again.'; } break;
+    case 'restore': doRestore(document.getElementById('bk-in').value.trim()); break;
   }
 });
 document.addEventListener('change',function(e){
   if(e.target.id==='kind-filter'){ ui.kind=e.target.value; render(); }
   if(e.target.id==='rep-costs'){ document.getElementById('report-doc').classList.toggle('no-costs',!e.target.checked); }
   if(e.target.id==='tool-st'){ ui.toolSt=e.target.value; document.getElementById('tool-list').innerHTML=toolListHtml(); }
-  if(e.target.id==='bk-file' && e.target.files[0]){ var r=new FileReader(); r.onload=function(){ document.getElementById('bk-in').value=r.result; document.querySelector('[data-act=restore]').click(); }; r.readAsText(e.target.files[0]); }
+  if(e.target.id==='bk-file' && e.target.files[0]){ var r=new FileReader(); r.onload=function(){ doRestore(String(r.result).trim()); }; r.readAsText(e.target.files[0]); e.target.value=''; }
+  if((e.target.id==='scan-cam'||e.target.id==='scan-file') && e.target.files[0]) scanProcess(e.target.files[0]);
+  if(e.target.id==='att-file' && e.target.files.length){ attachQ=attachQ.concat(Array.prototype.slice.call(e.target.files)); e.target.value=''; var am=document.getElementById('att-msg'); if(am){ am.className='hint ok-t'; am.textContent=attachQ.length+' file'+(attachQ.length===1?'':'s')+' will be attached when you save.'; } }
+  if(e.target.name==='saveas' && e.target.form){ var fm=e.target.form, lg=e.target.value==='log', ti=fm.querySelector('[name=title]');
+    fm.querySelectorAll('.mx-exp').forEach(function(x){ x.hidden=lg; }); fm.querySelectorAll('.mx-log').forEach(function(x){ x.hidden=!lg; });
+    if(ti){ var other=ti.getAttribute(lg?'data-exp':'data-log'); if(!ti.value||ti.value===other){ ti.value=ti.getAttribute(lg?'data-log':'data-exp')||''; } var lb=fm.querySelector('label[for=f-title]'); if(lb) lb.textContent=lg?'Work done':'What was it'; } }
+  if(e.target.name==='carId' && scan && e.target.form && e.target.form.querySelector('.scan-head')) scanRedraw(e.target.form);
 });
 document.addEventListener('keydown',function(e){
   if(e.key==='Escape' && document.querySelector('.scrim')) closeModal(); else if(e.key==='Escape' && document.body.classList.contains('reporting')) closeReport();
